@@ -45,7 +45,7 @@ const App = () => (
                   <Footer />
                 </>
               } />
-              <Route path="/transfers" element={
+              {/* <Route path="/transfers" element={
                 <>
                   <Navigation />
                   <main className="flex-1">
@@ -53,8 +53,8 @@ const App = () => (
                   </main>
                   <Footer />
                 </>
-              } />
-              <Route path="/excursions" element={
+              } /> */}
+              {/* <Route path="/excursions" element={
                 <>
                   <Navigation />
                   <main className="flex-1">
@@ -62,8 +62,8 @@ const App = () => (
                   </main>
                   <Footer />
                 </>
-              } />
-              <Route path="/excursion/:id" element={
+              } /> */}
+              {/* <Route path="/excursion/:id" element={
                 <>
                   <Navigation />
                   <main className="flex-1">
@@ -71,7 +71,7 @@ const App = () => (
                   </main>
                   <Footer />
                 </>
-              } />
+              } /> */}
               <Route path="/about" element={
                 <>
                   <Navigation />
@@ -92,11 +92,11 @@ const App = () => (
               } />
 
               {/* Admin Routes */}
-              <Route path="/admin" element={<AdminDashboard />} />
+              {/* <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/transfers" element={<AdminTransfers />} />
               <Route path="/admin/excursion-requests" element={<AdminExcursionRequests />} />
               <Route path="/admin/excursions" element={<AdminExcursions />} />
-              <Route path="/admin/vehicles" element={<AdminVehicles />} />
+              <Route path="/admin/vehicles" element={<AdminVehicles />} /> */}
 
               {/* 404 Route */}
               <Route path="*" element={

@@ -7,46 +7,48 @@ import heroImage from '@/assets/hero-tunisia.jpg';
 const About = () => {
   const { t } = useTranslation();
 
+  const stats = [
+    { number: '10+', label: t('stats.label1') },
+    { number: '5000+', label: t('stats.label2') },
+    { number: '50+', label: t('stats.label3') },
+    { number: '24/7', label: t('stats.label4') },
+  ];
+
   const values = [
     {
       icon: Target,
-      title: 'Excellence',
-      description: 'Nous nous engageons à fournir des services de la plus haute qualité à chaque client.'
+      title: t("values.excellence.title"),
+      description: t("values.excellence.description")
     },
     {
       icon: Heart,
-      title: 'Passion',
-      description: 'Notre passion pour la Tunisie transparaît dans chaque excursion que nous organisons.'
+      title: t("values.passion.title"),
+      description: t("values.passion.description")
     },
     {
       icon: Users,
-      title: 'Service Client',
-      description: 'Votre satisfaction est notre priorité absolue, avant, pendant et après votre voyage.'
+      title: t("values.service.title"),
+      description: t("values.service.description")
     }
   ];
 
-  const stats = [
-    { number: '10+', label: 'Années d\'Expérience' },
-    { number: '5000+', label: 'Clients Satisfaits' },
-    { number: '50+', label: 'Destinations' },
-    { number: '24/7', label: 'Support Client' }
-  ];
+
 
   const team = [
     {
-      name: 'Ahmed Ben Salem',
-      position: 'Fondateur & Directeur',
-      description: 'Passionné de tourisme depuis plus de 15 ans, Ahmed a créé NavetteTunisie pour partager les merveilles de son pays natal.'
+      name: t("team.members.0.name"),
+      position: t("team.members.0.role"),
+      description: t("team.members.0.bio")
     },
     {
-      name: 'Fatma Trabelsi',
-      position: 'Responsable Excursions',
-      description: 'Guide certifiée et historienne, Fatma conçoit nos programmes d\'excursions avec une expertise incomparable.'
+      name: t("team.members.1.name"),
+      position: t("team.members.1.role"),
+      description: t("team.members.1.bio")
     },
     {
-      name: 'Mohamed Karim',
-      position: 'Chef des Opérations',
-      description: 'Spécialiste en logistique, Mohamed coordonne tous nos transferts avec précision et efficacité.'
+      name: t("team.members.2.name"),
+      position: t("team.members.2.role"),
+      description: t("team.members.2.bio")
     }
   ];
 
@@ -68,7 +70,7 @@ const About = () => {
               {t('about.title')}
             </h1>
             <p className="text-xl text-gray-200">
-              Découvrez notre histoire et notre passion pour la Tunisie
+              {t('about.description')}
             </p>
           </motion.div>
         </div>
@@ -155,7 +157,7 @@ const About = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              NavetteTunisie en Chiffres
+              NavetteTunisie {t('stats.title')}
             </h2>
           </motion.div>
 
@@ -191,8 +193,8 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Nos Valeurs Fondamentales
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+              {t('values.title')}
             </h2>
           </motion.div>
 
@@ -231,11 +233,11 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Notre Équipe
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+              {t('team.title')}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Rencontrez les passionnés qui rendent vos voyages inoubliables
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              {t('team.description')}
             </p>
           </motion.div>
 
@@ -280,8 +282,8 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Pourquoi Choisir NavetteTunisie ?
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+              {t('whyChoose.title')}
             </h2>
           </motion.div>
 
@@ -295,10 +297,10 @@ const About = () => {
             >
               <Award className="h-12 w-12 text-primary mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-3 text-foreground">
-                Expertise Locale
+                {t('whyChoose.expertise.title')}
               </h3>
               <p className="text-muted-foreground">
-                Guides locaux expérimentés avec une connaissance approfondie de la culture tunisienne.
+                {t('whyChoose.expertise.description')}
               </p>
             </motion.div>
 
@@ -311,10 +313,10 @@ const About = () => {
             >
               <Users className="h-12 w-12 text-primary mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-3 text-foreground">
-                Service Personnalisé
+                {t('whyChoose.expertise.title')}
               </h3>
               <p className="text-muted-foreground">
-                Chaque voyage est adapté à vos préférences et besoins spécifiques.
+                {t('whyChoose.expertise.description')}
               </p>
             </motion.div>
 
@@ -327,10 +329,10 @@ const About = () => {
             >
               <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-3 text-foreground">
-                Destinations Authentiques
+                {t('whyChoose.expertise.title')}
               </h3>
               <p className="text-muted-foreground">
-                Découvrez des lieux uniques et des expériences authentiques hors des sentiers battus.
+                {t('whyChoose.expertise.description')}
               </p>
             </motion.div>
           </div>

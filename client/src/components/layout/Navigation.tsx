@@ -17,7 +17,8 @@ const Navigation = () => {
 
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    // document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
   };
 
   const isActive = (path: string) => location.pathname === path;
@@ -45,43 +46,49 @@ const Navigation = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center space-x-3 hover:scale-105 transition-transform"
+            className="flex items-center space-x-3 rtl:space-x-reverse hover:scale-105 transition-transform"
           >
-            <div className="bg-gradient-hero text-primary-foreground px-4 py-2 rounded-xl font-bold text-xl shadow-lg">
-              NavetteTunisie
+            <div className="bg-orange-600 text-primary-foreground px-2 py-1 rounded font-bold text-sm">
+              NAVETTE AEROPORT
+              <span className='text-yellow-300'> TUNISIE</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
+            <div className="hidden md:flex items-center space-x-8 
+               pr-14 rtl:pl-32 rtl:space-x-reverse" >
             {navLinks.map(({ path, key }) => (
               <Link
                 key={path}
                 to={path}
-                className={`transition-colors duration-300 hover:text-primary font-medium ${
-                  isActive(path) ? 'text-primary border-b-2 border-primary' : 'text-foreground'
+                className={`transition-colors duration-300 hover:text-primary font-medium
+                  text-sm ${
+                  isActive(path) ? 'text-primary border-b-2 border-primary py-1' : 'text-foreground'
                 }`}
               >
                 {t(`navigation.${key}`)}
               </Link>
             ))}
+            </div>
 
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="flex items-center space-x-2">
-                  <Globe className="h-4 w-4" />
-                  <span className="hidden lg:inline">{currentLanguage.flag} {currentLanguage.name}</span>
+                <Button variant="outline" size="sm" 
+                      className="flex items-center space-x-1 rtl:space-x-reverse">
+                  <Globe className="h-3 w-3" />
+                  <span className="hidden lg:inline">{currentLanguage.code.toUpperCase()}</span>
                   <span className="lg:hidden">{currentLanguage.flag}</span>
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-[150px]">
+              <DropdownMenuContent align={i18n.language === 'ar' ? 'start' : 'end'} className="min-w-[150px]">
                 {languages.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
-                    className={`flex items-center space-x-2 cursor-pointer ${
+                    className={`flex items-center space-x-2 rtl:space-x-reverse cursor-pointer ${
                       i18n.language === lang.code ? 'bg-muted' : ''
                     }`}
                   >
@@ -95,14 +102,14 @@ const Navigation = () => {
             {/* Admin Link */}
             <Link
               to="/admin"
-              className="bg-accent text-accent-foreground px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity"
+              className="bg-accent text-accent-foreground px-2 py-1 rounded text-sm hover:opacity-90 transition-opacity"
             >
               {t('navigation.admin')}
             </Link>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="md:hidden flex items-center space-x-2 rtl:space-x-reverse">
             {/* Mobile Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -110,12 +117,12 @@ const Navigation = () => {
                   <Globe className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align={i18n.language === 'ar' ? 'start' : 'end'}>
                 {languages.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
-                    className="flex items-center space-x-2 cursor-pointer"
+                    className="flex items-center space-x-2 rtl:space-x-reverse cursor-pointer"
                   >
                     <span>{lang.flag}</span>
                     <span>{lang.name}</span>
@@ -143,7 +150,7 @@ const Navigation = () => {
                 <Link
                   key={path}
                   to={path}
-                  className={`block px-3 py-2 rounded-md font-medium transition-colors ${
+                  className={`block px-3 py-2 rounded-md font-medium transition-colors text-right ${
                     isActive(path)
                       ? 'bg-primary text-primary-foreground'
                       : 'text-foreground hover:bg-muted'
@@ -153,13 +160,16 @@ const Navigation = () => {
                   {t(`navigation.${key}`)}
                 </Link>
               ))}
-              <Link
-                to="/admin"
-                className="block px-3 py-2 rounded-md bg-accent text-accent-foreground font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                {t('navigation.admin')}
-              </Link>
+              <div className='w-full flex items-center justify-center pt-5' >
+                <Link
+                  to="/admin"
+                  className="w-2/3 py-2 rounded-md text-sm
+                          bg-blue-500 text-accent-foreground font-medium text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {t('navigation.admin')}
+                </Link>
+              </div>
             </div>
           </div>
         )}

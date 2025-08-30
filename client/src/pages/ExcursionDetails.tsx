@@ -295,7 +295,7 @@ const ExcursionDetails = () => {
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        placeholder="+216 12 345 678"
+                        placeholder="+216..."
                       />
                     </div>
 

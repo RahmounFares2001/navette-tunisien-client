@@ -5,16 +5,18 @@
     "excursions": "Excursions",
     "about": "À Propos",
     "contact": "Contact",
-    "admin": "Administration",
+    "admin": "Admin",
     "language": "Langue"
   },
   "hero": {
-    "title": "Explorez la Tunisie avec NavetteTunisie",
+    "title": "Explorez La Tunisie Avec Navette",
     "subtitle": "Votre partenaire de confiance pour les transferts et excursions en Tunisie",
     "cta": "Réservez Maintenant",
     "discoverExcursions": "Découvrir nos Excursions"
   },
   "services": {
+    "title": "Nos Services",
+    "description": "Découvrez nos services de transport et d'excursions pour une expérience inoubliable en Tunisie",
     "transfers": {
       "title": "Services de Transfert",
       "description": "Transferts confortables et sécurisés depuis/vers les aéroports, hôtels et destinations touristiques",
@@ -26,6 +28,22 @@
       "cta": "Voir les Excursions"
     }
   },
+  "features": {
+    "title": "Pourquoi Nous Choisir ?",
+    "feature1": {
+      "title": "Confort & Sécurité",
+      "description": "Voyagez dans des véhicules modernes, climatisés et parfaitement entretenus pour une expérience sans souci."
+    },
+    "feature2": {
+      "title": "Ponctualité Garantie",
+      "description": "Nous respectons toujours vos horaires avec un service fiable et professionnel."
+    },
+    "feature3": {
+      "title": "Service Personnalisé",
+      "description": "Profitez d’un accompagnement adapté à vos besoins, que ce soit pour vos déplacements ou vos excursions."
+    }
+  },
+  "testimonialsTitle": "Témoignages Clients",
   "forms": {
     "fullName": "Nom Complet",
     "email": "Email",
@@ -64,6 +82,7 @@
   },
   "about": {
     "title": "À Propos de NavetteTunisie",
+    "description" : "Découvrez notre histoire et notre passion pour la Tunisie",
     "mission": "Notre Mission",
     "missionText": "Offrir des services de transport et d'excursions de qualité supérieure pour découvrir les merveilles de la Tunisie.",
     "vision": "Notre Vision",
@@ -75,7 +94,11 @@
     "title": "Contactez-Nous",
     "address": "Adresse",
     "getInTouch": "Restez en Contact",
-    "sendMessage": "Envoyer un Message"
+    "sendMessage": "Envoyer un Message",
+    "informations": {
+      "title": "Informations de Contact",
+      "description": "Notre équipe est à votre disposition pour répondre à toutes vos questions et vous aider à planifier votre séjour en Tunisie."
+    }
   },
   "footer": {
     "description": "Votre partenaire de confiance pour explorer la belle Tunisie",
@@ -107,5 +130,68 @@
     "pending": "En Attente",
     "confirmed": "Confirmé",
     "completed": "Terminé"
+  },
+  "phone": "Phone",
+  "email": "Email",
+  "adresse": "Adresse",
+  "horaires": "Horaires",
+
+  "stats": {
+    "title": "en Chiffres",
+    "label1": "Années d'Expérience" ,
+    "label2": "Clients Satisfaits" ,
+    "label3": "Destinations" ,
+    "label4": "Support Client"
+  },
+  "values": {
+    "title": "Nos Valeurs Fondamentales",
+    "excellence": {
+      "title": "Excellence",
+      "description": "Nous nous engageons à fournir des services de la plus haute qualité à chaque client."
+    },
+    "passion": {
+      "title": "Passion",
+      "description": "Notre passion pour la Tunisie transparaît dans chaque excursion que nous organisons."
+    },
+    "service": {
+      "title": "Service Client",
+      "description": "Votre satisfaction est notre priorité absolue, avant, pendant et après votre voyage."
+    }
+  },
+  "team": {
+    "title": "Notre Équipe",
+    "description": "Rencontrez les passionnés qui rendent vos voyages inoubliables",
+    "members": [
+      {
+        "name": "Ahmed Ben Salem",
+        "role": "Fondateur & Directeur",
+        "bio": "Passionné de tourisme depuis plus de 15 ans, Ahmed a créé NavetteTunisie pour partager les merveilles de son pays natal."
+      },
+      {
+        "name": "Fatma Trabelsi",
+        "role": "Responsable Excursions",
+        "bio": "Guide certifiée et historienne, Fatma conçoit nos programmes d'excursions avec une expertise incomparable."
+      },
+      {
+        "name": "Mohamed Karim",
+        "role": "Chef des Opérations",
+        "bio": "Spécialiste en logistique, Mohamed coordonne tous nos transferts avec précision et efficacité."
+      }
+    ]
+  },
+  "whyChoose": {
+    "title": "Pourquoi Choisir NavetteTunisie ?",
+    "expertise": {
+      "title": "Expertise Locale",
+      "description": "Guides locaux expérimentés avec une connaissance approfondie de la culture tunisienne."
+    },
+    "personalized": {
+      "title": "Service Personnalisé",
+      "description": "Chaque voyage est adapté à vos préférences et besoins spécifiques."
+    },
+    "authentic": {
+      "title": "Destinations Authentiques",
+      "description": "Découvrez des lieux uniques et des expériences authentiques hors des sentiers battus."
+    }
   }
 }

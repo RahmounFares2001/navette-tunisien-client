@@ -31,9 +31,9 @@ const Home = () => {
   ];
 
   const features = [
-    { icon: Users, title: 'Service Professionnel', description: 'Guides expérimentés et véhicules confortables' },
-    { icon: Star, title: 'Excellence Garantie', description: 'Service de qualité supérieure depuis 10 ans' },
-    { icon: MapPin, title: 'Destinations Uniques', description: 'Découvrez les trésors cachés de la Tunisie' }
+    { icon: Users, title: t("features.feature1.title"), description: t("features.feature1.description") },
+    { icon: Star, title: t("features.feature2.title"), description: t("features.feature2.description") },
+    { icon: MapPin, title: t("features.feature3.title"), description: t("features.feature3.description") }
   ];
 
   const testimonials = [
@@ -68,7 +68,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               {t('hero.title')}
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto">
@@ -76,7 +76,7 @@ const Home = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/transfers">
-                <Button size="lg" className="btn-hero">
+                <Button size="lg" className="bg-orange-700">
                   {t('hero.cta')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -106,10 +106,10 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Nos Services
+              {t('services.title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Découvrez nos services de transport et d'excursions pour une expérience inoubliable en Tunisie
+              {t('services.description')}
             </p>
           </motion.div>
 
@@ -166,7 +166,7 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Pourquoi Nous Choisir ?
+            {t('features.title')}
             </h2>
           </motion.div>
 
@@ -206,7 +206,7 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Témoignages Clients
+              {t('testimonialsTitle')}
             </h2>
           </motion.div>
 

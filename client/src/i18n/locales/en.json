@@ -15,6 +15,8 @@
     "discoverExcursions": "Discover our Excursions"
   },
   "services": {
+  "title": "Our Services",
+  "description": "Discover our transport and excursion services for an unforgettable experience in Tunisia",
     "transfers": {
       "title": "Transfer Services",
       "description": "Comfortable and secure transfers from/to airports, hotels and tourist destinations",
@@ -26,6 +28,22 @@
       "cta": "View Excursions"
     }
   },
+  "features": {
+    "title": "Why Choose Us?",
+    "feature1": {
+      "title": "Comfort & Safety",
+      "description": "Travel in modern, air-conditioned, and well-maintained vehicles for a worry-free experience."
+    },
+    "feature2": {
+      "title": "Guaranteed Punctuality",
+      "description": "We always respect your schedule with reliable and professional service."
+    },
+    "feature3": {
+      "title": "Personalized Service",
+      "description": "Enjoy tailored assistance for your needs, whether for transfers or excursions."
+    }
+  },
+  "testimonialsTitle": "Customer Testimonials",
   "forms": {
     "fullName": "Full Name",
     "email": "Email",
@@ -64,6 +82,7 @@
   },
   "about": {
     "title": "About NavetteTunisie",
+    "description": "Discover our story and our passion for Tunisia",
     "mission": "Our Mission",
     "missionText": "To provide superior quality transport and excursion services to discover the wonders of Tunisia.",
     "vision": "Our Vision",
@@ -75,7 +94,11 @@
     "title": "Contact Us",
     "address": "Address",
     "getInTouch": "Get In Touch",
-    "sendMessage": "Send Message"
+    "sendMessage": "Send Message",
+    "informations": {
+      "title": "Contact Information",
+      "description": "Our team is available to answer all your questions and help you plan your stay in Tunisia."
+    }
   },
   "footer": {
     "description": "Your trusted partner to explore beautiful Tunisia",
@@ -107,5 +130,67 @@
     "pending": "Pending",
     "confirmed": "Confirmed",
     "completed": "Completed"
+  },
+  "phone": "Phone",
+  "email": "Email",
+  "adresse": "Address",
+  "horaires": "Opening Hours",
+  "stats": {
+    "title": "in Figures",
+    "label1": "Years of Experience",
+    "label2": "Satisfied Customers",
+    "label3": "Destinations",
+    "label4": "Customer Support"
+  },
+  "values": {
+    "title": "Our Core Values",
+    "excellence": {
+      "title": "Excellence",
+      "description": "We are committed to delivering the highest quality services to every client."
+    },
+    "passion": {
+      "title": "Passion",
+      "description": "Our passion for Tunisia shines through every excursion we organize."
+    },
+    "service": {
+      "title": "Customer Service",
+      "description": "Your satisfaction is our top priority before, during, and after your trip."
+    }
+  },
+  "team": {
+    "title": "Our Team",
+    "description": "Meet the passionate people who make your travels unforgettable",
+    "members": [
+      {
+        "name": "Ahmed Ben Salem",
+        "role": "Founder & Director",
+        "bio": "Passionate about tourism for over 15 years, Ahmed created NavetteTunisie to share the wonders of his homeland."
+      },
+      {
+        "name": "Fatma Trabelsi",
+        "role": "Excursion Manager",
+        "bio": "Certified guide and historian, Fatma designs our excursion programs with unmatched expertise."
+      },
+      {
+        "name": "Mohamed Karim",
+        "role": "Operations Manager",
+        "bio": "Logistics specialist, Mohamed coordinates all transfers with precision and efficiency."
+      }
+    ]
+  },
+  "whyChoose": {
+    "title": "Why Choose NavetteTunisie?",
+    "expertise": {
+      "title": "Local Expertise",
+      "description": "Experienced local guides with in-depth knowledge of Tunisian culture."
+    },
+    "personalized": {
+      "title": "Personalized Service",
+      "description": "Each trip is tailored to your preferences and specific needs."
+    },
+    "authentic": {
+      "title": "Authentic Destinations",
+      "description": "Discover unique places and authentic experiences off the beaten path."
+    }
   }
 }
