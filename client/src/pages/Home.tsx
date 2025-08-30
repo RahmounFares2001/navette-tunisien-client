@@ -105,10 +105,10 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
               {t('services.title')}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-md sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               {t('services.description')}
             </p>
           </motion.div>
@@ -134,11 +134,11 @@ const Home = () => {
                       <service.icon className="h-8 w-8 text-white mb-2" />
                     </div>
                   </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-2xl font-bold mb-3 text-foreground">
+                  <CardContent className="p-3 sm:p-6">
+                    <h3 className="text-xl sm:text-2xl font-bold mb-3 text-foreground">
                       {service.title}
                     </h3>
-                    <p className="text-muted-foreground mb-6">
+                    <p className="text-sm sm:text-lg text-muted-foreground mb-6">
                       {service.description}
                     </p>
                     <Link to={service.link}>
@@ -165,7 +165,7 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t('features.title')}
             </h2>
           </motion.div>
@@ -183,10 +183,10 @@ const Home = () => {
                 <div className="bg-gradient-hero text-primary-foreground w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <feature.icon className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-foreground">
+                <h3 className="text-lg sm:text-xl font-semibold mb-3 text-foreground">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground">
+                <p className="text-sm sm:text-lg text-muted-foreground">
                   {feature.description}
                 </p>
               </motion.div>
@@ -205,7 +205,7 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
               {t('testimonialsTitle')}
             </h2>
           </motion.div>
@@ -220,7 +220,7 @@ const Home = () => {
                 viewport={{ once: true }}
               >
                 <Card className="card-elegant">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 sm:p-6">
                     <div className="flex mb-4">
                       {[...Array(testimonial.rating)].map((_, i) => (
                         <Star key={i} className="h-5 w-5 text-secondary fill-current" />

@@ -154,9 +154,6 @@ const AdminVehicles = () => {
             <h1 className="text-3xl font-bold text-admin-foreground">
               Gestion des Véhicules
             </h1>
-            <p className="text-admin-muted mt-2">
-              Gérez votre flotte de véhicules
-            </p>
           </div>
           <Button 
             onClick={handleAddVehicle}
@@ -167,62 +164,13 @@ const AdminVehicles = () => {
           </Button>
         </motion.div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-4"
-        >
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredVehicles.length}
-                </p>
-                <p className="text-sm text-admin-muted">Total Véhicules</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {availableVehicles}
-                </p>
-                <p className="text-sm text-admin-muted">Disponibles</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {totalCapacity}
-                </p>
-                <p className="text-sm text-admin-muted">Capacité Totale</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredVehicles.reduce((sum, v) => sum + v.bookings, 0)}
-                </p>
-                <p className="text-sm text-admin-muted">Total Réservations</p>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
         {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="admin-card">
+          <Card className="bg-admin-card border-dash1 rounded">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
@@ -263,7 +211,7 @@ const AdminVehicles = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredVehicles.map((vehicle) => (
-              <Card key={vehicle.id} className="admin-card">
+              <Card key={vehicle.id} className="bg-admin-card border-dash1 rounded">
                 <CardContent className="p-6">
                   <div className="relative mb-4">
                     <img
@@ -283,32 +231,19 @@ const AdminVehicles = () => {
                       <h3 className="font-semibold text-admin-foreground text-lg">
                         {vehicle.name}
                       </h3>
-                      <div className="flex items-center text-admin-muted">
+                      <div className="flex items-center text-gray-200">
                         <Car className="h-4 w-4 mr-1" />
                         <span className="text-sm">{vehicle.seats} places</span>
                       </div>
                     </div>
                     
-                    <div className="flex justify-between text-sm text-admin-muted">
-                      <span>Réservations: {vehicle.bookings}</span>
-                      <span>Service: {new Date(vehicle.lastService).toLocaleDateString('fr-FR')}</span>
-                    </div>
-                    
-                    <div className="flex space-x-2 pt-3">
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        onClick={() => handleViewVehicle(vehicle)}
-                        className="flex-1 text-admin-foreground border-admin-border hover:bg-admin-accent"
-                      >
-                        <Eye className="h-4 w-4 mr-1" />
-                        Détails
-                      </Button>
+
+                    <div className="flex space-x-2 pt-3 justify-end">
                       <Button 
                         size="sm" 
                         variant="outline" 
                         onClick={() => handleEditVehicle(vehicle)}
-                        className="text-admin-foreground border-admin-border hover:bg-admin-accent"
+                        className="bg-yellow-600 hover:text-gray-900 border-admin-border hover:bg-bg-yellow-700"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -316,7 +251,7 @@ const AdminVehicles = () => {
                         size="sm" 
                         variant="outline" 
                         onClick={() => handleDeleteVehicle(vehicle)}
-                        className="text-admin-muted border-admin-border hover:bg-admin-accent hover:text-admin-foreground"
+                        className="bg-red-700 text-gray-100 hover:text-gray-100 border-admin-border hover:bg-bg-red-800"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -328,43 +263,6 @@ const AdminVehicles = () => {
           </div>
         </motion.div>
 
-        {/* Maintenance Schedule */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <Card className="admin-card">
-            <CardHeader>
-              <CardTitle className="text-admin-foreground">
-                Prochaines Maintenances
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {vehicles
-                  .filter(v => v.status === 'maintenance' || 
-                    new Date(v.lastService) < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
-                  .map((vehicle) => (
-                    <div key={`maintenance-${vehicle.id}`} className="flex items-center justify-between p-3 bg-admin-bg rounded-lg">
-                      <div className="flex items-center space-x-3">
-                        <Car className="h-5 w-5 text-admin-muted" />
-                        <div>
-                          <p className="font-medium text-admin-foreground">{vehicle.name}</p>
-                          <p className="text-sm text-admin-muted">
-                            Dernier service: {new Date(vehicle.lastService).toLocaleDateString('fr-FR')}
-                          </p>
-                        </div>
-                      </div>
-                      <Badge className="bg-admin-muted text-admin-foreground">
-                        {vehicle.status === 'maintenance' ? 'En cours' : 'Planifiée'}
-                      </Badge>
-                    </div>
-                  ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
 
         {/* Vehicle Modal */}
         <VehicleModal

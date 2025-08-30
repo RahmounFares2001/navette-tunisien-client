@@ -31,51 +31,51 @@ const Excursions = () => {
       image: excursionSample,
       maxPeople: 8
     },
-    {
-      id: '2',
-      title: 'Excursion dans le Sahara',
-      description: 'Aventure inoubliable dans le désert tunisien avec nuit sous les étoiles',
-      price: 250,
-      duration: '2 jours',
-      image: excursionSample,
-      maxPeople: 8
-    },
-    {
-      id: '3',
-      title: 'Kairouan - Ville Sainte',
-      description: 'Explorez la première capitale de la Tunisie musulmane et ses mosquées',
-      price: 120,
-      duration: '8 heures',
-      image: excursionSample,
-      maxPeople: 8
-    },
-    {
-      id: '4',
-      title: 'El Jem et Sousse',
-      description: 'Amphithéâtre romain d\'El Jem et la médina historique de Sousse',
-      price: 100,
-      duration: '10 heures',
-      image: excursionSample,
-      maxPeople: 8
-    },
-    {
-      id: '5',
-      title: 'Dougga - Site Archéologique',
-      description: 'Le mieux préservé des sites romains en Afrique du Nord',
-      price: 90,
-      duration: '7 heures',
-      image: excursionSample,
-      maxPeople: 8
-    },
-    {
-      id: '6',
-      title: 'Hammamet et Nabeul',
-      description: 'Plages magnifiques et artisanat traditionnel de poterie',
-      price: 70,
-      duration: '5 heures',
-      image: excursionSample,
-      maxPeople: 8
-    }
+    // {
+    //   id: '2',
+    //   title: 'Excursion dans le Sahara',
+    //   description: 'Aventure inoubliable dans le désert tunisien avec nuit sous les étoiles',
+    //   price: 250,
+    //   duration: '2 jours',
+    //   image: excursionSample,
+    //   maxPeople: 8
+    // },
+    // {
+    //   id: '3',
+    //   title: 'Kairouan - Ville Sainte',
+    //   description: 'Explorez la première capitale de la Tunisie musulmane et ses mosquées',
+    //   price: 120,
+    //   duration: '8 heures',
+    //   image: excursionSample,
+    //   maxPeople: 8
+    // },
+    // {
+    //   id: '4',
+    //   title: 'El Jem et Sousse',
+    //   description: 'Amphithéâtre romain d\'El Jem et la médina historique de Sousse',
+    //   price: 100,
+    //   duration: '10 heures',
+    //   image: excursionSample,
+    //   maxPeople: 8
+    // },
+    // {
+    //   id: '5',
+    //   title: 'Dougga - Site Archéologique',
+    //   description: 'Le mieux préservé des sites romains en Afrique du Nord',
+    //   price: 90,
+    //   duration: '7 heures',
+    //   image: excursionSample,
+    //   maxPeople: 8
+    // },
+    // {
+    //   id: '6',
+    //   title: 'Hammamet et Nabeul',
+    //   description: 'Plages magnifiques et artisanat traditionnel de poterie',
+    //   price: 70,
+    //   duration: '5 heures',
+    //   image: excursionSample,
+    //   maxPeople: 8
+    // }
   ];
 
   return (
@@ -87,10 +87,10 @@ const Excursions = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
             {t('excursions.title')}
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-md sm:text-xl text-muted-foreground max-w-2xl mx-auto">
             Découvrez les merveilles de la Tunisie avec nos excursions guidées
           </p>
         </motion.div>
@@ -103,7 +103,7 @@ const Excursions = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card className="card-elegant h-full overflow-hidden group">
+              <Card className="p-0 card-elegant h-full overflow-hidden group">
                 <div className="relative h-64 overflow-hidden">
                   <img 
                     src={excursion.image} 
@@ -112,7 +112,7 @@ const Excursions = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 right-4">
-                    <Badge className="bg-secondary text-secondary-foreground font-bold">
+                    <Badge className="rounded px-3 py-1 bg-secondary text-secondary-foreground font-bold">
                       {excursion.price} DT
                     </Badge>
                   </div>
@@ -166,14 +166,14 @@ const Excursions = () => {
         >
           <div className="bg-gradient-sand rounded-2xl p-8">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Excursion Personnalisée ?
+              {t("customExcursion.title")}
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Vous avez des demandes spécifiques ? Nous pouvons organiser une excursion sur mesure selon vos préférences.
+              {t("customExcursion.description")}
             </p>
-            <Link to="/contact">
+            <Link to="/contact" onClick={() => window.scrollTo(0, 0)} >
               <Button size="lg" className="btn-hero">
-                Contactez-Nous
+                {t("customExcursion.button")}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

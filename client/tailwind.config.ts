@@ -24,6 +24,8 @@ export default {
 				'montserrat': ['Montserrat', 'sans-serif'],
 			},
 			colors: {
+				dash1: "#0B0E13",
+				dash2: "#21242C",
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',

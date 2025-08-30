@@ -154,66 +154,15 @@ const AdminExcursions = () => {
             <h1 className="text-3xl font-bold text-admin-foreground">
               Gestion des Excursions
             </h1>
-            <p className="text-admin-muted mt-2">
-              Gérez le catalogue d'excursions disponibles
-            </p>
+
           </div>
           <Button 
             onClick={handleAddExcursion}
-            className="bg-admin-foreground text-admin-bg hover:bg-admin-muted hover:text-admin-bg"
+            className="bg-admin-foreground text-admin-bg hover:bg-gray-300 hover:text-admin-bg"
           >
             <Plus className="mr-2 h-4 w-4" />
             Ajouter une Excursion
           </Button>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-4"
-        >
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredExcursions.length}
-                </p>
-                <p className="text-sm text-admin-muted">Total Excursions</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredExcursions.filter(e => e.status === 'active').length}
-                </p>
-                <p className="text-sm text-admin-muted">Actives</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredExcursions.reduce((sum, e) => sum + e.bookings, 0)}
-                </p>
-                <p className="text-sm text-admin-muted">Total Réservations</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {totalRevenue} DT
-                </p>
-                <p className="text-sm text-admin-muted">Chiffre d'Affaires</p>
-              </div>
-            </CardContent>
-          </Card>
         </motion.div>
 
         {/* Filters */}
@@ -222,7 +171,7 @@ const AdminExcursions = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="admin-card">
+          <Card className="bg-admin-card border-dash2 rounded">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
@@ -260,10 +209,10 @@ const AdminExcursions = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Card className="admin-card">
+          <Card className="bg-admin-card border-dash2 rounded">
             <CardHeader>
               <CardTitle className="text-admin-foreground">
-                Excursions ({filteredExcursions.length})
+                Excursions
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -272,12 +221,10 @@ const AdminExcursions = () => {
                   <TableHeader>
                     <TableRow className="border-admin-border hover:bg-transparent">
                       <TableHead className="text-admin-foreground">Titre</TableHead>
-                      <TableHead className="text-admin-foreground hidden lg:table-cell">Description</TableHead>
                       <TableHead className="text-admin-foreground hidden sm:table-cell">Durée</TableHead>
                       <TableHead className="text-admin-foreground">Prix</TableHead>
-                      <TableHead className="text-admin-foreground hidden md:table-cell">Réservations</TableHead>
                       <TableHead className="text-admin-foreground">Statut</TableHead>
-                      <TableHead className="text-admin-foreground">Actions</TableHead>
+                      <TableHead className="text-admin-foreground text-right pr-16">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -291,11 +238,7 @@ const AdminExcursions = () => {
                             {excursion.description}
                           </div>
                         </TableCell>
-                        <TableCell className="hidden lg:table-cell">
-                          <div className="text-sm text-admin-muted max-w-xs truncate">
-                            {excursion.description}
-                          </div>
-                        </TableCell>
+
                         <TableCell className="hidden sm:table-cell">
                           <span className="text-sm text-admin-foreground">
                             {excursion.duration}
@@ -309,31 +252,17 @@ const AdminExcursions = () => {
                             {excursion.duration}
                           </div>
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          <div className="text-center">
-                            <span className="text-sm font-medium text-admin-foreground">
-                              {excursion.bookings}
-                            </span>
-                            <div className="text-xs text-admin-muted">
+                        <TableCell className="hidden md:table-cell text-gray-100">
                               {excursion.price * excursion.bookings} DT
-                            </div>
-                          </div>
                         </TableCell>
+
                         <TableCell>
-                          <Badge className={getStatusBadgeColor(excursion.status)}>
-                            {getStatusText(excursion.status)}
-                          </Badge>
-                          <div className="md:hidden text-xs text-admin-muted mt-1">
-                            {excursion.bookings} rés.
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex space-x-1">
+                          <div className="flex space-x-1 justify-end">
                             <Button 
                               size="sm" 
                               variant="outline" 
                               onClick={() => handleViewExcursion(excursion)}
-                              className="text-admin-foreground border-admin-border hover:bg-admin-accent"
+                              className="text-gray-900 border-admin-border hover:bg-admin-bg"
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -341,7 +270,7 @@ const AdminExcursions = () => {
                               size="sm" 
                               variant="outline" 
                               onClick={() => handleEditExcursion(excursion)}
-                              className="text-admin-foreground border-admin-border hover:bg-admin-accent"
+                              className="bg-yellow-600 hover:text-gray-900 border-admin-border hover:bg-bg-yellow-700"
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
@@ -349,7 +278,7 @@ const AdminExcursions = () => {
                               size="sm" 
                               variant="outline" 
                               onClick={() => handleDeleteExcursion(excursion)}
-                              className="text-admin-muted border-admin-border hover:bg-admin-accent hover:text-admin-foreground"
+                              className="bg-red-700 text-gray-200 border-admin-border hover:bg-red-800"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>

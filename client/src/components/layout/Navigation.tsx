@@ -46,6 +46,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link 
             to="/" 
+            onClick={() => window.scrollTo(0, 0)}
             className="flex items-center space-x-3 rtl:space-x-reverse hover:scale-105 transition-transform"
           >
             <div className="bg-orange-600 text-primary-foreground px-2 py-1 rounded font-bold text-sm">
@@ -62,6 +63,7 @@ const Navigation = () => {
               <Link
                 key={path}
                 to={path}
+                onClick={() => window.scrollTo(0, 0)}
                 className={`transition-colors duration-300 hover:text-primary font-medium
                   text-sm ${
                   isActive(path) ? 'text-primary border-b-2 border-primary py-1' : 'text-foreground'

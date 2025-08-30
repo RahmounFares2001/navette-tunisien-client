@@ -46,7 +46,7 @@ const Transfers = () => {
     { id: '1', name: 'Sedan Confort', seats: 4, image: transferVehicle, available: true },
     { id: '2', name: 'SUV Premium', seats: 7, image: transferVehicle, available: true },
     { id: '3', name: 'Minibus', seats: 16, image: transferVehicle, available: true },
-    { id: '4', name: 'Bus Grand Confort', seats: 50, image: transferVehicle, available: false },
+    // { id: '4', name: 'Bus Grand Confort', seats: 50, image: transferVehicle, available: false },
   ];
 
   const languages = [
@@ -105,18 +105,18 @@ const Transfers = () => {
 
   return (
     <div className="min-h-screen py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-1 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-4">
             {t('transfers.title')}
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Réservez votre transfert en toute simplicité
+          <p className="text-md sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+            {t('transfers.description')}            
           </p>
         </motion.div>
 
@@ -128,13 +128,13 @@ const Transfers = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-3"
           >
-            <Card className="card-elegant">
-              <CardContent className="p-6">
-                <h2 className="text-2xl font-bold mb-6 flex items-center">
+            <Card>
+              <CardContent className="p-4 sm:p-6">
+                <h2 className="text-xl sm:text-2xl font-bold mb-6 flex items-center">
                   <Car className="mr-3 h-6 w-6 text-primary" />
                   {t('transfers.vehicleSelection')}
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   {vehicles.map((vehicle) => (
                     <div
                       key={vehicle.id}
@@ -148,11 +148,11 @@ const Transfers = () => {
                       <img
                         src={vehicle.image}
                         alt={vehicle.name}
-                        className="w-full h-32 object-cover rounded-md mb-3"
+                        className="w-full h-24 sm:h-32 object-cover rounded-md mb-3"
                       />
-                      <h3 className="font-semibold text-foreground mb-1">{vehicle.name}</h3>
-                      <div className="flex items-center text-sm text-muted-foreground mb-2">
-                        <Users className="h-4 w-4 mr-1" />
+                      <h3 className="text-sm sm:text-lg font-semibold text-foreground mb-1">{vehicle.name}</h3>
+                      <div className="text-xs flex items-center sm:text-sm text-muted-foreground mb-2">
+                        <Users className="h-3 sm:h-4 w-3 sm:w-4 mr-1" />
                         {vehicle.seats} places
                       </div>
                       {selectedVehicle === vehicle.id && (
@@ -179,9 +179,9 @@ const Transfers = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="lg:col-span-3"
           >
-            <Card className="card-elegant">
-              <CardContent className="p-6">
-                <h2 className="text-2xl font-bold mb-6">Détails de la Réservation</h2>
+            <Card>
+              <CardContent className="p-4 sm:p-6">
+                <h2 className="text-xl sm:text-2xl font-bold mb-6">Détails de la Réservation</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Trip Type */}
@@ -200,7 +200,7 @@ const Transfers = () => {
 
                   {/* Departure */}
                   <div>
-                    <Label htmlFor="departure">{t('transfers.departure')} *</Label>
+                    <Label htmlFor="departure" >{t('transfers.departure')} *</Label>
                     <Input
                       id="departure"
                       value={formData.departure}
@@ -352,7 +352,7 @@ const Transfers = () => {
                   <Button 
                     onClick={handleSubmit}
                     size="lg"
-                    className="w-full btn-hero"
+                    className="w-full bg-orange-600 hover:bg-orange-700"
                   >
                     {t('transfers.confirmationMessage').includes('succès') ? t('forms.submit') : t('forms.bookNow')}
                   </Button>

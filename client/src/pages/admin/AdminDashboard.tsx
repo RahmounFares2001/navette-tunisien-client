@@ -94,7 +94,7 @@ const AdminDashboard = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-8">
+      <div className="space-y-8" >
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -104,9 +104,6 @@ const AdminDashboard = () => {
           <h1 className="text-3xl font-bold text-admin-foreground mb-2">
             Tableau de Bord
           </h1>
-          <p className="text-admin-muted">
-            Vue d'ensemble de votre agence NavetteTunisie
-          </p>
         </motion.div>
 
         {/* Stats Cards */}
@@ -118,19 +115,19 @@ const AdminDashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card className="admin-card">
-                <CardContent className="p-6">
+              <Card className='bg-admin-card border-dash2 rounded' >
+                <CardContent className="p-6 h-32">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-admin-muted mb-1">
+                      <p className="text-sm mb-1 text-gray-100">
                         {stat.title}
                       </p>
-                      <p className="text-3xl font-bold text-admin-foreground">
+                      <p className="text-3xl font-bold text-gray-100">
                         {stat.value}
                       </p>
                     </div>
                     <div className={`p-3 rounded-full bg-admin-accent`}>
-                      <stat.icon className={`h-6 w-6 text-admin-foreground`} />
+                      <stat.icon className={`h-6 w-6 text-gray-100`} />
                     </div>
                   </div>
                 </CardContent>
@@ -139,38 +136,7 @@ const AdminDashboard = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Quick Actions */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <Card className="admin-card">
-              <CardHeader>
-                <CardTitle className="text-admin-foreground">Actions Rapides</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {quickActions.map((action, index) => (
-                  <Link key={index} to={action.link}>
-                    <div className="flex items-center p-4 rounded-lg border border-admin-border hover:bg-admin-bg/50 transition-colors cursor-pointer">
-                      <div className={`p-2 rounded-lg bg-admin-foreground mr-4`}>
-                        <action.icon className="h-5 w-5 text-admin-bg" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-admin-foreground">
-                          {action.title}
-                        </h3>
-                        <p className="text-sm text-admin-muted">
-                          {action.description}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
+        <div className="grid grid-cols-1 gap-8">
 
           {/* Recent Activities */}
           <motion.div
@@ -178,29 +144,30 @@ const AdminDashboard = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <Card className="admin-card">
+            <Card className='bg-admin-card border-dash2' >
               <CardHeader>
-                <CardTitle className="text-admin-foreground">Activités Récentes</CardTitle>
+                <CardTitle className='text-gray-100' >Activités Récentes</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-7">
                 {recentActivities.map((activity, index) => (
-                  <div key={index} className="flex items-start space-x-3 p-3 rounded-lg border border-admin-border">
+                  <div key={index} className="flex items-start space-x-3 p-4 rounded-sm shadow-sm shadow-black 
+                        border border-admin-border hover:bg-orange-600/70 cursor-pointer">
                     <div className="flex-shrink-0">
                       {activity.status === 'pending' && (
-                        <AlertCircle className="h-5 w-5 text-admin-muted" />
+                        <AlertCircle className="h-5 w-5 text-gray-100" />
                       )}
                       {activity.status === 'confirmed' && (
-                        <CheckCircle className="h-5 w-5 text-admin-foreground" />
+                        <CheckCircle className="h-5 w-5 text-gray-100" />
                       )}
                       {activity.status === 'completed' && (
-                        <CheckCircle className="h-5 w-5 text-admin-foreground" />
+                        <CheckCircle className="h-5 w-5 text-gray-100" />
                       )}
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm text-admin-foreground">
+                      <p className="text-sm text-gray-100">
                         {activity.message}
                       </p>
-                      <p className="text-xs text-admin-muted mt-1">
+                      <p className="text-xs mt-1 text-gray-100">
                         {activity.time}
                       </p>
                     </div>
@@ -211,31 +178,7 @@ const AdminDashboard = () => {
           </motion.div>
         </div>
 
-        {/* Overview Chart Placeholder */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <Card className="admin-card">
-            <CardHeader>
-              <CardTitle className="text-admin-foreground flex items-center">
-                <TrendingUp className="mr-2 h-5 w-5" />
-                Statistiques Mensuelles
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-admin-bg rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <TrendingUp className="h-12 w-12 text-admin-muted mx-auto mb-4" />
-                  <p className="text-admin-muted">
-                    Graphique des performances à venir
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+
       </div>
     </AdminLayout>
   );

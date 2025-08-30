@@ -56,6 +56,7 @@
   },
   "transfers": {
     "title": "Réservation de Transfert",
+    "description": "Réservez votre transfert en toute simplicité",
     "vehicleSelection": "Sélection du Véhicule",
     "tripType": "Type de Voyage",
     "oneWay": "Aller Simple",
@@ -165,19 +166,19 @@
     "description": "Rencontrez les passionnés qui rendent vos voyages inoubliables",
     "members": [
       {
-        "name": "Ahmed Ben Salem",
+        "name": "Marwen Ismail",
         "role": "Fondateur & Directeur",
-        "bio": "Passionné de tourisme depuis plus de 15 ans, Ahmed a créé NavetteTunisie pour partager les merveilles de son pays natal."
+        "bio": "Passionné de tourisme depuis plus de 15 ans, Ismail a créé NavetteTunisie pour partager les merveilles de son pays natal."
       },
       {
-        "name": "Fatma Trabelsi",
+        "name": "Hakim Mhadhbi",
         "role": "Responsable Excursions",
-        "bio": "Guide certifiée et historienne, Fatma conçoit nos programmes d'excursions avec une expertise incomparable."
+        "bio": "Guide certifié et historien, Hakim conçoit nos programmes d'excursions avec une expertise incomparable."
       },
       {
-        "name": "Mohamed Karim",
+        "name": "Fehri Bousmina",
         "role": "Chef des Opérations",
-        "bio": "Spécialiste en logistique, Mohamed coordonne tous nos transferts avec précision et efficacité."
+        "bio": "Spécialiste en logistique, Bousmina coordonne tous nos transferts avec précision et efficacité."
       }
     ]
   },
@@ -195,5 +196,16 @@
       "title": "Destinations Authentiques",
       "description": "Découvrez des lieux uniques et des expériences authentiques hors des sentiers battus."
     }
+  },
+  "customExcursion": {
+    "title": "Excursion Personnalisée ?",
+    "description": "Vous avez des demandes spécifiques ? Nous pouvons organiser une excursion sur mesure selon vos préférences.",
+    "button": "Contactez-Nous"
+  },
+  "excursionDetails": {
+    "backButton": "Retour aux excursions",
+    "title": "Réserver cette Excursion",
+    "total": "Total",
+    "maxPersons": "Personnes maximum"
   }
 }

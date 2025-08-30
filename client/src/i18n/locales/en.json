@@ -56,6 +56,7 @@
   },
   "transfers": {
     "title": "Transfer Booking",
+    "description": "Book your transfer with ease",
     "vehicleSelection": "Vehicle Selection",
     "tripType": "Trip Type",
     "oneWay": "One-Way",
@@ -164,19 +165,19 @@
     "description": "Meet the passionate people who make your travels unforgettable",
     "members": [
       {
-        "name": "Ahmed Ben Salem",
+        "name": "Marwen Ismail",
         "role": "Founder & Director",
-        "bio": "Passionate about tourism for over 15 years, Ahmed created NavetteTunisie to share the wonders of his homeland."
+        "bio": "Passionate about tourism for over 15 years, Ismail created NavetteTunisie to share the wonders of his homeland."
       },
       {
-        "name": "Fatma Trabelsi",
+        "name": "Hakim Mhadhbi",
         "role": "Excursion Manager",
-        "bio": "Certified guide and historian, Fatma designs our excursion programs with unmatched expertise."
+        "bio": "Certified guide and historian, Hakim designs our excursion programs with unmatched expertise."
       },
       {
-        "name": "Mohamed Karim",
+        "name": "Fehri Bousmina",
         "role": "Operations Manager",
-        "bio": "Logistics specialist, Mohamed coordinates all transfers with precision and efficiency."
+        "bio": "Logistics specialist, Bousmina coordinates all transfers with precision and efficiency."
       }
     ]
   },
@@ -194,5 +195,18 @@
       "title": "Authentic Destinations",
       "description": "Discover unique places and authentic experiences off the beaten path."
     }
+  },
+  "customExcursion": {
+    "title": "Custom Excursion?",
+    "description": "Do you have specific requests? We can organize a tailor-made excursion according to your preferences.",
+    "button": "Contact Us"
+  },
+  "excursionDetails": {
+    "backButton": "Back to Excursions",
+    "title": "Book this Excursion",
+    "total": "Total",
+    "maxPersons": "Maximum number of people"
+
   }
+
 }

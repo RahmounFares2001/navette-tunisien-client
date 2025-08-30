@@ -131,15 +131,13 @@ const AdminTransfers = () => {
             <h1 className="text-3xl font-bold text-admin-foreground">
               Gestion des Transferts
             </h1>
-            <p className="text-admin-muted mt-2">
-              Gérez toutes les demandes de transfert
-            </p>
+
           </div>
           <Button 
             onClick={handleAddTransfer}
-            className="bg-admin-foreground text-admin-bg hover:bg-admin-muted hover:text-admin-bg"
+            className="bg-admin-foreground text-gray-900 hover:bg-gray-300"
           >
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 h-4 w-4 text-gray-900" />
             Ajouter un Transfert
           </Button>
         </motion.div>
@@ -150,7 +148,7 @@ const AdminTransfers = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <Card className="admin-card">
+          <Card className="bg-admin-card border-dash2 rounded">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
@@ -190,10 +188,10 @@ const AdminTransfers = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="admin-card">
+          <Card className="bg-admin-card border-dash2 rounded">
             <CardHeader>
               <CardTitle className="text-admin-foreground">
-                Transferts ({filteredTransfers.length})
+                Les Demandes de Transferts
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -201,13 +199,11 @@ const AdminTransfers = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="border-admin-border hover:bg-transparent">
-                      <TableHead className="text-admin-foreground">Client</TableHead>
-                      <TableHead className="text-admin-foreground hidden md:table-cell">Contact</TableHead>
-                      <TableHead className="text-admin-foreground hidden lg:table-cell">Trajet</TableHead>
-                      <TableHead className="text-admin-foreground hidden sm:table-cell">Véhicule</TableHead>
-                      <TableHead className="text-admin-foreground">Date</TableHead>
-                      <TableHead className="text-admin-foreground">Statut</TableHead>
-                      <TableHead className="text-admin-foreground">Actions</TableHead>
+                      <TableHead className="text-admin-foreground font-bold">Client</TableHead>
+                      <TableHead className="text-admin-foreground hidden sm:table-cell font-bold">Véhicule</TableHead>
+                      <TableHead className="text-admin-foreground font-bold">Date</TableHead>
+                      <TableHead className="text-admin-foreground font-bold">Statut</TableHead>
+                      <TableHead className="text-admin-foreground font-bold text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -219,18 +215,6 @@ const AdminTransfers = () => {
                           </div>
                           <div className="md:hidden text-xs text-admin-muted mt-1">
                             {transfer.email}
-                          </div>
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          <div className="text-sm text-admin-muted">
-                            <div>{transfer.email}</div>
-                            <div>{transfer.phone}</div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="hidden lg:table-cell">
-                          <div className="text-sm text-admin-muted">
-                            <div className="font-medium">De: {transfer.departure}</div>
-                            <div>Vers: {transfer.destination}</div>
                           </div>
                         </TableCell>
                         <TableCell className="hidden sm:table-cell">
@@ -248,13 +232,13 @@ const AdminTransfers = () => {
                             {getStatusText(transfer.status)}
                           </Badge>
                         </TableCell>
-                        <TableCell>
-                          <div className="flex space-x-1">
+                        <TableCell className='text-right' >
+                          <div className="flex space-x-1 justify-end">
                             <Button 
                               size="sm" 
                               variant="outline" 
                               onClick={() => handleViewTransfer(transfer)}
-                              className="text-admin-foreground border-admin-border hover:bg-admin-bg"
+                              className="text-gray-900 border-admin-border hover:bg-admin-bg"
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -262,7 +246,7 @@ const AdminTransfers = () => {
                               size="sm" 
                               variant="outline" 
                               onClick={() => handleEditTransfer(transfer)}
-                              className="text-admin-foreground border-admin-border hover:bg-admin-bg"
+                              className="bg-yellow-600 hover:text-gray-900 text-admin-foreground border-admin-border hover:bg-yellow-700"
                             >
                               <Edit className="h-4 w-4" />
                             </Button>

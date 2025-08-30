@@ -45,7 +45,7 @@ const App = () => (
                   <Footer />
                 </>
               } />
-              {/* <Route path="/transfers" element={
+              <Route path="/transfers" element={
                 <>
                   <Navigation />
                   <main className="flex-1">
@@ -53,8 +53,8 @@ const App = () => (
                   </main>
                   <Footer />
                 </>
-              } /> */}
-              {/* <Route path="/excursions" element={
+              } />
+              <Route path="/excursions" element={
                 <>
                   <Navigation />
                   <main className="flex-1">
@@ -62,8 +62,8 @@ const App = () => (
                   </main>
                   <Footer />
                 </>
-              } /> */}
-              {/* <Route path="/excursion/:id" element={
+              } />
+              <Route path="/excursion/:id" element={
                 <>
                   <Navigation />
                   <main className="flex-1">
@@ -71,7 +71,7 @@ const App = () => (
                   </main>
                   <Footer />
                 </>
-              } /> */}
+              } />
               <Route path="/about" element={
                 <>
                   <Navigation />

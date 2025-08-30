@@ -48,12 +48,13 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       }`}>
         <div className="flex h-full flex-col bg-admin-card border-r border-admin-border">
           {/* Logo */}
-          <div className="flex items-center justify-between p-6 border-b border-admin-border">
-            <Link to="/admin" className="flex items-center space-x-2">
-              <div className="bg-admin-foreground text-admin-bg px-3 py-2 rounded-lg font-bold text-lg">
-                NT
+          <div className="flex items-center justify-between border-b w-full border-admin-border">
+            <Link to="/admin" className="w-full">
+              <div className="bg-orange-600/80 text-white w-full py-3 rounded font-bold 
+                      text-sm text-center">
+                NAVETTE AEROPORT
+                <span className='text-yellow-300'> TUNISIE</span>
               </div>
-              <span className="text-admin-foreground font-semibold">Admin</span>
             </Link>
             <Button
               variant="ghost"
@@ -66,15 +67,15 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          <nav className="flex-1 px-1 py-6 space-y-2">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                   isActive(item.href)
-                    ? 'bg-admin-foreground text-admin-bg'
-                    : 'text-admin-muted hover:text-admin-foreground hover:bg-admin-accent'
+                    ? 'bg-admin-foreground text-gray-800'
+                    : 'text-gray-100 hover:text-admin-foreground hover:bg-admin-accent'
                 }`}
                 onClick={() => setSidebarOpen(false)}
               >
@@ -88,10 +89,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <div className="p-4 border-t border-admin-border">
             <Link
               to="/"
-              className="flex items-center px-4 py-3 text-sm font-medium text-admin-muted hover:text-admin-foreground hover:bg-admin-accent rounded-lg transition-colors"
+              className="text-gray-100 flex items-center px-4 py-3 text-sm font-medium text-admin-muted hover:text-admin-foreground hover:bg-admin-accent rounded-lg transition-colors"
             >
-              <LogOut className="mr-3 h-5 w-5" />
-              Retour au Site
+              <LogOut className="mr-3 h-5 w-5 text-gray-100" />
+              Déconnexion 
             </Link>
           </div>
         </div>
@@ -100,7 +101,9 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       {/* Main content */}
       <div className="lg:ml-64">
         {/* Top bar */}
-        <div className="sticky top-0 z-10 bg-admin-card border-b border-admin-border px-4 py-4 sm:px-6 lg:px-8">
+        <div className="sticky top-0 z-10 bg-admin-card border-b
+               border-admin-border px-4 py-4 sm:px-6 lg:px-8
+               lg:hidden">
           <div className="flex items-center justify-between">
             <Button
               variant="ghost"
@@ -110,11 +113,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-admin-muted">
-                Administration NavetteTunisie
-              </span>
-            </div>
+
           </div>
         </div>
 

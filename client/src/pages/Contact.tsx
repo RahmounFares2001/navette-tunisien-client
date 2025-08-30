@@ -209,7 +209,7 @@ const Contact = () => {
                   <Button 
                     onClick={handleSubmit}
                     size="lg"
-                    className="w-full btn-hero"
+                    className="w-full btn-orange"
                   >
                     <Send className="mr-2 h-5 w-5" />
                     {t('forms.submit')}

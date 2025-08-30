@@ -149,67 +149,17 @@ const AdminExcursionRequests = () => {
             <h1 className="text-3xl font-bold text-admin-foreground">
               Demandes d'Excursions
             </h1>
-            <p className="text-admin-muted mt-2">
-              Gérez toutes les réservations d'excursions
-            </p>
+
           </div>
           <Button 
             onClick={handleAddRequest}
-            className="bg-admin-foreground text-admin-bg hover:bg-admin-muted hover:text-admin-bg"
+            className="bg-admin-foreground text-admin-bg hover:bg-gray-300"
           >
             <Plus className="mr-2 h-4 w-4" />
             Ajouter une Demande
           </Button>
         </motion.div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-4"
-        >
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredRequests.length}
-                </p>
-                <p className="text-sm text-admin-muted">Total Demandes</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredRequests.filter(r => r.status === 'pending').length}
-                </p>
-                <p className="text-sm text-admin-muted">En Attente</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {filteredRequests.filter(r => r.status === 'confirmed').length}
-                </p>
-                <p className="text-sm text-admin-muted">Confirmées</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="admin-card">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-admin-foreground">
-                  {totalRevenue} DT
-                </p>
-                <p className="text-sm text-admin-muted">Chiffre d'Affaires</p>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
 
         {/* Filters */}
         <motion.div
@@ -217,7 +167,7 @@ const AdminExcursionRequests = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="admin-card">
+          <Card className="bg-admin-card border-dash2 rounded">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
@@ -257,10 +207,10 @@ const AdminExcursionRequests = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Card className="admin-card">
+          <Card className="bg-admin-card border-dash2 rounded">
             <CardHeader>
               <CardTitle className="text-admin-foreground">
-                Demandes d'Excursions ({filteredRequests.length})
+                Demandes d'Excursions
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -269,13 +219,11 @@ const AdminExcursionRequests = () => {
                   <TableHeader>
                     <TableRow className="border-admin-border hover:bg-transparent">
                       <TableHead className="text-admin-foreground">Client</TableHead>
-                      <TableHead className="text-admin-foreground hidden md:table-cell">Contact</TableHead>
                       <TableHead className="text-admin-foreground hidden lg:table-cell">Excursion</TableHead>
                       <TableHead className="text-admin-foreground hidden sm:table-cell">Personnes</TableHead>
                       <TableHead className="text-admin-foreground">Date</TableHead>
-                      <TableHead className="text-admin-foreground hidden sm:table-cell">Prix</TableHead>
                       <TableHead className="text-admin-foreground">Statut</TableHead>
-                      <TableHead className="text-admin-foreground">Actions</TableHead>
+                      <TableHead className="text-admin-foreground text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -289,12 +237,7 @@ const AdminExcursionRequests = () => {
                             {request.email}
                           </div>
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          <div className="text-sm text-admin-muted">
-                            <div>{request.email}</div>
-                            <div>{request.phone}</div>
-                          </div>
-                        </TableCell>
+
                         <TableCell className="hidden lg:table-cell">
                           <div className="text-sm text-admin-foreground font-medium">
                             {request.excursionTitle}
@@ -310,23 +253,18 @@ const AdminExcursionRequests = () => {
                             {new Date(request.date).toLocaleDateString('fr-FR')}
                           </span>
                         </TableCell>
-                        <TableCell className="hidden sm:table-cell">
-                          <span className="text-sm font-semibold text-admin-foreground">
-                            {request.totalPrice} DT
-                          </span>
-                        </TableCell>
                         <TableCell>
                           <Badge className={getStatusBadgeColor(request.status)}>
                             {getStatusText(request.status)}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <div className="flex space-x-1">
+                          <div className="flex space-x-1 justify-end">
                             <Button 
                               size="sm" 
                               variant="outline" 
                               onClick={() => handleViewRequest(request)}
-                              className="text-admin-foreground border-admin-border hover:bg-admin-accent"
+                              className="text-gray-900 border-admin-border hover:bg-admin-bg"
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -334,7 +272,7 @@ const AdminExcursionRequests = () => {
                               size="sm" 
                               variant="outline" 
                               onClick={() => handleEditRequest(request)}
-                              className="text-admin-foreground border-admin-border hover:bg-admin-accent"
+                              className="bg-yellow-600 hover:text-gray-900 border-admin-border hover:bg-bg-yellow-700"
                             >
                               <Edit className="h-4 w-4" />
                             </Button>

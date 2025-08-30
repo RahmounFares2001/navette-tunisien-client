@@ -113,7 +113,7 @@ const ExcursionDetails = () => {
           <Link to="/excursions">
             <Button variant="outline" className="flex items-center">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Retour aux excursions
+              {t('excursionDetails.backButton')}
             </Button>
           </Link>
         </motion.div>
@@ -164,7 +164,7 @@ const ExcursionDetails = () => {
 
               {/* Price Badge */}
               <div className="absolute top-4 right-4">
-                <Badge className="bg-secondary text-secondary-foreground font-bold text-lg px-4 py-2">
+                <Badge className="rounded bg-secondary text-secondary-foreground font-bold text-lg px-4 py-2">
                   {excursion.price} DT
                 </Badge>
               </div>
@@ -176,44 +176,39 @@ const ExcursionDetails = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <Card className="card-elegant mb-8">
-                <CardContent className="p-8">
+              <Card className="p-3 card-elegant mb-8">
+                <CardContent className="p-0 sm:p-8">
                   <div className="flex items-start justify-between mb-6">
                     <div>
-                      <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                      <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
                         {excursion.title}
                       </h1>
-                      <div className="flex items-center space-x-6 text-muted-foreground">
-                        <div className="flex items-center">
-                          <Clock className="h-5 w-5 mr-2" />
+                      <div className="flex sm:items-center space-y-1 sm:space-y-0 sm:space-x-6 text-muted-foreground
+                              flex-col sm:flex-row">
+                        <div className="text-sm sm:text-lg flex items-center">
+                          <Clock className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
                           {t('excursions.duration')}: {excursion.duration}
                         </div>
-                        <div className="flex items-center">
-                          <Users className="h-5 w-5 mr-2" />
+                        <div className="text-sm sm:text-lg flex items-center">
+                          <Users className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
                           {t('excursions.maxPeople')}
                         </div>
-                        <div className="flex items-center">
-                          <MapPin className="h-5 w-5 mr-2" />
+                        <div className="text-sm sm:text-lg flex items-center">
+                          <MapPin className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
                           Tunisie
                         </div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="flex items-center mb-2">
-                        <Star className="h-5 w-5 text-secondary fill-current mr-1" />
-                        <span className="font-semibold">{excursion.rating}</span>
-                        <span className="text-muted-foreground ml-1">({excursion.reviews} avis)</span>
-                      </div>
-                    </div>
+
                   </div>
 
                   <div className="prose max-w-none">
-                    <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                    <p className="text-muted-foreground text-sm text-justify sm:text-md leading-relaxed mb-6">
                       {excursion.description}
                     </p>
                     
-                    <h3 className="text-xl font-semibold text-foreground mb-4">Description Complète</h3>
-                    <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                    <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-4">Description Complète</h3>
+                    <div className="text-sm sm:text-md text-justify text-muted-foreground leading-relaxed whitespace-pre-line">
                       {excursion.fullDescription}
                     </div>
                   </div>
@@ -222,11 +217,12 @@ const ExcursionDetails = () => {
 
               {/* What's Included */}
               <Card className="card-elegant mb-8">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Ce qui est inclus</h3>
+                <CardContent className="p-0 sm:p-8">
+                  <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-4">Ce qui est inclus</h3>
                   <ul className="space-y-2">
                     {excursion.included.map((item, index) => (
-                      <li key={index} className="flex items-center text-muted-foreground">
+                      <li key={index} className="flex items-center text-muted-foreground
+                                    text-sm sm:text-md">
                         <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
                         {item}
                       </li>
@@ -237,13 +233,13 @@ const ExcursionDetails = () => {
 
               {/* Itinerary */}
               <Card className="card-elegant">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Programme de la Journée</h3>
+                <CardContent className="p-0 sm:p-8">
+                  <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-4">Programme de la Journée</h3>
                   <div className="space-y-4">
                     {excursion.itinerary.map((item, index) => (
                       <div key={index} className="flex items-start">
                         <div className="w-3 h-3 bg-primary rounded-full mr-4 mt-2 flex-shrink-0"></div>
-                        <span className="text-muted-foreground">{item}</span>
+                        <span className="text-sm sm:text-md text-muted-foreground">{item}</span>
                       </div>
                     ))}
                   </div>
@@ -260,9 +256,11 @@ const ExcursionDetails = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="sticky top-24"
             >
-              <Card className="card-elegant">
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-bold mb-6 text-center">Réserver cette Excursion</h2>
+              <Card className="p-3 card-elegant">
+                <CardContent className="p-0 sm:p-6">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center">
+                    {t('excursionDetails.title')}
+                  </h2>
                   
                   <div className="space-y-4">
                     {/* Full Name */}
@@ -272,7 +270,8 @@ const ExcursionDetails = () => {
                         id="fullName"
                         value={formData.fullName}
                         onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
-                        placeholder="Votre nom complet"
+                        placeholder={t('contact.inputName')}
+                        className='text-sm sm:text-md'
                       />
                     </div>
 
@@ -284,7 +283,8 @@ const ExcursionDetails = () => {
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                        placeholder="votre@email.com"
+                        placeholder="...@email.com"
+                        className='text-sm sm:text-md'
                       />
                     </div>
 
@@ -295,7 +295,8 @@ const ExcursionDetails = () => {
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        placeholder="+216..."
+                        placeholder="+..."
+                        className='text-sm sm:text-md'
                       />
                     </div>
 
@@ -308,10 +309,11 @@ const ExcursionDetails = () => {
                         min="1"
                         max={excursion.maxPeople}
                         value={formData.numberOfPeople}
+                        className='text-sm sm:text-md'
                         onChange={(e) => setFormData(prev => ({ ...prev, numberOfPeople: parseInt(e.target.value) || 1 }))}
                       />
                       <p className="text-sm text-muted-foreground mt-1">
-                        Maximum {excursion.maxPeople} personnes
+                        8 {t('excursionDetails.maxPersons')}
                       </p>
                     </div>
 
@@ -321,8 +323,9 @@ const ExcursionDetails = () => {
                       <Textarea
                         id="message"
                         value={formData.message}
+                        className='text-sm sm:text-md'
                         onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                        placeholder="Questions ou demandes spéciales..."
+                        placeholder={t('contact.inputMessage')}
                         rows={3}
                       />
                     </div>
@@ -330,21 +333,19 @@ const ExcursionDetails = () => {
                     {/* Total Price */}
                     <div className="border-t pt-4">
                       <div className="flex justify-between items-center text-lg font-semibold">
-                        <span>Total:</span>
+                        <span>{t('excursionDetails.total')}:</span>
                         <span className="text-primary">
-                          {excursion.price * formData.numberOfPeople} DT
+                          {excursion.price} DT
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {excursion.price} DT × {formData.numberOfPeople} personne{formData.numberOfPeople > 1 ? 's' : ''}
-                      </p>
+
                     </div>
 
                     {/* Submit Button */}
                     <Button 
                       onClick={handleSubmit}
                       size="lg"
-                      className="w-full btn-hero"
+                      className="w-full bg-orange-600 hover:bg-orange-700"
                     >
                       {t('excursions.reserve')}
                     </Button>
