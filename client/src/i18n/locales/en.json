@@ -1,0 +1,111 @@
+{
+  "navigation": {
+    "home": "Home",
+    "transfers": "Transfers",
+    "excursions": "Excursions",
+    "about": "About",
+    "contact": "Contact",
+    "admin": "Admin",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Explore Tunisia with NavetteTunisie",
+    "subtitle": "Your trusted partner for transfers and excursions in Tunisia",
+    "cta": "Book Now",
+    "discoverExcursions": "Discover our Excursions"
+  },
+  "services": {
+    "transfers": {
+      "title": "Transfer Services",
+      "description": "Comfortable and secure transfers from/to airports, hotels and tourist destinations",
+      "cta": "Book a Transfer"
+    },
+    "excursions": {
+      "title": "Guided Excursions",
+      "description": "Discover the wonders of Tunisia with our experienced guides",
+      "cta": "View Excursions"
+    }
+  },
+  "forms": {
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "submit": "Submit",
+    "bookNow": "Book Now",
+    "required": "Required",
+    "optional": "Optional"
+  },
+  "transfers": {
+    "title": "Transfer Booking",
+    "vehicleSelection": "Vehicle Selection",
+    "tripType": "Trip Type",
+    "oneWay": "One-Way",
+    "roundTrip": "Round-Trip",
+    "departure": "Departure Location",
+    "destination": "Destination",
+    "travelDate": "Travel Date",
+    "travelTime": "Departure Time",
+    "flightNumber": "Flight Number",
+    "adults": "Adults",
+    "childSeats": "Child Seats",
+    "driverLanguage": "Driver Language",
+    "comment": "Comment",
+    "confirmationMessage": "Your transfer request has been sent successfully!"
+  },
+  "excursions": {
+    "title": "Our Excursions",
+    "reserve": "Reserve",
+    "duration": "Duration",
+    "price": "Price",
+    "maxPeople": "Maximum 8 people",
+    "numberOfPeople": "Number of People",
+    "confirmationMessage": "Your excursion booking has been sent successfully!"
+  },
+  "about": {
+    "title": "About NavetteTunisie",
+    "mission": "Our Mission",
+    "missionText": "To provide superior quality transport and excursion services to discover the wonders of Tunisia.",
+    "vision": "Our Vision",
+    "visionText": "To become the undisputed leader in tourism and transfers in Tunisia.",
+    "values": "Our Values",
+    "valuesText": "Safety, comfort, professionalism and authentic discovery of Tunisian heritage."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "address": "Address",
+    "getInTouch": "Get In Touch",
+    "sendMessage": "Send Message"
+  },
+  "footer": {
+    "description": "Your trusted partner to explore beautiful Tunisia",
+    "quickLinks": "Quick Links",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved."
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "transfers": "Transfers",
+    "excursionRequests": "Excursion Requests",
+    "excursions": "Excursions",
+    "vehicles": "Vehicles",
+    "addTransfer": "Add Transfer",
+    "addExcursionRequest": "Add Request",
+    "addExcursion": "Add Excursion",
+    "addVehicle": "Add Vehicle",
+    "details": "Details",
+    "edit": "Edit",
+    "delete": "Delete",
+    "update": "Update",
+    "save": "Save",
+    "cancel": "Cancel",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "completed": "Completed"
+  }
+}

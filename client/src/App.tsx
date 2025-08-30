@@ -1,0 +1,119 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
+
+// Pages
+import Home from "./pages/Home";
+import Transfers from "./pages/Transfers";
+import Excursions from "./pages/Excursions";
+import ExcursionDetails from "./pages/ExcursionDetails";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminTransfers from "./pages/admin/AdminTransfers";
+import AdminExcursionRequests from "./pages/admin/AdminExcursionRequests";
+import AdminExcursions from "./pages/admin/AdminExcursions";
+import AdminVehicles from "./pages/admin/AdminVehicles";
+import NotFound from "./pages/NotFound";
+
+// Layout
+import Navigation from "./components/layout/Navigation";
+import Footer from "./components/layout/Footer";
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <I18nextProvider i18n={i18n}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="min-h-screen flex flex-col">
+            <Routes>
+              {/* Client Routes */}
+              <Route path="/" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <Home />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/transfers" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <Transfers />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/excursions" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <Excursions />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/excursion/:id" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <ExcursionDetails />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/about" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <About />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/contact" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <Contact />
+                  </main>
+                  <Footer />
+                </>
+              } />
+
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/transfers" element={<AdminTransfers />} />
+              <Route path="/admin/excursion-requests" element={<AdminExcursionRequests />} />
+              <Route path="/admin/excursions" element={<AdminExcursions />} />
+              <Route path="/admin/vehicles" element={<AdminVehicles />} />
+
+              {/* 404 Route */}
+              <Route path="*" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <NotFound />
+                  </main>
+                  <Footer />
+                </>
+              } />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </I18nextProvider>
+  </QueryClientProvider>
+);
+
+export default App;

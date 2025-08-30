@@ -1,0 +1,86 @@
+{
+  "navigation": {
+    "home": "الرئيسية",
+    "transfers": "النقل",
+    "excursions": "الرحلات",
+    "about": "حولنا",
+    "contact": "اتصل بنا",
+    "admin": "الإدارة",
+    "language": "اللغة"
+  },
+  "hero": {
+    "title": "استكشف تونس مع نافيت تونس",
+    "subtitle": "شريكك الموثوق للنقل والرحلات في تونس",
+    "cta": "احجز الآن",
+    "discoverExcursions": "اكتشف رحلاتنا"
+  },
+  "services": {
+    "transfers": {
+      "title": "خدمات النقل",
+      "description": "نقل مريح وآمن من وإلى المطارات والفنادق والوجهات السياحية",
+      "cta": "احجز نقل"
+    },
+    "excursions": {
+      "title": "رحلات مرشدة",
+      "description": "اكتشف عجائب تونس مع مرشدينا ذوي الخبرة",
+      "cta": "عرض الرحلات"
+    }
+  },
+  "forms": {
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "message": "الرسالة",
+    "submit": "إرسال",
+    "bookNow": "احجز الآن",
+    "required": "مطلوب",
+    "optional": "اختياري"
+  },
+  "transfers": {
+    "title": "حجز النقل",
+    "vehicleSelection": "اختيار المركبة",
+    "tripType": "نوع الرحلة",
+    "oneWay": "ذهاب فقط",
+    "roundTrip": "ذهاب وإياب",
+    "departure": "مكان المغادرة",
+    "destination": "الوجهة",
+    "travelDate": "تاريخ السفر",
+    "travelTime": "وقت المغادرة",
+    "flightNumber": "رقم الرحلة",
+    "adults": "البالغون",
+    "childSeats": "مقاعد الأطفال",
+    "driverLanguage": "لغة السائق",
+    "comment": "تعليق",
+    "confirmationMessage": "تم إرسال طلب النقل بنجاح!"
+  },
+  "excursions": {
+    "title": "رحلاتنا",
+    "reserve": "احجز",
+    "duration": "المدة",
+    "price": "السعر",
+    "maxPeople": "حد أقصى 8 أشخاص",
+    "numberOfPeople": "عدد الأشخاص",
+    "confirmationMessage": "تم إرسال حجز الرحلة بنجاح!"
+  },
+  "about": {
+    "title": "حول نافيت تونس",
+    "mission": "مهمتنا",
+    "missionText": "تقديم خدمات نقل ورحلات عالية الجودة لاكتشاف عجائب تونس.",
+    "vision": "رؤيتنا",
+    "visionText": "أن نصبح الرائد الأول في السياحة والنقل في تونس.",
+    "values": "قيمنا",
+    "valuesText": "السلامة والراحة والاحترافية والاكتشاف الأصيل للتراث التونسي."
+  },
+  "contact": {
+    "title": "اتصل بنا",
+    "address": "العنوان",
+    "getInTouch": "تواصل معنا",
+    "sendMessage": "إرسال رسالة"
+  },
+  "footer": {
+    "description": "شريكك الموثوق لاستكشاف تونس الجميلة",
+    "quickLinks": "روابط سريعة",
+    "followUs": "تابعنا",
+    "rights": "جميع الحقوق محفوظة."
+  }
+}

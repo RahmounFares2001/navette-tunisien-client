@@ -1,0 +1,111 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "transfers": "Transferts",
+    "excursions": "Excursions",
+    "about": "À Propos",
+    "contact": "Contact",
+    "admin": "Administration",
+    "language": "Langue"
+  },
+  "hero": {
+    "title": "Explorez la Tunisie avec NavetteTunisie",
+    "subtitle": "Votre partenaire de confiance pour les transferts et excursions en Tunisie",
+    "cta": "Réservez Maintenant",
+    "discoverExcursions": "Découvrir nos Excursions"
+  },
+  "services": {
+    "transfers": {
+      "title": "Services de Transfert",
+      "description": "Transferts confortables et sécurisés depuis/vers les aéroports, hôtels et destinations touristiques",
+      "cta": "Réserver un Transfert"
+    },
+    "excursions": {
+      "title": "Excursions Guidées",
+      "description": "Découvrez les merveilles de la Tunisie avec nos guides expérimentés",
+      "cta": "Voir les Excursions"
+    }
+  },
+  "forms": {
+    "fullName": "Nom Complet",
+    "email": "Email",
+    "phone": "Téléphone",
+    "message": "Message",
+    "submit": "Envoyer",
+    "bookNow": "Réserver Maintenant",
+    "required": "Requis",
+    "optional": "Optionnel"
+  },
+  "transfers": {
+    "title": "Réservation de Transfert",
+    "vehicleSelection": "Sélection du Véhicule",
+    "tripType": "Type de Voyage",
+    "oneWay": "Aller Simple",
+    "roundTrip": "Aller-Retour",
+    "departure": "Lieu de Départ",
+    "destination": "Destination",
+    "travelDate": "Date de Voyage",
+    "travelTime": "Heure de Départ",
+    "flightNumber": "Numéro de Vol",
+    "adults": "Adultes",
+    "childSeats": "Sièges Enfant",
+    "driverLanguage": "Langue du Chauffeur",
+    "comment": "Commentaire",
+    "confirmationMessage": "Votre demande de transfert a été envoyée avec succès!"
+  },
+  "excursions": {
+    "title": "Nos Excursions",
+    "reserve": "Réserver",
+    "duration": "Durée",
+    "price": "Prix",
+    "maxPeople": "Maximum 8 personnes",
+    "numberOfPeople": "Nombre de Personnes",
+    "confirmationMessage": "Votre réservation d'excursion a été envoyée avec succès!"
+  },
+  "about": {
+    "title": "À Propos de NavetteTunisie",
+    "mission": "Notre Mission",
+    "missionText": "Offrir des services de transport et d'excursions de qualité supérieure pour découvrir les merveilles de la Tunisie.",
+    "vision": "Notre Vision",
+    "visionText": "Devenir le leader incontesté du tourisme et des transferts en Tunisie.",
+    "values": "Nos Valeurs",
+    "valuesText": "Sécurité, confort, professionnalisme et découverte authentique du patrimoine tunisien."
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "address": "Adresse",
+    "getInTouch": "Restez en Contact",
+    "sendMessage": "Envoyer un Message"
+  },
+  "footer": {
+    "description": "Votre partenaire de confiance pour explorer la belle Tunisie",
+    "quickLinks": "Liens Rapides",
+    "followUs": "Suivez-Nous",
+    "rights": "Tous droits réservés."
+  },
+  "admin": {
+    "dashboard": "Tableau de Bord",
+    "transfers": "Transferts",
+    "excursionRequests": "Demandes d'Excursions",
+    "excursions": "Excursions",
+    "vehicles": "Véhicules",
+    "addTransfer": "Ajouter un Transfert",
+    "addExcursionRequest": "Ajouter une Demande",
+    "addExcursion": "Ajouter une Excursion",
+    "addVehicle": "Ajouter un Véhicule",
+    "details": "Détails",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "update": "Mettre à Jour",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "available": "Disponible",
+    "unavailable": "Indisponible",
+    "pending": "En Attente",
+    "confirmed": "Confirmé",
+    "completed": "Terminé"
+  }
+}
