@@ -155,8 +155,10 @@ const Navigation = () => {
                       ? 'bg-primary text-primary-foreground'
                       : 'text-foreground hover:bg-muted'
                   }`}
-                  onClick={() => setIsOpen(false)}
-                >
+                  onClick={() => {
+                      setIsOpen(false);
+                      window.scrollTo(0, 0); }}
+                  >
                   {t(`navigation.${key}`)}
                 </Link>
               ))}
