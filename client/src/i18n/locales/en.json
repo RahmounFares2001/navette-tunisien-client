@@ -98,7 +98,9 @@
     "informations": {
       "title": "Contact Information",
       "description": "Our team is available to answer all your questions and help you plan your stay in Tunisia."
-    }
+    },
+    "inputName": "Your full name",
+    "inputMessage": "Your message"
   },
   "footer": {
     "description": "Your trusted partner to explore beautiful Tunisia",

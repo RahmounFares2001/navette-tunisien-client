@@ -20,8 +20,8 @@ const Footer = () => {
   ];
 
   const contactInfo = [
-    { icon: Phone, text: '+216 22 51 15 21' },
-    { icon: Mail, text: 'info@navettetunisie.com' },
+    { icon: Phone, text: '+216 22 51 15 12' },
+    { icon: Mail, text: 'navetteaeroporttunis@gmail.com' },
     { icon: MapPin, text: 'Tunis, Tunisia' },
   ];
 

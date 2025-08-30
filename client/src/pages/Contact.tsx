@@ -24,18 +24,18 @@ const Contact = () => {
     {
       icon: Phone,
       title: t('phone'),
-      details: ['+216 22 51 15 21'],
+      details: ['+216 22 51 15 12'],
       description: '24h/24 7j/7'
     },
     {
       icon: Mail,
       title: t('email'),
-      details: ['info@navettetunisie.com', 'reservations@navettetunisie.com'],
+      details: ['navetteaeroporttunis@gmail.com'],
     },
     {
       icon: MapPin,
       title: t('adresse'),
-      details: ['123 Avenue Habib Bourguiba', 'Tunis 1000, Tunisie'],
+      details: ['C28, Hammamet', 'Sid 8050, Tunisie'],
     },
     {
       icon: Clock,
@@ -162,7 +162,7 @@ const Contact = () => {
                       id="fullName"
                       value={formData.fullName}
                       onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
-                      placeholder="Votre nom complet"
+                      placeholder={t('contact.inputName')}
                       className="mt-1 text-sm sm:text-lg"
                     />
                   </div>
@@ -175,7 +175,7 @@ const Contact = () => {
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                      placeholder="votre@email.com"
+                      placeholder="...@email.com"
                       className="mt-1 text-sm sm:text-lg"
                     />
                   </div>
@@ -187,7 +187,7 @@ const Contact = () => {
                       id="phone"
                       value={formData.phone}
                       onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                      placeholder="+216..."
+                      placeholder="+..."
                       className="mt-1 text-sm sm:text-lg"
                     />
                   </div>
@@ -199,7 +199,7 @@ const Contact = () => {
                       id="message"
                       value={formData.message}
                       onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                      placeholder="Votre message..."
+                      placeholder={t('contact.inputMessage')}
                       rows={6}
                       className="mt-1 text-sm sm:text-lg"
                     />
