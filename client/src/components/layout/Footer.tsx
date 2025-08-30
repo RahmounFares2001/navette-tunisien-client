@@ -60,6 +60,7 @@ const Footer = () => {
                   <Link
                     to={path}
                     className="text-sm sm:text-md text-gray-100 hover:text-primary transition-colors duration-300"
+                    onClick={() => window.scrollTo(0, 0)}
                   >
                     {t(`navigation.${key}`)}
                   </Link>

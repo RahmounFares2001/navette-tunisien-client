@@ -75,13 +75,13 @@ const Home = () => {
               {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/transfers">
+              <Link to="/transfers" onClick={() => window.scrollTo(0, 0)} >
                 <Button size="lg" className="bg-orange-700">
                   {t('hero.cta')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link to="/excursions">
+              <Link to="/excursions" onClick={() => window.scrollTo(0, 0)} >
                 <Button 
                   size="lg" 
                   variant="outline" 
