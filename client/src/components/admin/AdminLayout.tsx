@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Menu, 
   X, 
@@ -11,6 +11,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -30,6 +31,19 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const isActive = (path: string) => location.pathname === path;
 
+
+  // logout
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_BASE}/api/auth/logout`, {}, { withCredentials: true });
+      navigate("/login"); 
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+  
   return (
     <div className="admin-theme min-h-screen">
       {/* Mobile sidebar backdrop */}
@@ -87,19 +101,19 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
           {/* Bottom section */}
           <div className="p-4 border-t border-admin-border">
-            <Link
-              to="/"
+            <button
               className="text-gray-100 flex items-center px-4 py-3 text-sm font-medium text-admin-muted hover:text-admin-foreground hover:bg-admin-accent rounded-lg transition-colors"
+              onClick={()=> {handleLogout()}}
             >
               <LogOut className="mr-3 h-5 w-5 text-gray-100" />
               Déconnexion 
-            </Link>
+            </button>
           </div>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="lg:ml-64">
+      <div className="lg:ml-60">
         {/* Top bar */}
         <div className="sticky top-0 z-10 bg-admin-card border-b
                border-admin-border px-4 py-4 sm:px-6 lg:px-8
@@ -118,7 +132,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         </div>
 
         {/* Page content */}
-        <main className="px-4 py-8 sm:px-6 lg:px-8">
+        <main className="px-4 py-6 sm:px-6 lg:px-8">
           {children}
         </main>
       </div>

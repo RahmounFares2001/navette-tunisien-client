@@ -1,18 +1,6 @@
 import mongoose from 'mongoose';
 
-/* ====== USER ====== */
-const UserSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, required: true },
-  identityDocUrl: { type: String },
-  licenseUrl: { type: String },
-  licenseIDNumber: { type: String, unique: true },
-  createdAt: { type: Date, default: Date.now }
-});
-export const User = mongoose.model("User", UserSchema);
-
-/* ====== ADMIN ====== */
+// ADMIN Schema
 const AdminSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -21,112 +9,259 @@ const AdminSchema = new mongoose.Schema({
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
 });
-export const Admin = mongoose.model("Admin", AdminSchema);
 
-/* ====== CAR ====== */
-const CarSchema = new mongoose.Schema({
-  brand: { type: String, required: true },
-  model: { type: String, required: true },
-  type: {
+// Excursion Request Schema
+const excursionRequestSchema = new mongoose.Schema({
+  clientName: {
     type: String,
-    enum: ["economique", "SUV", "luxe"],
-    required: true
+    required: true,
+    trim: true,
   },
-  pricePerDay: { type: Number, required: true },
+  clientEmail: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true,
+  },
+  clientPhone: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  excursionDate: {
+    type: Date,
+    required: true,
+  },
+  excursionTime: {
+    type: String,
+    required: true,
+  },
+  numberOfAdults: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 8,
+  },
+  numberOfChildren: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 8,
+  },
+  numberOfBabies: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 8,
+  },
+  message: {
+    type: String,
+    trim: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  withGuide: {  // add 200 TND
+    type: Boolean, 
+    default: false 
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'completed', 'rejected'],
+    default: 'pending',
+  },
+  paymentPercentage: {
+    type: Number,
+    enum: [0, 100],
+    default: 0,
+  },
+  excursionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Excursion',
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Excursion Schema
+const excursionSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  description: {
+    type: String,
+    required: true,
+    maxlength: 2500,
+  },
+  includedItems: {
+    type: [String],
+    required: true,
+  },
+  dailyProgram: {
+    type: [String],
+    required: true,
+  },
+  prices: {
+    oneToFour: { type: Number, min: 0, required: true },   // 1–4 persons
+    fiveToSix: { type: Number, min: 0, required: true },   // 5–6 persons
+    sevenToEight: { type: Number, min: 0, required: true } // 7–8 persons
+  },
+  isAvailable: {
+    type: Boolean,
+    default: true,
+  },
+  duration: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
   imageUrls: {
     type: [String],
     default: [],
     validate: {
       validator: (v) => v.length <= 5,
-      message: "Maximum 5 images allowed"
-    }
+      message: 'Maximum 5 images allowed',
+    },
   },
-  fuel: {
-    type: String,
-    enum: ["essence", "diesel", "électrique", "hybride"],
-    required: true
-  },
-  seats: { type: Number, required: true },
-  transmission: {
-    type: String,
-    enum: ["auto", "manuelle"],
-    required: true
-  },
-  year: { type: Number, required: true },
-  matriculations: [
-    {
-      plateNumber: { type: String, required: true },
-      status: {
-        type: String,
-        enum: ["available", "rented", "maintenance"],
-        default: "available"
-      },
-      // Track unavailable periods for this matriculation
-      unavailablePeriods: [
-        {
-          startDate: { type: String, required: true, match: /^\d{4}-\d{2}-\d{2}$/ },
-          endDate: { type: String, required: true, match: /^\d{4}-\d{2}-\d{2}$/ },
-          reservationId: { type: mongoose.Schema.Types.ObjectId, ref: "Reservation" },
-        }
-      ]
-    }
-  ],
-  createdAt: { type: Date, default: Date.now }
 });
-export const Car = mongoose.model("Car", CarSchema);
 
-/* ====== RESERVATION ====== */
-const ReservationSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  car: { type: mongoose.Schema.Types.ObjectId, ref: "Car", required: true },
-  matriculation: { type: String }, 
-
-  pickupLocation: { type: String, required: true },
-  dropoffLocation: { type: String, required: true },
-  pickupDate: { type: Date, required: true },
-  dropoffDate: { type: Date, required: true },
-  pickupTime: { type: String, required: true },
-  dropoffTime: { type: String, required: true },
-  flightNumber: { type: String, default: null },
+// Transfer Schema
+const transferSchema = new mongoose.Schema({
+  clientName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  clientEmail: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true,
+  },
+  clientPhone: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  tripType: {
+    type: String,
+    required: true,
+    enum: ['aller simple', 'aller retour'],
+  },  
+  departureLocation: {
+    type: String,
+    required: true,
+  },
+  departureAddress: {
+    type: String,
+  },
+  destination: {
+    type: String,
+    required: true,
+  },
+  destinationAddress: {
+    type: String,
+  },
+  travelDate: {
+    type: Date,
+    required: true,
+  },
+  departureTime: {
+    type: String,
+    required: true,
+  },
+  flightNumber: {
+    type: String,
+    trim: true,
+  },
+  numberOfAdults: {
+    type: Number,
+    min: 1,
+    required: true,
+  },
+  numberOfChildren: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  driverLanguage: {
+    type: [String],
+    required: true,
+  },
+  price: {
+    type: Number,
+    require: true
+  },
+  comment: {
+    type: String,
+    trim: true,
+  },
   status: {
     type: String,
-    enum: ["pending", "confirmed", "rejected", "cancelled", "paid", "completed"],
-    default: "pending"
+    enum: ['pending', 'confirmed', 'completed', 'rejected'],
+    default: 'pending',
   },
-  orderId: { type: String },
-  paymentRef: { type: String }, 
-  totalPrice: { type: Number, required: true }, // Total in TND
-  paymentPercentage: { type: Number, enum: [0, 30, 100], required: true, default: 0 }, // 30% or 100% payment
-  amountPaid: { type: Number, default: 0 }, // Amount paid in TND
-  createdAt: { type: Date, default: Date.now }
+  paymentPercentage: {
+    type: Number,
+    enum: [0, 100],
+    default: 0,
+  },
+  vehicleId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Vehicle',
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
-export const Reservation = mongoose.model("Reservation", ReservationSchema);
 
-/* ====== PROLONGATION REQUEST ====== */
-const ProlongationRequestSchema = new mongoose.Schema({
-  reservation: { type: mongoose.Schema.Types.ObjectId, ref: "Reservation", required: true },
-  newDropoffDate: { type: Date, required: true },
-  status: {
-    type: String,
-    enum: ["pending", "waiting_for_payment", "accepted", "rejected"],
-    default: "pending"
-  },
-  additionalDays: { type: Number, default: 0 },
-  paymentStatus: {
-    type: String,
-    enum: ["unpaid", "paid"],
-    default: "unpaid"
-  },
-  orderId: { type: String },
-  paymentRef: { type: String },
-  createdAt: { type: Date, default: Date.now }
-});
-export const ProlongationRequest = mongoose.model("ProlongationRequest", ProlongationRequestSchema);
 
-/* ====== AGENCY ====== */
-const AgencySchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  address: { type: String, required: true },
-  isAirport: { type: Boolean, default: false }
+// Vehicle Schema
+const vehicleSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  numberOfSeats: {
+    type: Number,
+    min: 1,
+    required: true,
+  },
+  numberOfSuitcases: {
+    type: Number,
+    default: 0,
+  },
+  pricePerKm: {
+    type: Number,
+    min: 1,
+    required: true,
+  },
+  imgUrl: {
+    type: String,
+    required: true,
+  },
+  isAvailable: {
+    type: Boolean,
+    default: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
-export const Agency = mongoose.model("Agency", AgencySchema);
+
+export const Admin = mongoose.model("Admin", AdminSchema);
+export const ExcursionRequest = mongoose.model('ExcursionRequest', excursionRequestSchema);
+export const Excursion = mongoose.model('Excursion', excursionSchema);
+export const Transfer = mongoose.model('Transfer', transferSchema);
+export const Vehicle = mongoose.model('Vehicle', vehicleSchema);

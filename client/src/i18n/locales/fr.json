@@ -74,16 +74,30 @@
   },
   "excursions": {
     "title": "Nos Excursions",
+    "description": "Découvrez les merveilles de la Tunisie avec nos excursions guidées",
+    "loading": "Chargement...",
+    "error": "Erreur de chargement des excursions",
+    "noAvailableExcursions": "Aucune excursion disponible pour le moment",
     "reserve": "Réserver",
     "duration": "Durée",
     "price": "Prix",
     "maxPeople": "Maximum 8 personnes",
     "numberOfPeople": "Nombre de Personnes",
-    "confirmationMessage": "Votre réservation d'excursion a été envoyée avec succès!"
+    "confirmationMessage": "Votre réservation d'excursion a été envoyée avec succès!",
+    "numberOfAdults": "Nombre d’adultes",
+    "numberOfChildren": "Nombre d’enfants",
+    "numberOfBabies": "Nombre de bébés",
+    "searchPlaceholder": "Rechercher une excursion",
+    "searchButton": "Aller",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {current} sur {total}",
+    "hours": "heures",
+    "location": "Tunisie"
   },
   "about": {
     "title": "À Propos de NavetteTunisie",
-    "description" : "Découvrez notre histoire et notre passion pour la Tunisie",
+    "description": "Découvrez notre histoire et notre passion pour la Tunisie",
     "mission": "Notre Mission",
     "missionText": "Offrir des services de transport et d'excursions de qualité supérieure pour découvrir les merveilles de la Tunisie.",
     "vision": "Notre Vision",
@@ -134,16 +148,15 @@
     "confirmed": "Confirmé",
     "completed": "Terminé"
   },
-  "phone": "Phone",
+  "phone": "Téléphone",
   "email": "Email",
   "adresse": "Adresse",
   "horaires": "Horaires",
-
   "stats": {
     "title": "en Chiffres",
-    "label1": "Années d'Expérience" ,
-    "label2": "Clients Satisfaits" ,
-    "label3": "Destinations" ,
+    "label1": "Années d'Expérience",
+    "label2": "Clients Satisfaits",
+    "label3": "Destinations",
     "label4": "Support Client"
   },
   "values": {
@@ -206,6 +219,21 @@
     "backButton": "Retour aux excursions",
     "title": "Réserver cette Excursion",
     "total": "Total",
-    "maxPersons": "Personnes maximum"
+    "maxPersons": "Personnes maximum",
+    "date": "Date",
+    "time": "Heure",
+    "successMessage": "Réservation envoyée !",
+    "backToExcursions": "Retourner aux excursions",
+    "withGuide": "Avec guide",
+    "backToHome": "Retour à l'accueil",
+    "driverLanguages": "Langues du chauffeur",
+    "inputDriverLanguages": "Francais, Arabe, Anglais ...",
+    "personnes": "Personnes",
+    "desc": "Description Complete",
+    "included": "Ce qui est inclus",
+    "dayProgram": "Programme de la Journée",
+    "hours": "Heures",
+    "max": "Max",
+    "tunisie": "Tunisie"
   }
 }

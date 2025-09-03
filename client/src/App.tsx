@@ -23,18 +23,26 @@ import NotFound from "./pages/NotFound";
 // Layout
 import Navigation from "./components/layout/Navigation";
 import Footer from "./components/layout/Footer";
+import { Providers } from "./globalRedux/Providers";
+import Login from "./pages/Login";
+import { ResetPassword } from "./pages/ResetPassword";
+import ProtectedAdminRoute from "./utils/ProtectedAdminRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <I18nextProvider i18n={i18n}>
+    <Providers>
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
           <div className="min-h-screen flex flex-col">
             <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/resetPassword" element={<ResetPassword />} />
+
               {/* Client Routes */}
               <Route path="/" element={
                 <>
@@ -91,12 +99,32 @@ const App = () => (
                 </>
               } />
 
-              {/* Admin Routes */}
-              {/* <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/transfers" element={<AdminTransfers />} />
-              <Route path="/admin/excursion-requests" element={<AdminExcursionRequests />} />
-              <Route path="/admin/excursions" element={<AdminExcursions />} />
-              <Route path="/admin/vehicles" element={<AdminVehicles />} /> */}
+              {/* Admin Routes with Children Pattern */}
+              <Route path="/admin" element={
+                <ProtectedAdminRoute>
+                  <AdminDashboard />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="/admin/transfers" element={
+                <ProtectedAdminRoute>
+                  <AdminTransfers />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="/admin/excursion-requests" element={
+                <ProtectedAdminRoute>
+                  <AdminExcursionRequests />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="/admin/excursions" element={
+                <ProtectedAdminRoute>
+                  <AdminExcursions />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="/admin/vehicles" element={
+                <ProtectedAdminRoute>
+                  <AdminVehicles />
+                </ProtectedAdminRoute>
+              } />
 
               {/* 404 Route */}
               <Route path="*" element={
@@ -112,6 +140,7 @@ const App = () => (
           </div>
         </BrowserRouter>
       </TooltipProvider>
+    </Providers>
     </I18nextProvider>
   </QueryClientProvider>
 );

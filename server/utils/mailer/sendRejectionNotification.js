@@ -13,15 +13,12 @@ if (!MAILER_USER || !MAILER_PASSWORD) {
 
 // Configure transporter
 export const transporter = nodemailer.createTransport({
-  host: "smtp.hostinger.com",
-  port: 465,
-  secure: true,
+  service: "gmail",
   auth: {
     user: MAILER_USER,
     pass: MAILER_PASSWORD,
   },
 });
-
 
 // Function to generate HTML content for prolongation rejection email
 const generateRejectionHtmlContent = () => {

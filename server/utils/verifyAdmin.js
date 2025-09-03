@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Admin } from '../models/models.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const verifyAdmin = async (req, res, next) => {
   try {

@@ -15,8 +15,8 @@
     "discoverExcursions": "Discover our Excursions"
   },
   "services": {
-  "title": "Our Services",
-  "description": "Discover our transport and excursion services for an unforgettable experience in Tunisia",
+    "title": "Our Services",
+    "description": "Discover our transport and excursion services for an unforgettable experience in Tunisia",
     "transfers": {
       "title": "Transfer Services",
       "description": "Comfortable and secure transfers from/to airports, hotels and tourist destinations",
@@ -74,12 +74,26 @@
   },
   "excursions": {
     "title": "Our Excursions",
+    "description": "Discover the wonders of Tunisia with our guided excursions",
+    "loading": "Loading...",
+    "error": "Error loading excursions",
+    "noAvailableExcursions": "No excursions available at the moment",
     "reserve": "Reserve",
     "duration": "Duration",
     "price": "Price",
     "maxPeople": "Maximum 8 people",
     "numberOfPeople": "Number of People",
-    "confirmationMessage": "Your excursion booking has been sent successfully!"
+    "confirmationMessage": "Your excursion booking has been sent successfully!",
+    "numberOfAdults": "Number of adults",
+    "numberOfChildren": "Number of children",
+    "numberOfBabies": "Number of babies",
+    "searchPlaceholder": "Search for an excursion",
+    "searchButton": "Go",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}",
+    "hours": "hours",
+    "location": "Tunisia"
   },
   "about": {
     "title": "About NavetteTunisie",
@@ -205,8 +219,22 @@
     "backButton": "Back to Excursions",
     "title": "Book this Excursion",
     "total": "Total",
-    "maxPersons": "Maximum number of people"
+    "maxPersons": "Maximum number of people",
+    "date": "Date",
+    "time": "Time",
+    "successMessage": "Booking confirmed!",
+    "backToExcursions": "Back to excursions",
+    "withGuide": "With guide",
+    "backToHome": "Back to Home",
+    "driverLanguages": "Driver languages",
+    "inputDriverLanguages": "English, Arabic, French ...",
+    "personnes": "Persons",
+    "desc": "Complete Description",
+    "included": "What's included",
+    "dayProgram": "Day Program",
+    "hours": "Hours",
+    "max": "Max",
+    "tunisie": "Tunisia"
 
   }
-
 }

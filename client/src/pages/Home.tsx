@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import heroImage from '@/assets/hero-tunisia.jpg';
 import excursionSample from '@/assets/excursion-sample.jpg';
 import transferVehicle from '@/assets/transfer-vehicle.jpg';
+import axios from 'axios';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -53,6 +54,7 @@ const Home = () => {
       rating: 5
     }
   ];
+
 
   return (
     <div className="min-h-screen">

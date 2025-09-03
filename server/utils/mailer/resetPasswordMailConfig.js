@@ -13,9 +13,7 @@ if (!MAILER_USER || !MAILER_PASSWORD) {
 
 // Configure transporter
 export const transporter = nodemailer.createTransport({
-  host: "smtp.hostinger.com",
-  port: 465,
-  secure: true,
+  service: "gmail",
   auth: {
     user: MAILER_USER,
     pass: MAILER_PASSWORD,
@@ -121,17 +119,17 @@ const generateHtmlContent = ({ resetLink }) => {
         </div>
         <div class="content">
           <p>Bonjour,</p>
-          <p>Vous avez demandé à réinitialiser votre mot de passe pour votre compte administrateur chez <strong>Challenge Rent A Car</strong>.</p>
+          <p>Vous avez demandé à réinitialiser votre mot de passe pour votre compte administrateur chez <strong>Navette</strong>.</p>
           <p>Cliquez sur le bouton ci-dessous pour réinitialiser votre mot de passe. Ce lien expirera dans 15 minutes :</p>
           <p style="text-align: center;">
             <a href="${resetLink}" class="button">Réinitialiser le mot de passe</a>
           </p>
           <p>Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet e-mail.</p>
           <p>Merci,</p>
-          <p>L'équipe Challenge Rent A Car</p>
+          <p>L'équipe Navette</p>
         </div>
         <div class="footer">
-          <p>Challenge Rent A Car | Tunis, Tunisie</p>
+          <p>Navette | Tunis, Tunisie</p>
         </div>
       </div>
     </body>
@@ -152,9 +150,9 @@ export const sendResetPasswordEmail = async ({ email, resetLink }) => {
 
     // Email content
     const mailOptions = {
-      from: `Challenge Rent A Car <${MAILER_USER}>`,
+      from: `Navette <${MAILER_USER}>`,
       to: email,
-      subject: "Réinitialisation du mot de passe - Challenge Rent A Car",
+      subject: "Réinitialisation du mot de passe - Navette",
       html: htmlContent,
     };
 

@@ -12,9 +12,8 @@ const initAdmin = async () => {
       });
 
       await newAdmin.save();
-      ("Admin created");
     } else {
-      ("Admin already exists");
+      console.log("Admin exists")
     }
   } catch (err) {
     console.error("Error creating admin:", err);
