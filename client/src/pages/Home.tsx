@@ -144,7 +144,8 @@ const Home = () => {
                       {service.description}
                     </p>
                     <Link to={service.link}>
-                      <Button className="w-full bg-primary hover:bg-primary-hover">
+                      <Button className="w-full bg-primary hover:bg-primary-hover"
+                            onClick={() => window.scrollTo(0, 0)} >
                         {service.cta}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>

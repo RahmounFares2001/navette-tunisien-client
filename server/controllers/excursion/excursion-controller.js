@@ -132,7 +132,6 @@ export const createExcursion = async (req, res) => {
 
 // Get all excursions
 export const getAllExcursions = async (req, res) => {
-  verifyAdmin(req, res, async () => {
     try {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
@@ -164,12 +163,10 @@ export const getAllExcursions = async (req, res) => {
       console.error('getAllExcursions error:', err);
       res.status(500).json({ success: false, message: 'Erreur serveur', error: err.message });
     }
-  });
 };
 
 // Get a single excursion by ID
 export const getExcursionById = async (req, res) => {
-  verifyAdmin(req, res, async () => {
     try {
       const { id } = req.params;
 
@@ -187,7 +184,6 @@ export const getExcursionById = async (req, res) => {
       console.error('getExcursionById error:', err);
       res.status(500).json({ success: false, message: 'Erreur serveur', error: err.message });
     }
-  });
 };
 
 // Update an excursion

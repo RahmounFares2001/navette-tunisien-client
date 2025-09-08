@@ -8,10 +8,10 @@ const router = express.Router();
 router.post('/', verifyAdmin, createExcursion);
 
 // Get all excursions
-router.get('/', verifyAdmin, getAllExcursions);
+router.get('/', getAllExcursions);
 
 // Get a single excursion by ID
-router.get('/:id', verifyAdmin, getExcursionById);
+router.get('/:id', getExcursionById);
 
 // Update an excursion
 router.put('/:id', verifyAdmin, updateExcursion);

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import axios from 'axios';
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -35,7 +36,17 @@ const Contact = () => {
     {
       icon: MapPin,
       title: t('adresse'),
-      details: ['C28, Hammamet', 'Sid 8050, Tunisie'],
+      details: [
+        <a
+          key="map-link"
+          href="https://www.google.com/maps/place/Web+Rent+a+car.+Location+de+voitures.+./@36.4057479,10.5754942,17z/data=!3m1!4b1!4m6!3m5!1s0x12fd61c5493e067d:0xc1cb8e56a6427da6!8m2!3d36.4057436!4d10.5780691!16s%2Fg%2F11r105mt4g?entry=ttu&g_ep=EgoyMDI1MDkwMy4wIKXMDSoASAFQAw%3D%3D"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:underline"
+        >
+          Navette Tunisie
+        </a>
+      ],
     },
     {
       icon: Clock,
@@ -44,8 +55,13 @@ const Contact = () => {
     }
   ];
 
-  const handleSubmit = () => {
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const handleSubmit = async () => {
+    setIsSubmit(true);
     if (!formData.fullName || !formData.email || !formData.message) {
+      setIsSubmit(false);
+
       toast({
         title: "Erreur",
         description: "Veuillez remplir tous les champs obligatoires",
@@ -54,21 +70,36 @@ const Contact = () => {
       return;
     }
 
-    // Mock form submission
-    console.log('Contact form:', formData);
-    
-    toast({
-      title: "Message envoyé !",
-      description: "Nous vous répondrons dans les plus brefs délais.",
-    });
+    try {
+      await axios.post(`${import.meta.env.VITE_API_BASE}/api/contact`, {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        subject: 'Contact Form Submission',
+        message: formData.message
+      });
 
-    // Reset form
-    setFormData({
-      fullName: '',
-      email: '',
-      phone: '',
-      message: ''
-    });
+      toast({
+        title: "Message envoyé !",
+        description: "Nous vous répondrons dans les plus brefs délais.",
+      });
+
+      setIsSubmit(false);
+      // Reset form
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        message: ''
+      });
+    } catch (error) {
+      setIsSubmit(false);
+      toast({
+        title: "Erreur",
+        description: "Impossible d'envoyer votre message.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -138,8 +169,6 @@ const Contact = () => {
                 </motion.div>
               ))}
             </div>
-
-
           </motion.div>
 
           {/* Contact Form */}
@@ -212,12 +241,11 @@ const Contact = () => {
                     className="w-full btn-orange"
                   >
                     <Send className="mr-2 h-5 w-5" />
-                    {t('forms.submit')}
+                    {t('forms.submit')} {isSubmit && ' ...'}
                   </Button>
                 </div>
               </CardContent>
             </Card>
-
           </motion.div>
         </div>
       </div>
