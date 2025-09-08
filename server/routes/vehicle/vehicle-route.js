@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/', verifyAdmin, createVehicle);
 
 // Get all vehicles
-router.get('/', verifyAdmin, getAllVehicles);
+router.get('/', getAllVehicles);
 
 // Get a single vehicle by ID
 router.get('/:id', verifyAdmin, getVehicleById);

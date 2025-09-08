@@ -97,10 +97,10 @@ const generateRejectionHtmlContent = () => {
           <p>Raison : Le véhicule n'est pas disponible pour les dates demandées en raison d'une autre réservation.</p>
           <p>Nous vous invitons à créer une nouvelle réservation avec une autre immatriculation ou un autre véhicule si nécessaire.</p>
           <p>Merci de votre compréhension,</p>
-          <p>L'équipe Challenge Rent A Car</p>
+          <p>L'équipe WEB CAR</p>
         </div>
         <div class="footer">
-          <p>Challenge Rent A Car | Tunis, Tunisie</p>
+          <p>WEB CAR | Tunis, Tunisie</p>
         </div>
       </div>
     </body>
@@ -121,9 +121,9 @@ export const sendProlongationRejectionEmail = async ({ email }) => {
 
     // Email content
     const mailOptions = {
-      from: `Challenge Rent A Car <${MAILER_USER}>`,
+      from: `WEB CAR <${MAILER_USER}>`,
       to: email,
-      subject: "Rejet de Demande de Prolongation - Challenge Rent A Car",
+      subject: "Rejet de Demande de Prolongation - WEB CAR",
       html: htmlContent,
     };
 

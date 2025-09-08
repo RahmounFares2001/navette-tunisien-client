@@ -96,7 +96,6 @@ export const createVehicle = async (req, res) => {
 
 // Get all vehicles
 export const getAllVehicles = async (req, res) => {
-  verifyAdmin(req, res, async () => {
     try {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
@@ -121,7 +120,6 @@ export const getAllVehicles = async (req, res) => {
       console.error('getAllVehicles error:', err);
       res.status(500).json({ success: false, message: 'Erreur serveur', error: err.message });
     }
-  });
 };
 
 // Get a single vehicle by ID

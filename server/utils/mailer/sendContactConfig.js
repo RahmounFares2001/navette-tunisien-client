@@ -85,7 +85,7 @@ const generateContactHtml = ({ fullName, email, phone, subject, message }) => {
           <p>${message.replace(/\n/g, "<br>")}</p>
         </div>
         <div class="footer">
-          <p>Challenge Rent A Car | Tunis, Tunisie</p>
+          <p>WEB CAR | Tunis, Tunisie</p>
         </div>
       </div>
     </body>
@@ -103,7 +103,7 @@ export const sendContactEmail = async ({ fullName, email, phone, subject, messag
     const htmlContent = generateContactHtml({ fullName, email, phone, subject, message });
 
     const mailOptions = {
-      from: `Challenge Rent A Car <${MAILER_USER}>`,
+      from: `WEB CAR <${MAILER_USER}>`,
       to: MAILER_USER, // Admin inbox
       subject: `Contact - ${subject}`,
       html: htmlContent,
