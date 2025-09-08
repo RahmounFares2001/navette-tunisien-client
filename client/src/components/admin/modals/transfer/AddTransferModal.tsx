@@ -46,7 +46,7 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
 
   const locations = [...new Set(distances.map(d => d.from).concat(distances.map(d => d.to)))];
 
-  const availableLanguages = ['Français', 'Anglais', 'Arabe'];
+  const availableLanguages = ['Français', 'Anglais', 'Arabe', 'Allemand', 'Italien'];
 
   useEffect(() => {
     if (departureLocation) {

@@ -30,7 +30,7 @@ transporter.verify((error, success) => {
 });
 
 // Function to generate HTML content for confirmation email
-const generateConfirmationHtmlContent = ({ clientName, date, type, details }) => {
+const generateConfirmationHtmlContent = ({ clientName, date, type, details, price }) => {
   const formattedDate = new Date(date).toLocaleDateString('fr-FR', {
     year: 'numeric',
     month: 'long',
@@ -113,6 +113,7 @@ const generateConfirmationHtmlContent = ({ clientName, date, type, details }) =>
           <p>Bonjour ${clientName},</p>
           <p>Nous sommes ravis de confirmer votre ${type === 'transfer' ? 'transfert' : 'demande d\'excursion'} pour le ${formattedDate}.</p>
           ${detailsHtml}
+          <p>Prix : ${price} DT</p>
           <p>Merci d'avoir choisi Navette Tunisie. Nous vous contacterons pour toute information supplémentaire.</p>
           <p>Cordialement,</p>
           <p>L'équipe Navette Tunisie</p>
@@ -222,10 +223,10 @@ const generateRejectionHtmlContent = ({ clientName, date, type }) => {
 };
 
 // Function to send confirmation email
-export const sendConfirmationEmail = async ({ email, clientName, date, type, details }) => {
+export const sendConfirmationEmail = async ({ email, clientName, date, type, details, price }) => {
   try {
-    if (!email || !clientName || !date || !type || !details) {
-      console.error(`Missing required fields for confirmation email: email=${email}, clientName=${clientName}, date=${date}, type=${type}, details=${JSON.stringify(details)}`);
+    if (!email || !clientName || !date || !type || !details || price === undefined) {
+      console.error(`Missing required fields for confirmation email: email=${email}, clientName=${clientName}, date=${date}, type=${type}, details=${JSON.stringify(details)}, price=${price}`);
       return { success: false, message: 'Missing required fields for confirmation email' };
     }
 
@@ -247,7 +248,7 @@ export const sendConfirmationEmail = async ({ email, clientName, date, type, det
       });
     });
 
-    const htmlContent = generateConfirmationHtmlContent({ clientName, date, type, details });
+    const htmlContent = generateConfirmationHtmlContent({ clientName, date, type, details, price });
 
     const mailOptions = {
       from: `Navette Tunisie <${MAILER_USER}>`,

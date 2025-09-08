@@ -67,6 +67,9 @@ const excursionRequestSchema = new mongoose.Schema({
     type: Boolean, 
     default: false 
   },
+  driverLanguages: {
+    type: String,
+  },
   status: {
     type: String,
     enum: ['pending', 'confirmed', 'completed', 'rejected'],

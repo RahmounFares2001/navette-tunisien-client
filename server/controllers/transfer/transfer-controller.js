@@ -147,6 +147,7 @@ export const createTransfer = async (req, res) => {
               departureLocation: transferData.departureLocation,
               destination: transferData.destination,
             },
+            price: price 
           });
           if (!emailResult.success) {
             emailWarning = emailResult.message;
@@ -413,6 +414,7 @@ export const updateTransfer = async (req, res) => {
                 departureLocation: transferData.departureLocation,
                 destination: transferData.destination,
               },
+              price: price 
             });
             if (!emailResult.success) {
               emailWarning = emailResult.message;

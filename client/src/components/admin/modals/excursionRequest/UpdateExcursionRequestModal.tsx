@@ -51,8 +51,7 @@ const UpdateExcursionRequestModal = ({ open, onOpenChange, request, onSave }: Up
   });
   const [serverError, setServerError] = useState('');
 
-  const { data: excursionsData } = useGetAllExcursionsQuery({ page: 1, limit: 100 });
-  const excursions = excursionsData?.data?.filter(exc => exc.isAvailable) || [];
+  const { data: excursionsData } = useGetAllExcursionsQuery({ page: 1, limit: 1000, search: '' });  const excursions = excursionsData?.data?.filter(exc => exc.isAvailable) || [];
   const [updateExcursionRequest, { isLoading }] = useUpdateExcursionRequestMutation();
 
   // Calculate maximum allowed values for each input

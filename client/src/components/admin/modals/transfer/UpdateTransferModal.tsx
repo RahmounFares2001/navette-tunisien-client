@@ -51,20 +51,21 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
   const [comment, setComment] = useState('');
   const [vehicleId, setVehicleId] = useState('');
   const [status, setStatus] = useState<'pending' | 'confirmed' | 'completed' | 'rejected'>('pending');
-  const [paymentPercentage, setPaymentPercentage] = useState<0 | 100>(0); // Initialize as 0 or 100
+  const [paymentPercentage, setPaymentPercentage] = useState<0 | 100>(0);
   const [filteredDestinations, setFilteredDestinations] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [currentPrice, setCurrentPrice] = useState<string>('0.00');
 
   const [updateTransfer, { isLoading }] = useUpdateTransferMutation();
   const { data: vehiclesData, isLoading: vehiclesLoading } = useGetAllVehiclesQuery({ page: 1, limit: 100, search: '' });
 
   const locations = [...new Set(distances.map(d => d.from).concat(distances.map(d => d.to)))];
 
-  const availableLanguages = ['Français', 'Anglais', 'Arabe'];
+  const availableLanguages = ['Français', 'Anglais', 'Arabe', 'Allemand', 'Italien'];
 
-  // Sync state with transfer prop when it changes
   useEffect(() => {
     if (transfer) {
+      console.log('UpdateTransferModal - Initial transfer data:', transfer);
       setClientName(transfer.clientName || '');
       setClientEmail(transfer.clientEmail || '');
       setClientPhone(transfer.clientPhone || '');
@@ -83,8 +84,14 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       setComment(transfer.comment || '');
       setVehicleId(transfer.vehicleId?._id || '');
       setStatus(transfer.status || 'pending');
-      // Ensure paymentPercentage is set to the transfer's value, default to 0 only if undefined
       setPaymentPercentage(transfer.paymentPercentage === 0 || transfer.paymentPercentage === 100 ? transfer.paymentPercentage : 0);
+      
+      // Compute initial filteredDestinations, always including the current destination
+      const currentDestination = transfer.destination || '';
+      console.log('UpdateTransferModal - Current destination:', currentDestination);
+      const validDestinations = [...new Set([...locations, currentDestination])].filter(dest => dest && dest !== transfer.departureLocation);
+      setFilteredDestinations(validDestinations);
+      console.log('UpdateTransferModal - Initial filteredDestinations:', validDestinations);
     }
   }, [transfer]);
 
@@ -95,19 +102,33 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
         const distance = distances.find(
           d => (d.from === departureLocation && d.to === dest) || (d.from === dest && d.to === departureLocation)
         )?.distance_km || 0;
-        return distance >= 50;
+        return distance >= 50 || dest === destination;
       });
       setFilteredDestinations(validDestinations);
+      
+      // Ensure destination is valid; reset if not in filteredDestinations
+      if (destination && !validDestinations.includes(destination)) {
+        setDestination('');
+      }
+      console.log('UpdateTransferModal - Updated filteredDestinations:', validDestinations);
     } else {
       setFilteredDestinations(locations);
+      console.log('UpdateTransferModal - No departureLocation, setting filteredDestinations to all locations:', locations);
     }
-  }, [departureLocation]);
+  }, [departureLocation, destination]);
 
   useEffect(() => {
-    if (status !== 'confirmed') {
-      setPaymentPercentage(0);
+    if (vehicleId && departureLocation && destination) {
+      const vehicle = vehiclesData?.data?.find(v => v._id === vehicleId);
+      if (vehicle) {
+        setCurrentPrice(getPrice(vehicle));
+      } else {
+        setCurrentPrice('0.00');
+      }
+    } else {
+      setCurrentPrice('0.00');
     }
-  }, [status]);
+  }, [vehicleId, departureLocation, destination, tripType, isLanguageActive, driverLanguage, vehiclesData]);
 
   const handleLanguageChange = (language: string, checked: boolean) => {
     setDriverLanguage(prev =>
@@ -139,7 +160,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       paymentPercentage: status === 'confirmed' ? paymentPercentage : 0,
     };
 
-    console.log('UpdateTransferModal - Sending transfer data:', transferData); // Debug request data
+    console.log('UpdateTransferModal - Sending transfer data:', transferData);
 
     try {
       const response = await updateTransfer(transferData).unwrap();
@@ -150,7 +171,6 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
         clientPhone: response.data.clientPhone,
         tripType: response.data.tripType,
         departureLocation: response.data.departureLocation,
-        departureAddress: response.data.departureAddress,
         destination: response.data.destination,
         destinationAddress: response.data.destinationAddress,
         travelDate: response.data.travelDate,
@@ -164,7 +184,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
         status: response.data.status,
         paymentPercentage: response.data.paymentPercentage,
       };
-      console.log('UpdateTransferModal - Response data:', response.data); // Debug response
+      console.log('UpdateTransferModal - Response data:', response.data);
       onSave(transformedData);
       onOpenChange(false);
       setErrorMessage(null);
@@ -215,7 +235,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
                   id="clientEmail"
                   type="email"
                   value={clientEmail}
-                  onChange={(e) => setClientEmail(e.target.value)}
+                  onChange={(e) => setClientName(e.target.value)}
                   required
                   className="pl-10 bg-admin-card border-admin-border"
                 />
@@ -270,7 +290,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
             </div>
             <div>
               <Label htmlFor="destination">Destination</Label>
-              <Select value={destination} onValueChange={setDestination}>
+              <Select key={transfer._id} value={destination} onValueChange={setDestination}>
                 <SelectTrigger className="bg-admin-card border-admin-border">
                   <SelectValue placeholder="Sélectionner une destination" />
                 </SelectTrigger>
@@ -423,6 +443,17 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
               />
             </div>
           </div>
+          
+          <div>
+            <Label htmlFor="currentPrice">Prix Actuel</Label>
+            <Input
+              id="currentPrice"
+              value={`${currentPrice} TND`}
+              disabled
+              className="bg-admin-card border-admin-border text-admin-foreground"
+            />
+          </div>
+
           {departureLocation && destination && (
             <div>
               <Label>Véhicules Disponibles</Label>
@@ -434,7 +465,8 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
                     <div
                       key={vehicle._id}
                       className={`p-4 border rounded-md cursor-pointer ${
-                        vehicleId === vehicle._id ? 'border-admin-foreground bg-admin-bg/50' : 'border-admin-border'
+                        vehicleId === vehicle._id ? 'border-admin-foreground bg-admin-bg/50' : 
+                                'border-admin-border'
                       }`}
                       onClick={() => setVehicleId(vehicle._id)}
                     >
@@ -456,6 +488,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
               </div>
             </div>
           )}
+
           <DialogFooter>
             <Button
               type="button"
@@ -467,7 +500,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
             </Button>
             <Button
               type="submit"
-              disabled={isLoading || !vehicleId || (status === 'confirmed' && paymentPercentage === undefined)}
+              disabled={isLoading || !vehicleId || !destination || (status === 'confirmed' && paymentPercentage === undefined)}
               className="bg-admin-foreground text-gray-900 hover:bg-gray-300"
             >
               {isLoading ? 'Mise à jour...' : 'Mettre à jour le Transfert'}

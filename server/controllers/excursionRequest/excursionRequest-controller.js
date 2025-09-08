@@ -141,6 +141,7 @@ export const createExcursionRequest = async (req, res) => {
             details: {
               excursionTitle: excursion.title,
             },
+            price
           });
           if (!emailResult.success) {
             emailWarning = emailResult.message;
@@ -290,10 +291,8 @@ export const updateExcursionRequest = async (req, res) => {
         return res.status(404).json({ success: false, message: 'Demande d\'excursion non trouvée' });
       }
 
-      // Store the original status before any updates
       const originalStatus = excursionRequest.status;
 
-      // Validate email format if provided
       if (clientEmail) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(clientEmail)) {
@@ -301,17 +300,14 @@ export const updateExcursionRequest = async (req, res) => {
         }
       }
 
-      // Validate excursionDate if provided
       if (excursionDate && isNaN(new Date(excursionDate).getTime())) {
         return res.status(400).json({ success: false, message: 'Format de date d\'excursion invalide' });
       }
 
-      // Validate driverLanguages if withGuide is true
       if (withGuide && !driverLanguages) {
         return res.status(400).json({ success: false, message: 'Les langues du guide doivent être spécifiées' });
       }
 
-      // Validate excursionId if provided
       let targetExcursionId = excursionRequest.excursionId;
       if (excursionId) {
         if (!mongoose.isValidObjectId(excursionId)) {
@@ -324,7 +320,6 @@ export const updateExcursionRequest = async (req, res) => {
         targetExcursionId = excursionId;
       }
 
-      // Calculate total number of people if any count is provided
       let totalPeople;
       if (numberOfAdults !== undefined || numberOfChildren !== undefined || numberOfBabies !== undefined) {
         totalPeople =
@@ -332,12 +327,10 @@ export const updateExcursionRequest = async (req, res) => {
           (numberOfChildren !== undefined ? Number(numberOfChildren) : excursionRequest.numberOfChildren) +
           (numberOfBabies !== undefined ? Number(numberOfBabies) : excursionRequest.numberOfBabies);
 
-        // Validate total number of people
         if (totalPeople < 1 || totalPeople > 8) {
           return res.status(400).json({ success: false, message: 'Le nombre total de personnes doit être entre 1 et 8' });
         }
 
-        // Validate individual counts
         if (
           (numberOfAdults !== undefined && (numberOfAdults < 0 || numberOfAdults > 8)) ||
           (numberOfChildren !== undefined && (numberOfChildren < 0 || numberOfChildren > 8)) ||
@@ -347,7 +340,7 @@ export const updateExcursionRequest = async (req, res) => {
         }
       }
 
-      // Update price if numberOfAdults, numberOfChildren, numberOfBabies, excursionId, or withGuide is provided
+      let newPriceExcursion;
       if (numberOfAdults !== undefined || numberOfChildren !== undefined || numberOfBabies !== undefined || excursionId || withGuide !== undefined) {
         const excursion = await Excursion.findById(targetExcursionId);
         if (!excursion) {
@@ -364,16 +357,17 @@ export const updateExcursionRequest = async (req, res) => {
         } else if (totalPeople >= 7 && totalPeople <= 8) {
           newPrice = excursion.prices.sevenToEight;
         }
-        // Add 200 TND if withGuide is true
-        excursionRequest.price = newPrice + (withGuide !== undefined ? (withGuide ? 200 : 0) : (excursionRequest.withGuide ? 200 : 0));
+        newPriceExcursion = newPrice + (withGuide !== undefined ? (withGuide ? 200 : 0) : (excursionRequest.withGuide ? 200 : 0));
+        excursionRequest.price = newPriceExcursion;
+      } else {
+        // If no price-affecting fields are updated, use the existing price
+        newPriceExcursion = excursionRequest.price || 0;
       }
 
-      // Validate status if provided
       if (status && !['pending', 'confirmed', 'completed', 'rejected'].includes(status)) {
         return res.status(400).json({ success: false, message: 'Statut invalide' });
       }
 
-      // Validate paymentPercentage
       let validPaymentPercentage = excursionRequest.paymentPercentage ?? 0;
       if (status && status === 'confirmed') {
         if (paymentPercentage === undefined || (paymentPercentage !== 0 && paymentPercentage !== 100)) {
@@ -384,7 +378,6 @@ export const updateExcursionRequest = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Pourcentage de paiement doit être 0 pour un statut non confirmé' });
       }
 
-      // Update fields if provided
       if (clientName) excursionRequest.clientName = clientName;
       if (clientEmail) excursionRequest.clientEmail = clientEmail;
       if (clientPhone) excursionRequest.clientPhone = clientPhone;
@@ -401,7 +394,6 @@ export const updateExcursionRequest = async (req, res) => {
       if (driverLanguages !== undefined) excursionRequest.driverLanguages = withGuide ? driverLanguages : '';
 
       let emailWarning = null;
-      // Check if status changed and is either 'confirmed' or 'rejected'
       if (status && originalStatus !== status && (status === 'confirmed' || status === 'rejected')) {
         console.log(`Status changed from ${originalStatus} to ${status}, attempting to send email to ${excursionRequest.clientEmail}`);
         if (status === 'confirmed') {
@@ -422,6 +414,7 @@ export const updateExcursionRequest = async (req, res) => {
                 details: {
                   excursionTitle: excursion.title,
                 },
+                price: newPriceExcursion // Pass the calculated price
               });
               if (!emailResult.success) {
                 emailWarning = emailResult.message;
