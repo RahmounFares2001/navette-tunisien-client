@@ -510,22 +510,23 @@ const Transfers = () => {
                         ))
                       )}
                     </div>
-                    <div className="mt-6 flex justify-between items-center">
+                    <div className="mt-6 flex justify-center md:justify-between items-center">
                       <Button
                         onClick={() => {
                           handlePrevStep();
                           window.scrollTo(0, 0);
                         }}
                         variant="outline"
-                        className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        className="border-gray-300 text-gray-900 hover:bg-gray-100 hidden md:block"
                       >
                         {t('transfers.previous', { defaultValue: 'Précédent' })}
                       </Button>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center md:space-x-2">
                         <Button
                           onClick={() => handlePageChange(currentPage - 1)}
                           disabled={currentPage === 1}
-                          className="bg-white text-gray-900 hover:bg-gray-100 border-gray-300"
+                          className="bg-white text-gray-900 hover:bg-gray-100 border-gray-300
+                                text-xs md:text-sm"
                         >
                           {t('transfers.previous', { defaultValue: 'Précédent' })}
                         </Button>
@@ -541,7 +542,7 @@ const Transfers = () => {
                         <Button
                           onClick={() => handlePageChange(currentPage + 1)}
                           disabled={currentPage === totalPages}
-                          className="bg-white text-gray-900 hover:bg-gray-100 border-gray-300"
+                          className="text-xs md:text-sm bg-white text-gray-900 hover:bg-gray-100 border-gray-300"
                         >
                           {t('transfers.next', { defaultValue: 'Suivant' })}
                         </Button>
@@ -551,7 +552,7 @@ const Transfers = () => {
                             placeholder={t('transfers.page', { defaultValue: 'Page' })}
                             value={pageInput}
                             onChange={(e) => setPageInput(e.target.value)}
-                            className="w-20 bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
+                            className="w-20 text-xs bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
                           />
                           <Button
                             onClick={handlePageInputSubmit}
@@ -566,7 +567,29 @@ const Transfers = () => {
                           handleNextStep();
                           window.scrollTo(0, 0);
                         }}
-                        className="bg-orange-600 hover:bg-orange-700 text-white font-semibold"
+                        className="bg-orange-600 hover:bg-orange-700 text-white font-semibold hidden md:block"
+                      >
+                        {t('transfers.next', { defaultValue: 'Suivant' })}
+                      </Button>
+                    </div>
+                    <div className='flex justify-between pt-7' >
+                    <Button
+                        onClick={() => {
+                          handlePrevStep();
+                          window.scrollTo(0, 0);
+                        }}
+                        variant="outline"
+                        className="border-gray-300 text-gray-900 hover:bg-gray-100 md:hidden"
+                      >
+                        {t('transfers.previous', { defaultValue: 'Précédent' })}
+                      </Button>
+
+                    <Button
+                        onClick={() => {
+                          handleNextStep();
+                          window.scrollTo(0, 0);
+                        }}
+                        className="bg-orange-600 hover:bg-orange-700 text-white font-semibold md:hidden"
                       >
                         {t('transfers.next', { defaultValue: 'Suivant' })}
                       </Button>

@@ -39,9 +39,10 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
   const [paymentPercentage, setPaymentPercentage] = useState<0 | 100>(0);
   const [filteredDestinations, setFilteredDestinations] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
   const [createTransfer, { isLoading }] = useCreateTransferMutation();
-  const { data: vehiclesData, isLoading: vehiclesLoading } = useGetAllVehiclesQuery({ page: 1, limit: 100 });
+  const { data: vehiclesData, isLoading: vehiclesLoading } = useGetAllVehiclesQuery({ page, limit: 10, search: '' });
 
   const locations = [...new Set(distances.map(d => d.from).concat(distances.map(d => d.to)))];
 
@@ -426,6 +427,24 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
                     </div>
                   ))
                 )}
+              </div>
+              <div className="flex justify-center gap-4 mt-4">
+                <Button
+                  variant="outline"
+                  disabled={page === 1}
+                  onClick={() => setPage(1)}
+                  className="border-admin-border text-gray-900"
+                >
+                  Page 1
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={page === 2 || vehiclesData?.totalPages === 1}
+                  onClick={() => setPage(2)}
+                  className="border-admin-border text-gray-900"
+                >
+                  Page 2
+                </Button>
               </div>
             </div>
           )}

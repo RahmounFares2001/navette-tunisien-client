@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useUpdateTransferMutation, useGetAllVehiclesQuery } from '@/globalRedux/features/api/apiSlice';
-import distances from '@/data/distances.json' assert { type: "json" };
+import distances from '@/data/distances.json';
 import { UpdateTransferRequest, ITransferResponse } from '@/types/types';
 
 interface UpdateTransferModalProps {
