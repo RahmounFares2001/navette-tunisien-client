@@ -131,7 +131,6 @@ export const createTransfer = async (req, res) => {
     let emailWarning = null;
     // Send email if status is 'confirmed' or 'rejected'
     if (status && (status === 'confirmed' || status === 'rejected')) {
-      console.log(`Creating transfer with status ${status}, attempting to send email to ${transferData.clientEmail}`);
       if (status === 'confirmed') {
         if (!transferData.clientEmail || !transferData.clientName || !transferData.travelDate || !transferData.tripType || !transferData.departureLocation || !transferData.destination) {
           emailWarning = 'Missing required fields for confirmation email';
@@ -169,9 +168,7 @@ export const createTransfer = async (req, res) => {
           }
         }
       }
-    } else {
-      console.log(`No email sent - Status: ${status || 'pending'}`);
-    }
+    } 
 
     await transfer.save();
     
@@ -228,7 +225,7 @@ export const getAllTransfers = async (req, res) => {
       const totalItems = await Transfer.countDocuments(query);
       const transfers = await Transfer.find(query)
         .populate('vehicleId', 'name')
-        .sort({ createdAt: 1 })
+        .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
         .lean();
@@ -397,7 +394,6 @@ export const updateTransfer = async (req, res) => {
       
       // Check if status changed and is either 'confirmed' or 'rejected'
       if (status && originalStatus !== status && (status === 'confirmed' || status === 'rejected')) {
-        console.log(`Status changed from ${originalStatus} to ${status}, attempting to send email to ${transferData.clientEmail}`);
         
         if (status === 'confirmed') {
           if (!transferData.clientEmail || !transferData.clientName || !transferData.travelDate || !transferData.tripType || !transferData.departureLocation || !transferData.destination) {
@@ -436,8 +432,6 @@ export const updateTransfer = async (req, res) => {
             }
           }
         }
-      } else {
-        console.log(`No email sent - Status: ${originalStatus} → ${status || originalStatus}`);
       }
 
       await transfer.save();

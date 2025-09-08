@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { useCreateTransferMutation, useGetAllVehiclesQuery } from '@/globalRedux
 import distances from '@/data/distances.json';
 import { CreateTransferRequest, IVehicleResponse } from '@/types/types';
 import SeoConfig from '@/seo/SeoConfig';
+import { CurrencyContext } from '@/components/currency/CurrencyContext';
 
 // Utility function to format date to YYYY-MM-DD
 const formatDateForInput = (): string => {
@@ -24,6 +25,7 @@ const formatDateForInput = (): string => {
 const Transfers = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { currency, exchangeRates } = useContext(CurrencyContext);
   const [step, setStep] = useState(1);
   const [selectedVehicle, setSelectedVehicle] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -96,7 +98,29 @@ const Transfers = () => {
     const multiplier = transferData.tripType === 'aller retour' ? 2 : 1;
     const basePrice = distance * vehicle.pricePerKm * multiplier;
     const languageFee = isLanguageActive && (transferData.driverLanguage?.length || 0) > 0 ? 30 : 0;
-    return (basePrice + languageFee).toFixed(2);
+    const priceInTND = basePrice + languageFee;
+    return (currency === 'TND' ? priceInTND : priceInTND * exchangeRates[currency]).toFixed(2);
+  };
+
+  const getPriceInTND = (vehicle: { pricePerKm: number }) => {
+    const distance = distances.find(
+      d => (d.from === transferData.departureLocation && d.to === transferData.destination) || 
+           (d.from === transferData.destination && d.to === transferData.departureLocation)
+    )?.distance_km || 0;
+    const multiplier = transferData.tripType === 'aller retour' ? 2 : 1;
+    const basePrice = distance * vehicle.pricePerKm * multiplier;
+    const languageFee = isLanguageActive && (transferData.driverLanguage?.length || 0) > 0 ? 30 : 0;
+    return basePrice + languageFee;
+  };
+
+  const getLanguageFeeText = () => {
+    const languageFeeInTND = 30;
+    const feeInCurrency = (currency === 'TND' ? languageFeeInTND : languageFeeInTND * exchangeRates[currency]).toFixed(2);
+    return t('transfers.languageFee', { 
+      defaultValue: 'Sélectionner des langues ajoute {{fee}} {{currency}} au prix total',
+      fee: feeInCurrency,
+      currency: currency
+    });
   };
 
   const handleNextStep = () => {
@@ -224,6 +248,7 @@ const Transfers = () => {
       driverLanguage: isLanguageActive ? (transferData.driverLanguage || []) : [],
       comment: transferData.comment?.trim() || undefined,
       vehicleId: selectedVehicle,
+      // price: selectedVehicleData ? getPriceInTND(selectedVehicleData) : 0,
     };
 
     try {
@@ -499,7 +524,7 @@ const Transfers = () => {
                               {vehicle.numberOfSuitcases} {t('transfers.suitcases', { defaultValue: 'valises' })}
                             </div>
                             <div className="text-xs sm:text-sm font-bold text-gray-900">
-                              {t('transfers.price', { defaultValue: 'Prix' })}: {getPrice(vehicle)} TND
+                              {t('transfers.price', { defaultValue: 'Prix' })}: {getPrice(vehicle)} {currency}
                             </div>
                             {selectedVehicle === vehicle._id && (
                               <div className="absolute top-2 right-2 bg-orange-600 text-white rounded-full p-1">
@@ -525,8 +550,7 @@ const Transfers = () => {
                         <Button
                           onClick={() => handlePageChange(currentPage - 1)}
                           disabled={currentPage === 1}
-                          className="bg-white text-gray-900 hover:bg-gray-100 border-gray-300
-                                text-xs md:text-sm"
+                          className="bg-white text-gray-900 hover:bg-gray-100 border-gray-300 text-xs md:text-sm"
                         >
                           {t('transfers.previous', { defaultValue: 'Précédent' })}
                         </Button>
@@ -572,8 +596,8 @@ const Transfers = () => {
                         {t('transfers.next', { defaultValue: 'Suivant' })}
                       </Button>
                     </div>
-                    <div className='flex justify-between pt-7' >
-                    <Button
+                    <div className='flex justify-between pt-7'>
+                      <Button
                         onClick={() => {
                           handlePrevStep();
                           window.scrollTo(0, 0);
@@ -583,8 +607,7 @@ const Transfers = () => {
                       >
                         {t('transfers.previous', { defaultValue: 'Précédent' })}
                       </Button>
-
-                    <Button
+                      <Button
                         onClick={() => {
                           handleNextStep();
                           window.scrollTo(0, 0);
@@ -773,7 +796,7 @@ const Transfers = () => {
                       </div>
                       <div className="md:col-span-2">
                         <div className="text-sm text-gray-600 mb-2">
-                          {t('transfers.languageFee', { defaultValue: 'Sélectionner des langues ajoute 30 TND au prix total' })}
+                          {getLanguageFeeText()}
                         </div>
                         <div className="flex items-center space-x-2 mb-4">
                           <Checkbox
@@ -822,7 +845,7 @@ const Transfers = () => {
                       </div>
                     </div>
                     <div className="text-center mt-5 sm:hidden text-lg font-bold text-gray-900">
-                      {t('transfers.totalPrice', { defaultValue: 'Prix Total' })}: {selectedVehiclePrice} TND
+                      {t('transfers.totalPrice', { defaultValue: 'Prix Total' })}: {selectedVehiclePrice} {currency}
                     </div>
                     <div className="mt-6 flex justify-between items-center">
                       <Button
@@ -836,7 +859,7 @@ const Transfers = () => {
                         {t('transfers.previous', { defaultValue: 'Précédent' })}
                       </Button>
                       <div className="hidden sm:block text-lg font-bold text-gray-900">
-                        {t('transfers.totalPrice', { defaultValue: 'Prix Total' })}: {selectedVehiclePrice} TND
+                        {t('transfers.totalPrice', { defaultValue: 'Prix Total' })}: {selectedVehiclePrice} {currency}
                       </div>
                       <Button
                         onClick={() => {

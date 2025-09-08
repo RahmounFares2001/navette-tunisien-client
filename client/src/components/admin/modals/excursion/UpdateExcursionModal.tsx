@@ -237,8 +237,6 @@ const UpdateExcursionModal = ({ open, onOpenChange, excursion, onSave }: UpdateE
         imagesToDelete: imagesToDelete.filter((url) => url && !url.startsWith('data:image/')),
       };
 
-      console.log('Sending data:', data);
-
       const response = await updateExcursion({ id: formData._id, data }).unwrap();
 
       const updatedExcursion = response.data as IExcursionResponse;

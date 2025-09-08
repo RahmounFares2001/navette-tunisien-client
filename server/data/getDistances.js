@@ -50,7 +50,6 @@ async function fetchDistances() {
             to: to.name,
             distance_km: parseFloat(distanceKm.toFixed(2))
           });
-          console.log(`${from.name} → ${to.name} = ${distanceKm.toFixed(2)} km`);
         }
       } catch (err) {
         console.error(`Error for ${from.name} → ${to.name}:`, err.message);
@@ -58,7 +57,6 @@ async function fetchDistances() {
     }
   }
 
-  console.log("All distances fetched:", distances.length);
 }
 
 fetchDistances();

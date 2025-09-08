@@ -4,6 +4,6 @@ import { updateStatuses } from '../../controllers/cron/cron-controller.js';
 const router = express.Router();
 
 // Run cron job to update statuses
-router.get('/update-statuses', updateStatuses);
+router.get('/run-daily-job', updateStatuses);
 
 export default router;

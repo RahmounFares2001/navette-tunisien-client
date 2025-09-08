@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
@@ -16,11 +16,13 @@ import { CreateExcursionRequest } from '@/types/types';
 import excursionSample from '@/assets/excursion-sample.jpg';
 import axios from 'axios';
 import SeoConfig from '@/seo/SeoConfig';
+import { CurrencyContext } from '@/components/currency/CurrencyContext';
 
 const ExcursionDetails = () => {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
+  const { currency, exchangeRates } = useContext(CurrencyContext);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -54,6 +56,10 @@ const ExcursionDetails = () => {
   const maxAdults = 8 - formData.numberOfChildren - formData.numberOfBabies;
   const maxChildren = 8 - formData.numberOfAdults - formData.numberOfBabies;
   const maxBabies = 8 - formData.numberOfAdults - formData.numberOfChildren;
+
+  const getPrice = (priceInTND: number) => {
+    return (currency === 'TND' ? priceInTND : priceInTND * exchangeRates[currency]).toFixed(2);
+  };
 
   // Translation logic with caching
  // Super fast parallel translation - replace your useEffect with this
@@ -146,7 +152,6 @@ useEffect(() => {
     setIsTranslating(true);
     const targetLang = i18n.language;
     
-    console.log(`🚀 Fast translation to ${targetLang}`);
 
     if (targetLang === 'fr') {
       setTranslatedTitle(excursion.title);
@@ -163,7 +168,6 @@ useEffect(() => {
       if (cachedTranslation) {
         const parsed = JSON.parse(cachedTranslation);
         if (parsed.description && parsed.description.length > 200) {
-          console.log('📦 Using cached translation');
           setTranslatedTitle(parsed.title);
           setTranslatedDescription(parsed.description);
           setTranslatedIncludedItems(parsed.includedItems);
@@ -177,7 +181,6 @@ useEffect(() => {
     }
 
     try {
-      console.log('⚡ Starting parallel translations...');
       
       // Translate EVERYTHING in parallel for maximum speed
       const results = await Promise.all([
@@ -193,7 +196,6 @@ useEffect(() => {
       const translatedIncludedItems = results.slice(2, 2 + excursion.includedItems.length);
       const translatedDailyProgram = results.slice(2 + excursion.includedItems.length);
 
-      console.log('✅ All translations done in parallel!');
 
       // Update UI immediately
       setTranslatedTitle(translatedTitle);
@@ -451,7 +453,7 @@ useEffect(() => {
 
               <div className="absolute top-4 right-4">
                 <Badge className="rounded bg-secondary text-secondary-foreground font-bold text-lg px-4 py-2">
-                  {totalPrice} DT
+                  {getPrice(totalPrice)} {currency}
                 </Badge>
               </div>
             </motion.div>
@@ -604,9 +606,9 @@ useEffect(() => {
 
                     <div>
                       <p className="text-sm text-muted-foreground mt-1">
-                        1-4 {t('excursionDetails.personnes')}: ({excursion.prices.oneToFour} DT)<br />
-                        5-6 {t('excursionDetails.personnes')}: ({excursion.prices.fiveToSix} DT)<br />
-                        7-8 {t('excursionDetails.personnes')}: ({excursion.prices.sevenToEight} DT)
+                        1-4 {t('excursionDetails.personnes')}: ({getPrice(excursion.prices.oneToFour)} {currency})<br />
+                        5-6 {t('excursionDetails.personnes')}: ({getPrice(excursion.prices.fiveToSix)} {currency})<br />
+                        7-8 {t('excursionDetails.personnes')}: ({getPrice(excursion.prices.sevenToEight)} {currency})
                       </p>
                       <Label htmlFor="numberOfAdults">{t('excursions.numberOfAdults')} *</Label>
                       <Input
@@ -655,7 +657,7 @@ useEffect(() => {
                         checked={formData.withGuide}
                         onCheckedChange={(checked) => setFormData(prev => ({ ...prev, withGuide: checked as boolean, driverLanguages: checked ? prev.driverLanguages : '' }))}
                       />
-                      <Label htmlFor="withGuide">{t('excursionDetails.withGuide')} (+200 DT)</Label>
+                      <Label htmlFor="withGuide">{t('excursionDetails.withGuide')} (+{getPrice(200)} {currency})</Label>
                     </div>
 
                     {formData.withGuide && (
@@ -688,7 +690,7 @@ useEffect(() => {
                       <div className="flex justify-between items-center text-lg font-semibold">
                         <span>{t('excursionDetails.total')}:</span>
                         <span className="text-primary">
-                          {totalPrice} DT
+                          {getPrice(totalPrice)} {currency}
                         </span>
                       </div>
                     </div>

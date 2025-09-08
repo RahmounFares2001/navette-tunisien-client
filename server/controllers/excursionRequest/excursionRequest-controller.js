@@ -127,7 +127,6 @@ export const createExcursionRequest = async (req, res) => {
     let emailWarning = null;
     // Send email if status is 'confirmed' or 'rejected'
     if (status && (status === 'confirmed' || status === 'rejected')) {
-      console.log(`Creating excursion request with status ${status}, attempting to send email to ${excursionRequestData.clientEmail}`);
       if (status === 'confirmed') {
         if (!excursionRequestData.clientEmail || !excursionRequestData.clientName || !excursionRequestData.excursionDate) {
           emailWarning = 'Missing required fields for confirmation email';
@@ -163,9 +162,7 @@ export const createExcursionRequest = async (req, res) => {
           }
         }
       }
-    } else {
-      console.log(`No email sent - Status: ${status || 'pending'}`);
-    }
+    } 
 
     await excursionRequest.save();
     const response = {
@@ -395,7 +392,6 @@ export const updateExcursionRequest = async (req, res) => {
 
       let emailWarning = null;
       if (status && originalStatus !== status && (status === 'confirmed' || status === 'rejected')) {
-        console.log(`Status changed from ${originalStatus} to ${status}, attempting to send email to ${excursionRequest.clientEmail}`);
         if (status === 'confirmed') {
           if (!excursionRequest.clientEmail || !excursionRequest.clientName || !excursionRequest.excursionDate) {
             emailWarning = 'Missing required fields for confirmation email';
@@ -437,9 +433,7 @@ export const updateExcursionRequest = async (req, res) => {
             }
           }
         }
-      } else {
-        console.log(`No email sent - Status: ${originalStatus} → ${status || originalStatus}`);
-      }
+      } 
 
       await excursionRequest.save();
       const response = {

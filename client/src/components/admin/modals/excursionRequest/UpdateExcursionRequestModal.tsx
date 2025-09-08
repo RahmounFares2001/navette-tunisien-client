@@ -236,8 +236,6 @@ const UpdateExcursionRequestModal = ({ open, onOpenChange, request, onSave }: Up
         driverLanguages: withGuide == true ? driverLanguages : '',
       };
 
-      console.log('Sending data:', data);
-
       await updateExcursionRequest({ id: request._id, data }).unwrap();
       toast.success("Demande d'excursion mise à jour avec succès", {
         position: 'top-right',

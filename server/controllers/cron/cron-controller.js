@@ -1,4 +1,4 @@
-import { Transfer, ExcursionRequest } from '../../models/models.js';
+import { ExcursionRequest, Transfer } from "../../models/models.js";
 
 // Cron job to update transfer and excursion request statuses
 export const updateStatuses = async (req, res) => {
@@ -37,7 +37,6 @@ export const updateStatuses = async (req, res) => {
         await request.save();
       }
     }
-
     res.status(200).json({
       message: 'Tâche quotidienne exécutée avec succès',
       currentPage: 1,

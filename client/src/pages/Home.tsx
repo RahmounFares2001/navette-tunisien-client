@@ -57,8 +57,6 @@ const Home = () => {
   ];
 
 
-  //
-  
   return (
     <>
       <SeoConfig

@@ -98,8 +98,6 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
       paymentPercentage: status === 'confirmed' ? paymentPercentage : 0,
     };
 
-    console.log('AddTransferModal - Sending transfer data:', transferData); // Debug request data
-
     try {
       const response = await createTransfer(transferData).unwrap();
       const transformedData: Omit<CreateTransferRequest, 'price'> = {
@@ -122,7 +120,6 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
         status: response.data.status,
         paymentPercentage: response.data.paymentPercentage,
       };
-      console.log('AddTransferModal - Response data:', response.data); // Debug response
       onSave(transformedData);
       onOpenChange(false);
       setClientName('');

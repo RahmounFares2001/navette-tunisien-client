@@ -65,7 +65,6 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
 
   useEffect(() => {
     if (transfer) {
-      console.log('UpdateTransferModal - Initial transfer data:', transfer);
       setClientName(transfer.clientName || '');
       setClientEmail(transfer.clientEmail || '');
       setClientPhone(transfer.clientPhone || '');
@@ -88,10 +87,8 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       
       // Compute initial filteredDestinations, always including the current destination
       const currentDestination = transfer.destination || '';
-      console.log('UpdateTransferModal - Current destination:', currentDestination);
       const validDestinations = [...new Set([...locations, currentDestination])].filter(dest => dest && dest !== transfer.departureLocation);
       setFilteredDestinations(validDestinations);
-      console.log('UpdateTransferModal - Initial filteredDestinations:', validDestinations);
     }
   }, [transfer]);
 
@@ -110,10 +107,8 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       if (destination && !validDestinations.includes(destination)) {
         setDestination('');
       }
-      console.log('UpdateTransferModal - Updated filteredDestinations:', validDestinations);
     } else {
       setFilteredDestinations(locations);
-      console.log('UpdateTransferModal - No departureLocation, setting filteredDestinations to all locations:', locations);
     }
   }, [departureLocation, destination]);
 
@@ -160,7 +155,6 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       paymentPercentage: status === 'confirmed' ? paymentPercentage : 0,
     };
 
-    console.log('UpdateTransferModal - Sending transfer data:', transferData);
 
     try {
       const response = await updateTransfer(transferData).unwrap();
@@ -184,7 +178,6 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
         status: response.data.status,
         paymentPercentage: response.data.paymentPercentage,
       };
-      console.log('UpdateTransferModal - Response data:', response.data);
       onSave(transformedData);
       onOpenChange(false);
       setErrorMessage(null);

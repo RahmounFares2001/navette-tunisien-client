@@ -30,7 +30,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const BASE_URL = process.env.DOMAIN || `http://localhost:${PORT}`;
 
-
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
@@ -90,10 +89,10 @@ connectDB().then(() => {
 
   // Run job every day at 08:00 / 14:00 / 20:00 server time
   cron.schedule("0 8,14,20 * * *", async () => {
-    const now = new Date().toLocaleString();
+      const now = new Date().toLocaleString();
 
     try {
-      await axios.get(`${BASE_URL}/api/api/cron/run-daily-job`);
+      await axios.get(`${BASE_URL}/api/cron/run-daily-job`);
 
     } catch (error) {
       console.error("Error in daily reservation update:", error);

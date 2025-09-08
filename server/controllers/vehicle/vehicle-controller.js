@@ -172,7 +172,6 @@ export const updateVehicle = async (req, res) => {
           if (req.file) {
             try {
               fs.unlinkSync(req.file.path);
-              console.log(`updateVehicle: Cleaned up invalid file ${req.file.path}`);
             } catch (fileErr) {
               console.error(`updateVehicle: Failed to clean up file ${req.file.path}:`, fileErr);
             }
@@ -186,7 +185,6 @@ export const updateVehicle = async (req, res) => {
           if (req.file) {
             try {
               fs.unlinkSync(req.file.path);
-              console.log(`updateVehicle: Cleaned up file ${req.file.path} for non-existent vehicle`);
             } catch (fileErr) {
               console.error(`updateVehicle: Failed to clean up file ${req.file.path}:`, fileErr);
             }
@@ -197,15 +195,13 @@ export const updateVehicle = async (req, res) => {
         // Handle image update
         if (req.file) {
           const targetImagePath = join(__dirname, "../../public/vehicles", id, "img.png");
-          console.log(`updateVehicle: Uploaded file path: ${req.file.path}`);
-          console.log(`updateVehicle: Target file path: ${targetImagePath}`);
+
 
           // Delete old image if it exists
           const oldImagePath = join(__dirname, "../../public", vehicle.imgUrl);
           if (fs.existsSync(oldImagePath) && oldImagePath !== targetImagePath) {
             try {
               fs.unlinkSync(oldImagePath);
-              console.log(`updateVehicle: Deleted old image ${oldImagePath}`);
             } catch (fileErr) {
               console.error(`updateVehicle: Failed to delete old image ${oldImagePath}:`, fileErr);
             }
@@ -215,12 +211,10 @@ export const updateVehicle = async (req, res) => {
           const uploadDir = join(__dirname, "../../public/vehicles", id);
           try {
             fs.mkdirSync(uploadDir, { recursive: true });
-            console.log(`updateVehicle: Ensured directory exists: ${uploadDir}`);
           } catch (dirErr) {
             console.error(`updateVehicle: Failed to create directory ${uploadDir}:`, dirErr);
             if (req.file) {
               fs.unlinkSync(req.file.path);
-              console.log(`updateVehicle: Cleaned up file ${req.file.path} due to directory creation failure`);
             }
             return res.status(500).json({ success: false, message: "Erreur lors de la création du répertoire" });
           }
@@ -235,18 +229,14 @@ export const updateVehicle = async (req, res) => {
           if (req.file.path !== targetImagePath) {
             try {
               fs.renameSync(req.file.path, targetImagePath);
-              console.log(`updateVehicle: Moved uploaded file from ${req.file.path} to ${targetImagePath}`);
             } catch (fileErr) {
               console.error(`updateVehicle: Failed to move file to ${targetImagePath}:`, fileErr);
               if (fs.existsSync(req.file.path)) {
                 fs.unlinkSync(req.file.path);
-                console.log(`updateVehicle: Cleaned up file ${req.file.path} due to move failure`);
               }
               return res.status(500).json({ success: false, message: "Erreur lors de l'enregistrement de l'image" });
             }
-          } else {
-            console.log(`updateVehicle: File already at target path`);
-          }
+          } 
 
           // Update imgUrl in the database
           vehicle.imgUrl = `/vehicles/${id}/img.png`;
@@ -273,7 +263,6 @@ export const updateVehicle = async (req, res) => {
         if (isAvailable !== undefined) vehicle.isAvailable = isAvailable === "true" || isAvailable === true;
 
         await vehicle.save();
-        console.log(`updateVehicle: Successfully updated vehicle ${id}`);
         res.json({ success: true, data: vehicle, message: "Véhicule mis à jour avec succès" });
       } catch (err) {
         console.error("updateVehicle: Database error:", err);
@@ -281,7 +270,6 @@ export const updateVehicle = async (req, res) => {
         if (req.file) {
           try {
             fs.unlinkSync(req.file.path);
-            console.log(`updateVehicle: Cleaned up file ${req.file.path} on database error`);
           } catch (fileErr) {
             console.error(`updateVehicle: Failed to clean up file ${req.file.path}:`, fileErr);
           }

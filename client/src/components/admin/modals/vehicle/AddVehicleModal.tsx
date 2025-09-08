@@ -101,7 +101,6 @@ const AddVehicleModal = ({ open, onOpenChange, onSave }: AddVehicleModalProps) =
       submitData.append('image', formData.image!);
       submitData.append('isAvailable', formData.isAvailable.toString());
 
-      console.log('Sending data:', Object.fromEntries(submitData));
 
       await createVehicle(submitData).unwrap();
       onSave?.();

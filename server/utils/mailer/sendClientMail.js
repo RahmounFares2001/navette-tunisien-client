@@ -24,8 +24,6 @@ export const transporter = nodemailer.createTransport({
 transporter.verify((error, success) => {
   if (error) {
     console.error(`SMTP configuration error: ${error.message} (MAILER_USER: ${MAILER_USER})`);
-  } else {
-    console.log('SMTP server is ready to send emails');
   }
 });
 
@@ -242,7 +240,6 @@ export const sendConfirmationEmail = async ({ email, clientName, date, type, det
           console.error(`SMTP verification failed before sending confirmation email: ${error.message}`);
           reject(new Error(`SMTP verification failed: ${error.message}`));
         } else {
-          console.log('SMTP connection verified before sending confirmation email');
           resolve();
         }
       });
@@ -258,7 +255,6 @@ export const sendConfirmationEmail = async ({ email, clientName, date, type, det
     };
 
     const mailResponse = await transporter.sendMail(mailOptions);
-    console.log(`Confirmation email sent: ${mailResponse.messageId} to ${email}`);
     return { success: true, message: `Confirmation email sent: ${mailResponse.messageId}` };
   } catch (error) {
     console.error(`Failed to send confirmation email to ${email}: ${error.message}`);
@@ -286,7 +282,6 @@ export const sendRejectionEmail = async ({ email, clientName, date, type }) => {
           console.error(`SMTP verification failed before sending rejection email: ${error.message}`);
           reject(new Error(`SMTP verification failed: ${error.message}`));
         } else {
-          console.log('SMTP connection verified before sending rejection email');
           resolve();
         }
       });
@@ -302,7 +297,6 @@ export const sendRejectionEmail = async ({ email, clientName, date, type }) => {
     };
 
     const mailResponse = await transporter.sendMail(mailOptions);
-    console.log(`Rejection email sent: ${mailResponse.messageId} to ${email}`);
     return { success: true, message: `Rejection email sent: ${mailResponse.messageId}` };
   } catch (error) {
     console.error(`Failed to send rejection email to ${email}: ${error.message}`);

@@ -48,7 +48,7 @@ const AddExcursionRequestModal = ({ open, onOpenChange, onSave }: AddExcursionRe
   });
   const [serverError, setServerError] = useState('');
 
-  const { data: excursionsData } = useGetAllExcursionsQuery({ page: 1, limit: 100 });
+  const { data: excursionsData } = useGetAllExcursionsQuery({ page: 1, limit: 100, search: "" });
   const excursions = excursionsData?.data?.filter(exc => exc.isAvailable) || [];
   const [createExcursionRequest, { isLoading }] = useCreateExcursionRequestMutation();
 
@@ -199,7 +199,6 @@ const AddExcursionRequestModal = ({ open, onOpenChange, onSave }: AddExcursionRe
         driverLanguages: withGuide == true ? driverLanguages : '',
       };
 
-      console.log('Sending data:', data);
 
       await createExcursionRequest(data).unwrap();
       toast.success("Demande d'excursion créée avec succès", {

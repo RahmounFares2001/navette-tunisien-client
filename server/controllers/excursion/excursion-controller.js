@@ -234,11 +234,9 @@ export const updateExcursion = async (req, res) => {
         for (const url of parsedImagesToDelete) {
           const fileName = path.basename(url);
           const filePath = join(__dirname, '../../public/excursions', id, fileName);
-          console.log(`Attempting to delete file: ${filePath}`);
           try {
             if (fs.existsSync(filePath)) {
               fs.unlinkSync(filePath);
-              console.log(`Successfully deleted file: ${filePath}`);
               deletedCount++;
             } else {
               console.warn(`File not found: ${filePath}`);
@@ -339,7 +337,6 @@ export const updateExcursion = async (req, res) => {
 
       // Save updated excursion
       const updatedExcursion = await excursion.save();
-      console.log('Updated excursion:', updatedExcursion);
 
       res.json({
         success: true,

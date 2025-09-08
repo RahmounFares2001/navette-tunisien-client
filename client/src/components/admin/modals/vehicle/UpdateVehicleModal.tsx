@@ -125,7 +125,6 @@ const UpdateVehicleModal = ({ open, onOpenChange, vehicle, onSave }: UpdateVehic
         submitData.append('image', selectedFile);
       }
 
-      console.log('Sending data:', Object.fromEntries(submitData));
 
       const response = await updateVehicle({ id: formData._id, data: submitData }).unwrap();
 

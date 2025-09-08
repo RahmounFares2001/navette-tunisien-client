@@ -61,18 +61,11 @@ const AdminTransfers = () => {
     } else if (statusFilter === 'rejected') {
       params.status = 'rejected';
     }
-    console.log('Query params:', params); // Debug query params
     return params;
   };
 
   const { data: transfersData, isLoading, error } = useGetAllTransfersQuery(getQueryParams(), { skip: !isMounted, pollingInterval: 30000 });
-  // Debug API response
-  useEffect(() => {
-    if (transfersData) {
-      console.log('API response:', transfersData);
-      console.log('Transfers:', transfersData.data);
-    }
-  }, [transfersData]);
+
 
   const [deleteTransfer] = useDeleteTransferMutation();
 
@@ -240,7 +233,6 @@ const AdminTransfers = () => {
                     <Select 
                       value={statusFilter} 
                       onValueChange={(value: 'all' | 'pending' | 'confirmed_non_paye' | 'confirmed_paye' | 'completed' | 'rejected') => {
-                        console.log('Filter changed to:', value); // Debug filter selection
                         setStatusFilter(value);
                         setPage(1);
                       }}

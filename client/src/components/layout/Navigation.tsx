@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import CurrencySwitcher from '../currency/CurrencySwitcher';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +51,7 @@ const Navigation = () => {
             className="flex items-center space-x-3 rtl:space-x-reverse hover:scale-105 transition-transform"
           >
             <div className="bg-orange-600 text-primary-foreground px-2 py-1 rounded font-bold text-sm">
-              NAVETTE AEROPORT
+              NAVETTE <span className='hidden sm:inline' >AEROPORT </span>
               <span className='text-yellow-300'> TUNISIE</span>
             </div>
           </Link>
@@ -73,6 +74,8 @@ const Navigation = () => {
               </Link>
             ))}
             </div>
+
+            <CurrencySwitcher />
 
             {/* Language Selector */}
             <DropdownMenu>
@@ -112,6 +115,8 @@ const Navigation = () => {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2 rtl:space-x-reverse">
+            <CurrencySwitcher />
+
             {/* Mobile Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
