@@ -102,12 +102,12 @@ const Navigation = () => {
             </DropdownMenu>
 
             {/* Admin Link */}
-            <Link
+            {/* <Link
               to="/admin"
               className="bg-accent text-accent-foreground px-2 py-1 rounded text-sm hover:opacity-90 transition-opacity"
             >
               {t('navigation.admin')}
-            </Link>
+            </Link> */}
           </div>
 
           {/* Mobile menu button */}
@@ -164,7 +164,7 @@ const Navigation = () => {
                   {t(`navigation.${key}`)}
                 </Link>
               ))}
-              <div className='w-full flex items-center justify-center pt-5' >
+              {/* <div className='w-full flex items-center justify-center pt-5' >
                 <Link
                   to="/admin"
                   className="w-2/3 py-2 rounded-md text-sm
@@ -173,7 +173,7 @@ const Navigation = () => {
                 >
                   {t('navigation.admin')}
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         )}
