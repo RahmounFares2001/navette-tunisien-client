@@ -15,6 +15,7 @@ import { useGetExcursionQuery, useCreateExcursionRequestMutation } from '@/globa
 import { CreateExcursionRequest } from '@/types/types';
 import excursionSample from '@/assets/excursion-sample.jpg';
 import axios from 'axios';
+import SeoConfig from '@/seo/SeoConfig';
 
 const ExcursionDetails = () => {
   const { id } = useParams();
@@ -385,6 +386,13 @@ useEffect(() => {
   }
 
   return (
+    <>
+    <SeoConfig
+      title="Détails de l'Excursion - Navette Tunisie"
+      description="Explorez les détails de nos excursions touristiques en Tunisie avec Navette Tunisie. Réservez votre aventure dès maintenant."
+      keywords="excursion Tunisie, visite guidée Tunisie, Navette Tunisie, tourisme Tunisie, circuit culturel Tunisie"
+      url="/excursion/:id"
+    />
     <div className="min-h-screen py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -704,6 +712,7 @@ useEffect(() => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import heroImage from '@/assets/hero-tunisia.jpg';
 import excursionSample from '@/assets/excursion-sample.jpg';
 import transferVehicle from '@/assets/transfer-vehicle.jpg';
 import axios from 'axios';
+import SeoConfig from '@/seo/SeoConfig';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -55,8 +56,15 @@ const Home = () => {
     }
   ];
 
-
   return (
+    <>
+      <SeoConfig
+        title="Navette Tunisie - Transferts et Excursions en Tunisie"
+        description="Réservez vos transferts et excursions en Tunisie avec Navette Tunisie. Navettes aéroport, circuits touristiques et service fiable 24/7."
+        keywords="transferts Tunisie, excursions Tunisie, navette aéroport Tunis, Navette Tunisie, tourisme Tunisie"
+        url="/"
+      />
+
     <div className="min-h-screen">
       {/* Hero Section */}
       <section 
@@ -243,6 +251,8 @@ const Home = () => {
         </div>
       </section>
     </div>
+    </>
+
   );
 };
 

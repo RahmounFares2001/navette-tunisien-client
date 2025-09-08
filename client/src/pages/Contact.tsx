@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import axios from 'axios';
+import SeoConfig from '@/seo/SeoConfig';
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -103,6 +104,13 @@ const Contact = () => {
   };
 
   return (
+    <>
+    <SeoConfig
+      title="Contactez Navette Tunisie - Transferts et Excursions"
+      description="Contactez Navette Tunisie pour vos transferts et excursions. Service client 24/7 par téléphone, email ou formulaire de contact."
+      keywords="contact Navette Tunisie, transferts Tunisie, excursions Tunisie, service client Tunisie, navette aéroport Tunis"
+      url="/contact"
+    />
     <div className="min-h-screen py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -250,6 +258,7 @@ const Contact = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

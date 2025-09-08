@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useGetAllExcursionsQuery } from '@/globalRedux/features/api/apiSlice';
 import excursionSample from '@/assets/excursion-sample.jpg';
+import SeoConfig from '@/seo/SeoConfig';
 
 const Excursions = () => {
   const { t } = useTranslation();
@@ -61,6 +62,13 @@ const Excursions = () => {
   }
 
   return (
+    <>
+    <SeoConfig
+      title="Excursions Touristiques en Tunisie - Navette Tunisie"
+      description="Découvrez les meilleures excursions en Tunisie avec Navette Tunisie. Visites guidées, circuits culturels et aventures inoubliables."
+      keywords="excursions Tunisie, circuits touristiques Tunisie, Navette Tunisie, tourisme Tunisie, visite guidée Tunisie"
+      url="/excursions"
+    />
     <div className="min-h-screen py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -208,6 +216,7 @@ const Excursions = () => {
         </motion.div>
       </div>
     </div>
+    </>
   );
 };
 

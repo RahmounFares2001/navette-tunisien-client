@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Target, Eye, Heart, Users, Award, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import heroImage from '@/assets/hero-tunisia.jpg';
+import SeoConfig from '@/seo/SeoConfig';
 
 const About = () => {
   const { t } = useTranslation();
@@ -53,6 +54,13 @@ const About = () => {
   ];
 
   return (
+    <>
+    <SeoConfig
+      title="À Propos de Navette Tunisie - Transferts et Excursions"
+      description="Découvrez Navette Tunisie, votre partenaire pour les transferts et excursions en Tunisie. Service fiable, confortable et professionnel."
+      keywords="Navette Tunisie, à propos, transferts Tunisie, excursions Tunisie, tourisme Tunisie"
+      url="/about"
+    />
     <div className="min-h-screen">
       {/* Hero Section */}
       <section 
@@ -339,6 +347,7 @@ const About = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

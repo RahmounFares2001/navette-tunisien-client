@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import SeoConfig from "@/seo/SeoConfig";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,6 +13,13 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
+    <>
+    <SeoConfig
+      title="Page Non Trouvée - Navette Tunisie"
+      description="La page que vous cherchez n'existe pas. Explorez les transferts et excursions avec Navette Tunisie."
+      keywords="page non trouvée, Navette Tunisie, transferts Tunisie, excursions Tunisie, tourisme Tunisie"
+      url="/404"
+    />
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">404</h1>
@@ -21,6 +29,7 @@ const NotFound = () => {
         </a>
       </div>
     </div>
+    </>
   );
 };
 
