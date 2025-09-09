@@ -657,7 +657,7 @@ const Transfers = () => {
                             type="email"
                             value={transferData.clientEmail}
                             onChange={(e) => setTransferData(prev => ({ ...prev, clientEmail: e.target.value }))}
-                            placeholder={t('forms.emailPlaceholder', { defaultValue: 'votre@email.com' })}
+                            placeholder={t('forms.emailPlaceholder', { defaultValue: '...@email.com' })}
                             className="pl-10 bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
                           />
                         </div>
@@ -727,7 +727,7 @@ const Transfers = () => {
                         <div className="text-sm text-gray-600 mb-2">
                           {selectedVehicleData 
                             ? t('transfers.availableSeats', { 
-                                defaultValue: 'Nombre de places disponibles dans ce véhicule: {{available}} (sur {{total}})', 
+                                defaultValue: 'Nombre de places disponibles dans ce véhicule: {{available}}', 
                                 available: availableSeats, 
                                 total: selectedVehicleData.numberOfSeats 
                               }) 
@@ -751,7 +751,7 @@ const Transfers = () => {
                         <div className="text-sm text-gray-600 mb-2">
                           {selectedVehicleData 
                             ? t('transfers.availableSeats', { 
-                                defaultValue: 'Nombre de places disponibles dans ce véhicule: {{available}} (sur {{total}})', 
+                                defaultValue: 'Nombre de places disponibles dans ce véhicule: {{available}}', 
                                 available: availableSeats, 
                                 total: selectedVehicleData.numberOfSeats 
                               }) 

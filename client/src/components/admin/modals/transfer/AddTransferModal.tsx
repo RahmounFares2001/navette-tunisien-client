@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useCreateTransferMutation, useGetAllVehiclesQuery } from '@/globalRedux/features/api/apiSlice';
-import distances from '@/data/distances.json' assert { type: "json" };
+import distances from '@/data/distances.json';
 import { CreateTransferRequest, ITransferResponse } from '@/types/types';
 
 interface AddTransferModalProps {
@@ -405,7 +405,9 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
                     <div
                       key={vehicle._id}
                       className={`p-4 border rounded-md cursor-pointer ${
-                        vehicleId === vehicle._id ? 'border-admin-foreground bg-admin-bg/50' : 'border-admin-border'
+                        vehicleId === vehicle._id ? 
+                          'border-orange-700 bg-orange-700 g-admin-bg/50' :
+                          'border-admin-border'
                       }`}
                       onClick={() => setVehicleId(vehicle._id)}
                     >

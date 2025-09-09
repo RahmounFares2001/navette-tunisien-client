@@ -52,7 +52,9 @@
     "submit": "Envoyer",
     "bookNow": "Réserver Maintenant",
     "required": "Requis",
-    "optional": "Optionnel"
+    "optional": "Optionnel",
+
+    "fullNamePlaceholder": "Votre nom complet"
   },
   "transfers": {
     "title": "Réservation de Transfert",
@@ -70,7 +72,30 @@
     "childSeats": "Sièges Enfant",
     "driverLanguage": "Langue du Chauffeur",
     "comment": "Commentaire",
-    "confirmationMessage": "Votre demande de transfert a été envoyée avec succès!"
+    "confirmationMessage": "Votre demande de transfert a été envoyée avec succès!",
+
+    "selectLocations": "Sélectionnez les Lieux",
+    "departurePlaceholder": "Sélectionner un lieu",
+    "destinationPlaceholder": "Sélectionner une destination",
+    "departureAddress": "Adresse de Départ (optionnel)",
+    "departureAddressPlaceholder": "Entrez l'adresse de départ",
+    "destinationAddress": "Adresse de Destination (optionnel)",
+    "destinationAddressPlaceholder": "Entrez l'adresse de destination",
+    "seats": "sièges",
+    "suitcases": "valises",
+    "price": "Prix",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "page": "Page",
+    "go": "Go",
+    "bookingDetails": "Détails de la Réservation",
+    "availableSeats": "Nombre de places disponibles dans ce véhicule: {{available}}",
+    "maxSuitcases": "Nombre de valises maximum: {{max}}",
+    "numberOfSuitcases": "Nombre de Valises",
+    "languageFee": "Sélectionner des langues ajoute {{fee}} {{currency}} au prix total",
+    "languageToggle": "Activer Langues du Chauffeur",
+    "commentPlaceholder": "Informations supplémentaires...",
+    "totalPrice": "Prix Total"
   },
   "excursions": {
     "title": "Nos Excursions",

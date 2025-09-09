@@ -52,7 +52,10 @@
     "submit": "إرسال",
     "bookNow": "احجز الآن",
     "required": "مطلوب",
-    "optional": "اختياري"
+    "optional": "اختياري",
+
+    "fullNamePlaceholder": "اسمك الكامل"
+
   },
   "transfers": {
     "title": "حجز النقل",
@@ -70,7 +73,31 @@
     "childSeats": "مقاعد الأطفال",
     "driverLanguage": "لغة السائق",
     "comment": "تعليق",
-    "confirmationMessage": "تم إرسال طلب النقل بنجاح!"
+    "confirmationMessage": "! تم إرسال طلب النقل بنجاح",
+
+    "selectLocations": "اختر المواقع",
+    "departurePlaceholder": "اختر موقع الانطلاق",
+    "destinationPlaceholder": "اختر الوجهة",
+    "departureAddress": "عنوان الانطلاق (اختياري)",
+    "departureAddressPlaceholder": "أدخل عنوان الانطلاق",
+    "destinationAddress": "عنوان الوجهة (اختياري)",
+    "destinationAddressPlaceholder": "أدخل عنوان الوجهة",
+    "seats": "مقاعد",
+    "suitcases": "حقائب",
+    "price": "السعر",
+    "next": "التالي",
+    "previous": "السابق",
+    "page": "صفحة",
+    "go": "اذهب",
+    "bookingDetails": "تفاصيل الحجز",
+    "availableSeats": "عدد المقاعد المتاحة في هذه السيارة: {{available}}",
+    "maxSuitcases": "الحد الأقصى لعدد الحقائب: {{max}}",
+    "numberOfSuitcases": "عدد الحقائب",
+    "languageFee": "اختيار اللغات يضيف {{fee}} {{currency}} إلى السعر الإجمالي",
+    "languageToggle": "تفعيل لغات السائق",
+    "commentPlaceholder": "... معلومات إضافية",
+    "totalPrice": "السعر الكلي"
+
   },
   "excursions": {
     "title": "رحلاتنا",

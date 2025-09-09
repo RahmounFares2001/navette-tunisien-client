@@ -458,8 +458,9 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
                     <div
                       key={vehicle._id}
                       className={`p-4 border rounded-md cursor-pointer ${
-                        vehicleId === vehicle._id ? 'border-admin-foreground bg-admin-bg/50' : 
-                                'border-admin-border'
+                        vehicleId === vehicle._id ?
+                           'border-orange-700 bg-orange-700' : 
+                            'border-admin-border'
                       }`}
                       onClick={() => setVehicleId(vehicle._id)}
                     >

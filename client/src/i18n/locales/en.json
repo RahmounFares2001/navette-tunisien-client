@@ -52,7 +52,9 @@
     "submit": "Submit",
     "bookNow": "Book Now",
     "required": "Required",
-    "optional": "Optional"
+    "optional": "Optional",
+
+    "fullNamePlaceholder": "Your full name"
   },
   "transfers": {
     "title": "Transfer Booking",
@@ -70,7 +72,31 @@
     "childSeats": "Child Seats",
     "driverLanguage": "Driver Language",
     "comment": "Comment",
-    "confirmationMessage": "Your transfer request has been sent successfully!"
+    "confirmationMessage": "Your transfer request has been sent successfully!",
+
+    "selectLocations": "Select Locations",
+    "departurePlaceholder": "Select a departure location",
+    "destinationPlaceholder": "Select a destination",
+    "departureAddress": "Departure Address (optional)",
+    "departureAddressPlaceholder": "Enter the departure address",
+    "destinationAddress": "Destination Address (optional)",
+    "destinationAddressPlaceholder": "Enter the destination address",
+    "seats": "seats",
+    "suitcases": "suitcases",
+    "price": "Price",
+    "next": "Next",
+    "previous": "Previous",
+    "page": "Page",
+    "go": "Go",
+    "bookingDetails": "Booking Details",
+    "availableSeats": "Number of available seats in this vehicle: {{available}}",
+    "maxSuitcases": "Maximum number of suitcases: {{max}}",
+    "numberOfSuitcases": "Number of Suitcases",
+    "languageFee": "Selecting languages adds {{fee}} {{currency}} to the total price",
+    "languageToggle": "Enable Driver Languages",
+    "commentPlaceholder": "Additional information...",
+    "totalPrice": "Total Price"
+
   },
   "excursions": {
     "title": "Our Excursions",
