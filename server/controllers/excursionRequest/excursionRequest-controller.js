@@ -118,7 +118,7 @@ export const createExcursionRequest = async (req, res) => {
       price,
       paymentPercentage: paymentPercentage || 0,
       withGuide: withGuide || false,
-      driverLanguages: withGuide == true ? driverLanguages : '',
+      driverLanguages: withGuide === true ? driverLanguages : '',
       status: status || 'pending',
     };
 
@@ -127,30 +127,39 @@ export const createExcursionRequest = async (req, res) => {
     let emailWarning = null;
     // Send email if status is 'confirmed' or 'rejected'
     if (status && (status === 'confirmed' || status === 'rejected')) {
-      if (status === 'confirmed') {
-        if (!excursionRequestData.clientEmail || !excursionRequestData.clientName || !excursionRequestData.excursionDate) {
-          emailWarning = 'Missing required fields for confirmation email';
-          console.error(emailWarning);
-        } else {
+      // Validate required fields and email format
+      if (!excursionRequestData.clientEmail || !excursionRequestData.clientName || !excursionRequestData.excursionDate) {
+        emailWarning = 'Missing required fields for email';
+        console.error(emailWarning);
+      } else if (!emailRegex.test(excursionRequestData.clientEmail)) {
+        emailWarning = `Invalid email format: ${excursionRequestData.clientEmail}`;
+        console.error(emailWarning);
+      } else if (isNaN(new Date(excursionRequestData.excursionDate).getTime())) {
+        emailWarning = `Invalid date format: ${excursionRequestData.excursionDate}`;
+        console.error(emailWarning);
+      } else {
+        if (status === 'confirmed') {
           const emailResult = await sendConfirmationEmail({
             email: excursionRequestData.clientEmail,
             clientName: excursionRequestData.clientName,
             date: excursionRequestData.excursionDate,
             type: 'excursion',
             details: {
-              excursionTitle: excursion.title,
+              excursionTitle: excursion ? excursion.title : 'Excursion',
+              withGuide: excursionRequestData.withGuide,
+              driverLanguages: excursionRequestData.driverLanguages,
+              numberOfAdults: excursionRequestData.numberOfAdults,
+              numberOfChildren: excursionRequestData.numberOfChildren,
+              numberOfBabies: excursionRequestData.numberOfBabies,
+              excursionTime: excursionRequestData.excursionTime,
             },
-            price
+            price,
           });
           if (!emailResult.success) {
             emailWarning = emailResult.message;
+            console.error(emailWarning);
           }
-        }
-      } else if (status === 'rejected') {
-        if (!excursionRequestData.clientEmail || !excursionRequestData.clientName || !excursionRequestData.excursionDate) {
-          emailWarning = 'Missing required fields for rejection email';
-          console.error(emailWarning);
-        } else {
+        } else if (status === 'rejected') {
           const emailResult = await sendRejectionEmail({
             email: excursionRequestData.clientEmail,
             clientName: excursionRequestData.clientName,
@@ -159,10 +168,11 @@ export const createExcursionRequest = async (req, res) => {
           });
           if (!emailResult.success) {
             emailWarning = emailResult.message;
+            console.error(emailWarning);
           }
         }
       }
-    } 
+    }
 
     await excursionRequest.save();
     const response = {
@@ -357,7 +367,6 @@ export const updateExcursionRequest = async (req, res) => {
         newPriceExcursion = newPrice + (withGuide !== undefined ? (withGuide ? 200 : 0) : (excursionRequest.withGuide ? 200 : 0));
         excursionRequest.price = newPriceExcursion;
       } else {
-        // If no price-affecting fields are updated, use the existing price
         newPriceExcursion = excursionRequest.price || 0;
       }
 
@@ -392,48 +401,56 @@ export const updateExcursionRequest = async (req, res) => {
 
       let emailWarning = null;
       if (status && originalStatus !== status && (status === 'confirmed' || status === 'rejected')) {
-        if (status === 'confirmed') {
-          if (!excursionRequest.clientEmail || !excursionRequest.clientName || !excursionRequest.excursionDate) {
-            emailWarning = 'Missing required fields for confirmation email';
+        // Ensure all required fields are present before attempting to send email
+        if (!excursionRequest.clientEmail || !excursionRequest.clientName || !excursionRequest.excursionDate) {
+          emailWarning = 'Missing required fields for email';
+          console.error(emailWarning);
+        } else {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(excursionRequest.clientEmail)) {
+            emailWarning = `Invalid email format: ${excursionRequest.clientEmail}`;
+            console.error(emailWarning);
+          } else if (isNaN(new Date(excursionRequest.excursionDate).getTime())) {
+            emailWarning = `Invalid date format: ${excursionRequest.excursionDate}`;
             console.error(emailWarning);
           } else {
-            const excursion = await Excursion.findById(excursionRequest.excursionId);
-            if (!excursion) {
-              emailWarning = 'Excursion not found for confirmation email';
-              console.error(emailWarning);
-            } else {
+            if (status === 'confirmed') {
+              const excursion = await Excursion.findById(excursionRequest.excursionId);
               const emailResult = await sendConfirmationEmail({
                 email: excursionRequest.clientEmail,
                 clientName: excursionRequest.clientName,
                 date: excursionRequest.excursionDate,
                 type: 'excursion',
                 details: {
-                  excursionTitle: excursion.title,
+                  excursionTitle: excursion ? excursion.title : 'Excursion',
+                  withGuide: excursionRequest.withGuide,
+                  driverLanguages: excursionRequest.driverLanguages,
+                  numberOfAdults: excursionRequest.numberOfAdults,
+                  numberOfChildren: excursionRequest.numberOfChildren,
+                  numberOfBabies: excursionRequest.numberOfBabies,
+                  excursionTime: excursionRequest.excursionTime,
                 },
-                price: newPriceExcursion // Pass the calculated price
+                price: newPriceExcursion || excursionRequest.price || 0,
               });
               if (!emailResult.success) {
                 emailWarning = emailResult.message;
+                console.error(emailWarning);
+              }
+            } else if (status === 'rejected') {
+              const emailResult = await sendRejectionEmail({
+                email: excursionRequest.clientEmail,
+                clientName: excursionRequest.clientName,
+                date: excursionRequest.excursionDate,
+                type: 'excursion',
+              });
+              if (!emailResult.success) {
+                emailWarning = emailResult.message;
+                console.error(emailWarning);
               }
             }
           }
-        } else if (status === 'rejected') {
-          if (!excursionRequest.clientEmail || !excursionRequest.clientName || !excursionRequest.excursionDate) {
-            emailWarning = 'Missing required fields for rejection email';
-            console.error(emailWarning);
-          } else {
-            const emailResult = await sendRejectionEmail({
-              email: excursionRequest.clientEmail,
-              clientName: excursionRequest.clientName,
-              date: excursionRequest.excursionDate,
-              type: 'excursion',
-            });
-            if (!emailResult.success) {
-              emailWarning = emailResult.message;
-            }
-          }
         }
-      } 
+      }
 
       await excursionRequest.save();
       const response = {

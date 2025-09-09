@@ -35,9 +35,18 @@ const generateConfirmationHtmlContent = ({ clientName, date, type, details, pric
     day: 'numeric',
   });
   const title = type === 'transfer' ? 'Confirmation de Votre Transfert' : 'Confirmation de Votre Demande d\'Excursion';
-  const detailsHtml = type === 'transfer'
-    ? `<p><strong>Trajet :</strong> ${details.tripType} de ${details.departureLocation} à ${details.destination}</p>`
-    : `<p><strong>Excursion :</strong> ${details.excursionTitle}</p>`;
+  let detailsHtml = '';
+  if (type === 'transfer') {
+    detailsHtml = `<p><strong>Trajet :</strong> ${details.tripType} de ${details.departureLocation} à ${details.destination}</p>`;
+  } else {
+    detailsHtml = `
+      <p><strong>Excursion :</strong> ${details.excursionTitle || 'Excursion'}</p>
+      <p><strong>Guide :</strong> ${details.withGuide ? 'Oui' : 'Non'}</p>
+      ${details.withGuide && details.driverLanguages ? `<p><strong>Langues du guide :</strong> ${details.driverLanguages}</p>` : ''}
+      <p><strong>Participants :</strong> ${details.numberOfAdults || 0} adulte(s), ${details.numberOfChildren || 0} enfant(s), ${details.numberOfBabies || 0} bébé(s)</p>
+      <p><strong>Heure de départ :</strong> ${details.excursionTime || 'Non spécifiée'}</p>
+    `;
+  }
 
   return `
     <!DOCTYPE html>
@@ -111,7 +120,7 @@ const generateConfirmationHtmlContent = ({ clientName, date, type, details, pric
           <p>Bonjour ${clientName},</p>
           <p>Nous sommes ravis de confirmer votre ${type === 'transfer' ? 'transfert' : 'demande d\'excursion'} pour le ${formattedDate}.</p>
           ${detailsHtml}
-          <p>Prix : ${price} DT</p>
+          <p><strong>Prix :</strong> ${price} DT</p>
           <p>Merci d'avoir choisi Navette Tunisie. Nous vous contacterons pour toute information supplémentaire.</p>
           <p>Cordialement,</p>
           <p>L'équipe Navette Tunisie</p>
@@ -226,11 +235,6 @@ export const sendConfirmationEmail = async ({ email, clientName, date, type, det
     if (!email || !clientName || !date || !type || !details || price === undefined) {
       console.error(`Missing required fields for confirmation email: email=${email}, clientName=${clientName}, date=${date}, type=${type}, details=${JSON.stringify(details)}, price=${price}`);
       return { success: false, message: 'Missing required fields for confirmation email' };
-    }
-
-    if (isNaN(new Date(date).getTime())) {
-      console.error(`Invalid date format: ${date}`);
-      return { success: false, message: `Invalid date format: ${date}` };
     }
 
     // Test SMTP connection before sending

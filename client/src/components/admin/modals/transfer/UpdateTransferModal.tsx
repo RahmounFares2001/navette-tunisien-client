@@ -65,13 +65,14 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
 
   useEffect(() => {
     if (transfer) {
+      const currentDestination = transfer.destination || '';
       setClientName(transfer.clientName || '');
       setClientEmail(transfer.clientEmail || '');
       setClientPhone(transfer.clientPhone || '');
       setTripType(transfer.tripType || 'aller simple');
       setDepartureLocation(transfer.departureLocation || '');
       setDepartureAddress(transfer.departureAddress || '');
-      setDestination(transfer.destination || '');
+      setDestination(currentDestination);
       setDestinationAddress(transfer.destinationAddress || '');
       setTravelDate(formatDateForInput(transfer.travelDate));
       setDepartureTime(formatTimeForInput(transfer.departureTime));
@@ -85,32 +86,32 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       setStatus(transfer.status || 'pending');
       setPaymentPercentage(transfer.paymentPercentage === 0 || transfer.paymentPercentage === 100 ? transfer.paymentPercentage : 0);
       
-      // Compute initial filteredDestinations, always including the current destination
-      const currentDestination = transfer.destination || '';
-      const validDestinations = [...new Set([...locations, currentDestination])].filter(dest => dest && dest !== transfer.departureLocation);
-      setFilteredDestinations(validDestinations);
+      // Initialize filteredDestinations with all locations, ensuring current destination is included
+      const initialDestinations = [...new Set([...locations, currentDestination])].filter(dest => dest && dest !== transfer.departureLocation);
+      setFilteredDestinations(initialDestinations);
     }
   }, [transfer]);
 
   useEffect(() => {
-    if (departureLocation) {
+    if (departureLocation && transfer) {
       const validDestinations = locations.filter(dest => {
         if (dest === departureLocation) return false;
         const distance = distances.find(
           d => (d.from === departureLocation && d.to === dest) || (d.from === dest && d.to === departureLocation)
         )?.distance_km || 0;
-        return distance >= 50 || dest === destination;
+        return distance >= 50 || dest === transfer.destination;
       });
       setFilteredDestinations(validDestinations);
-      
-      // Ensure destination is valid; reset if not in filteredDestinations
-      if (destination && !validDestinations.includes(destination)) {
-        setDestination('');
+      // Ensure destination is preserved if it's valid
+      if (transfer.destination && validDestinations.includes(transfer.destination)) {
+        setDestination(transfer.destination);
       }
     } else {
-      setFilteredDestinations(locations);
+      const currentDestination = transfer?.destination || '';
+      setFilteredDestinations([...new Set([...locations, currentDestination])]);
+      setDestination(currentDestination);
     }
-  }, [departureLocation, destination]);
+  }, [departureLocation, transfer]);
 
   useEffect(() => {
     if (vehicleId && departureLocation && destination) {
@@ -154,7 +155,6 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       status,
       paymentPercentage: status === 'confirmed' ? paymentPercentage : 0,
     };
-
 
     try {
       const response = await updateTransfer(transferData).unwrap();
@@ -228,7 +228,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
                   id="clientEmail"
                   type="email"
                   value={clientEmail}
-                  onChange={(e) => setClientName(e.target.value)}
+                  onChange={(e) => setClientEmail(e.target.value)}
                   required
                   className="pl-10 bg-admin-card border-admin-border"
                 />
@@ -283,7 +283,7 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
             </div>
             <div>
               <Label htmlFor="destination">Destination</Label>
-              <Select key={transfer._id} value={destination} onValueChange={setDestination}>
+              <Select value={destination || ''} onValueChange={setDestination}>
                 <SelectTrigger className="bg-admin-card border-admin-border">
                   <SelectValue placeholder="Sélectionner une destination" />
                 </SelectTrigger>
