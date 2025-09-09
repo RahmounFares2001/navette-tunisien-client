@@ -117,7 +117,7 @@
     "searchButton": "Go",
     "previous": "Previous",
     "next": "Next",
-    "page": "Page {current} of {total}",
+    "page": "Page {[current}} of {{total}}",
     "hours": "hours",
     "location": "Tunisia"
   },

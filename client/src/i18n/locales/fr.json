@@ -116,7 +116,7 @@
     "searchButton": "Aller",
     "previous": "Précédent",
     "next": "Suivant",
-    "page": "Page {current} sur {total}",
+    "page": "Page {{current}} sur {{total}}",
     "hours": "heures",
     "location": "Tunisie"
   },
