@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Clock, Users, MapPin, ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Clock, Users, MapPin, ChevronLeft, ChevronRight, CheckCircle, Plus, Minus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -62,177 +62,173 @@ const ExcursionDetails = () => {
   };
 
   // Translation logic with caching
- // Super fast parallel translation - replace your useEffect with this
-useEffect(() => {
-  if (!excursion) return;
+  useEffect(() => {
+    if (!excursion) return;
 
-  const cacheKey = `excursion_${excursion._id}_${i18n.language}_v3`; // v3 for faster version
-  
-  // Fast Google Translate with minimal delays
-  const translateWithGoogle = async (text, targetLang) => {
-    try {
-      // For very long texts, split smartly but with larger chunks
-      const maxChunkSize = 4500;
-      const chunks = [];
-      
-      if (text.length <= maxChunkSize) {
-        chunks.push(text);
-      } else {
-        // Quick sentence-based splitting
-        const sentences = text.split(/(?<=[.!?])\s+/);
-        let currentChunk = '';
+    const cacheKey = `excursion_${excursion._id}_${i18n.language}_v3`; // v3 for faster version
+    
+    // Fast Google Translate with minimal delays
+    const translateWithGoogle = async (text, targetLang) => {
+      try {
+        // For very long texts, split smartly but with larger chunks
+        const maxChunkSize = 4500;
+        const chunks = [];
         
-        for (const sentence of sentences) {
-          if ((currentChunk + sentence).length > maxChunkSize && currentChunk) {
-            chunks.push(currentChunk.trim());
-            currentChunk = sentence;
-          } else {
-            currentChunk += (currentChunk ? ' ' : '') + sentence;
-          }
-        }
-        if (currentChunk) chunks.push(currentChunk.trim());
-      }
-      
-      // Translate all chunks in parallel for speed
-      const chunkPromises = chunks.map(async (chunk, index) => {
-        // Stagger requests slightly to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, index * 300));
-        
-        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl=${targetLang}&dt=t&q=${encodeURIComponent(chunk)}`;
-        
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-          }
-        });
-        
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        
-        let result = '';
-        if (data && Array.isArray(data) && data[0] && Array.isArray(data[0])) {
-          for (const segment of data[0]) {
-            if (Array.isArray(segment) && segment[0]) {
-              result += segment[0];
+        if (text.length <= maxChunkSize) {
+          chunks.push(text);
+        } else {
+          // Quick sentence-based splitting
+          const sentences = text.split(/(?<=[.!?])\s+/);
+          let currentChunk = '';
+          
+          for (const sentence of sentences) {
+            if ((currentChunk + sentence).length > maxChunkSize && currentChunk) {
+              chunks.push(currentChunk.trim());
+              currentChunk = sentence;
+            } else {
+              currentChunk += (currentChunk ? ' ' : '') + sentence;
             }
           }
+          if (currentChunk) chunks.push(currentChunk.trim());
         }
         
-        return result || chunk;
-      });
-      
-      const translatedChunks = await Promise.all(chunkPromises);
-      return translatedChunks.join('');
-      
-    } catch (error) {
-      console.warn('Google translate failed:', error);
-      throw error;
-    }
-  };
-
-  // Fast translation with immediate fallback
-  const translateText = async (text, targetLang) => {
-    if (text.length < 5) return text;
-    
-    try {
-      const result = await translateWithGoogle(text, targetLang);
-      if (result && result.length > text.length * 0.2) {
-        return result;
+        // Translate all chunks in parallel for speed
+        const chunkPromises = chunks.map(async (chunk, index) => {
+          // Stagger requests slightly to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, index * 300));
+          
+          const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl=${targetLang}&dt=t&q=${encodeURIComponent(chunk)}`;
+          
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+          });
+          
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          
+          let result = '';
+          if (data && Array.isArray(data) && data[0] && Array.isArray(data[0])) {
+            for (const segment of data[0]) {
+              if (Array.isArray(segment) && segment[0]) {
+                result += segment[0];
+              }
+            }
+          }
+          
+          return result || chunk;
+        });
+        
+        const translatedChunks = await Promise.all(chunkPromises);
+        return translatedChunks.join('');
+        
+      } catch (error) {
+        console.warn('Google translate failed:', error);
+        throw error;
       }
-    } catch (error) {
-      console.warn('Translation failed, using original:', error);
-    }
-    
-    return text; // Quick fallback to original
-  };
+    };
 
-  // Translate everything in parallel for maximum speed
-  const translateFields = async () => {
-    setIsTranslating(true);
-    const targetLang = i18n.language;
-    
+    // Fast translation with immediate fallback
+    const translateText = async (text, targetLang) => {
+      if (text.length < 5) return text;
+      
+      try {
+        const result = await translateWithGoogle(text, targetLang);
+        if (result && result.length > text.length * 0.2) {
+          return result;
+        }
+      } catch (error) {
+        console.warn('Translation failed, using original:', error);
+      }
+      
+      return text; // Quick fallback to original
+    };
 
-    if (targetLang === 'fr') {
-      setTranslatedTitle(excursion.title);
-      setTranslatedDescription(excursion.description);
-      setTranslatedIncludedItems(excursion.includedItems);
-      setTranslatedDailyProgram(excursion.dailyProgram);
+    // Translate everything in parallel for maximum speed
+    const translateFields = async () => {
+      setIsTranslating(true);
+      const targetLang = i18n.language;
+      
+      if (targetLang === 'fr') {
+        setTranslatedTitle(excursion.title);
+        setTranslatedDescription(excursion.description);
+        setTranslatedIncludedItems(excursion.includedItems);
+        setTranslatedDailyProgram(excursion.dailyProgram);
+        setIsTranslating(false);
+        return;
+      }
+
+      // Check cache first
+      try {
+        const cachedTranslation = localStorage.getItem(cacheKey);
+        if (cachedTranslation) {
+          const parsed = JSON.parse(cachedTranslation);
+          if (parsed.description && parsed.description.length > 200) {
+            setTranslatedTitle(parsed.title);
+            setTranslatedDescription(parsed.description);
+            setTranslatedIncludedItems(parsed.includedItems);
+            setTranslatedDailyProgram(parsed.dailyProgram);
+            setIsTranslating(false);
+            return;
+          }
+        }
+      } catch (e) {
+        // Ignore cache errors
+      }
+
+      try {
+        // Translate EVERYTHING in parallel for maximum speed
+        const results = await Promise.all([
+          translateText(excursion.title, targetLang),
+          translateText(excursion.description, targetLang),
+          ...excursion.includedItems.map(item => translateText(item, targetLang)),
+          ...excursion.dailyProgram.map(item => translateText(item, targetLang))
+        ]);
+
+        // Extract results
+        const translatedTitle = results[0];
+        const translatedDescription = results[1];
+        const translatedIncludedItems = results.slice(2, 2 + excursion.includedItems.length);
+        const translatedDailyProgram = results.slice(2 + excursion.includedItems.length);
+
+        // Update UI immediately
+        setTranslatedTitle(translatedTitle);
+        setTranslatedDescription(translatedDescription);
+        setTranslatedIncludedItems(translatedIncludedItems);
+        setTranslatedDailyProgram(translatedDailyProgram);
+
+        // Cache in background (non-blocking)
+        setTimeout(() => {
+          try {
+            const cacheData = {
+              title: translatedTitle,
+              description: translatedDescription,
+              includedItems: translatedIncludedItems,
+              dailyProgram: translatedDailyProgram,
+              timestamp: Date.now()
+            };
+            localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+          } catch (e) {
+            // Ignore cache errors
+          }
+        }, 100);
+        
+      } catch (error) {
+        console.error('Translation failed:', error);
+        // Quick fallback
+        setTranslatedTitle(excursion.title);
+        setTranslatedDescription(excursion.description);
+        setTranslatedIncludedItems(excursion.includedItems);
+        setTranslatedDailyProgram(excursion.dailyProgram);
+      }
+      
       setIsTranslating(false);
-      return;
-    }
+    };
 
-    // Check cache first
-    try {
-      const cachedTranslation = localStorage.getItem(cacheKey);
-      if (cachedTranslation) {
-        const parsed = JSON.parse(cachedTranslation);
-        if (parsed.description && parsed.description.length > 200) {
-          setTranslatedTitle(parsed.title);
-          setTranslatedDescription(parsed.description);
-          setTranslatedIncludedItems(parsed.includedItems);
-          setTranslatedDailyProgram(parsed.dailyProgram);
-          setIsTranslating(false);
-          return;
-        }
-      }
-    } catch (e) {
-      // Ignore cache errors
-    }
-
-    try {
-      
-      // Translate EVERYTHING in parallel for maximum speed
-      const results = await Promise.all([
-        translateText(excursion.title, targetLang),
-        translateText(excursion.description, targetLang),
-        ...excursion.includedItems.map(item => translateText(item, targetLang)),
-        ...excursion.dailyProgram.map(item => translateText(item, targetLang))
-      ]);
-
-      // Extract results
-      const translatedTitle = results[0];
-      const translatedDescription = results[1];
-      const translatedIncludedItems = results.slice(2, 2 + excursion.includedItems.length);
-      const translatedDailyProgram = results.slice(2 + excursion.includedItems.length);
-
-
-      // Update UI immediately
-      setTranslatedTitle(translatedTitle);
-      setTranslatedDescription(translatedDescription);
-      setTranslatedIncludedItems(translatedIncludedItems);
-      setTranslatedDailyProgram(translatedDailyProgram);
-
-      // Cache in background (non-blocking)
-      setTimeout(() => {
-        try {
-          const cacheData = {
-            title: translatedTitle,
-            description: translatedDescription,
-            includedItems: translatedIncludedItems,
-            dailyProgram: translatedDailyProgram,
-            timestamp: Date.now()
-          };
-          localStorage.setItem(cacheKey, JSON.stringify(cacheData));
-        } catch (e) {
-          // Ignore cache errors
-        }
-      }, 100);
-      
-    } catch (error) {
-      console.error('Translation failed:', error);
-      // Quick fallback
-      setTranslatedTitle(excursion.title);
-      setTranslatedDescription(excursion.description);
-      setTranslatedIncludedItems(excursion.includedItems);
-      setTranslatedDailyProgram(excursion.dailyProgram);
-    }
-    
-    setIsTranslating(false);
-  };
-
-  translateFields();
-}, [excursion, i18n.language, toast]);
+    translateFields();
+  }, [excursion, i18n.language, toast]);
 
   useEffect(() => {
     if (excursion) {
@@ -262,6 +258,21 @@ useEffect(() => {
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + (excursion?.imageUrls.length || 1)) % (excursion?.imageUrls.length || 1));
+  };
+
+  const handleAdultsChange = (value: number) => {
+    const cappedValue = Math.min(Math.max(0, value), maxAdults);
+    setFormData(prev => ({ ...prev, numberOfAdults: cappedValue }));
+  };
+
+  const handleChildrenChange = (value: number) => {
+    const cappedValue = Math.min(Math.max(0, value), maxChildren);
+    setFormData(prev => ({ ...prev, numberOfChildren: cappedValue }));
+  };
+
+  const handleBabiesChange = (value: number) => {
+    const cappedValue = Math.min(Math.max(0, value), maxBabies);
+    setFormData(prev => ({ ...prev, numberOfBabies: cappedValue }));
   };
 
   const handleSubmit = async () => {
@@ -611,41 +622,107 @@ useEffect(() => {
                         7-8 {t('excursionDetails.personnes')}: ({getPrice(excursion.prices.sevenToEight)} {currency})
                       </p>
                       <Label htmlFor="numberOfAdults">{t('excursions.numberOfAdults')} *</Label>
-                      <Input
-                        id="numberOfAdults"
-                        type="number"
-                        min="0"
-                        max={maxAdults}
-                        value={formData.numberOfAdults}
-                        onChange={(e) => setFormData(prev => ({ ...prev, numberOfAdults: parseInt(e.target.value) || 0 }))}
-                        className="text-sm sm:text-md"
-                      />
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleAdultsChange(formData.numberOfAdults - 1)}
+                          disabled={formData.numberOfAdults <= 0}
+                          className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <Input
+                          id="numberOfAdults"
+                          type="number"
+                          min="0"
+                          max={maxAdults}
+                          value={formData.numberOfAdults}
+                          onChange={(e) => handleAdultsChange(parseInt(e.target.value) || 0)}
+                          className="text-sm sm:text-md text-center w-16"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleAdultsChange(formData.numberOfAdults + 1)}
+                          disabled={formData.numberOfAdults >= maxAdults}
+                          className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
 
                     <div>
                       <Label htmlFor="numberOfChildren">{t('excursions.numberOfChildren')} *</Label>
-                      <Input
-                        id="numberOfChildren"
-                        type="number"
-                        min="0"
-                        max={maxChildren}
-                        value={formData.numberOfChildren}
-                        onChange={(e) => setFormData(prev => ({ ...prev, numberOfChildren: parseInt(e.target.value) || 0 }))}
-                        className="text-sm sm:text-md"
-                      />
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleChildrenChange(formData.numberOfChildren - 1)}
+                          disabled={formData.numberOfChildren <= 0}
+                          className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <Input
+                          id="numberOfChildren"
+                          type="number"
+                          min="0"
+                          max={maxChildren}
+                          value={formData.numberOfChildren}
+                          onChange={(e) => handleChildrenChange(parseInt(e.target.value) || 0)}
+                          className="text-sm sm:text-md text-center w-16"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleChildrenChange(formData.numberOfChildren + 1)}
+                          disabled={formData.numberOfChildren >= maxChildren}
+                          className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
 
                     <div>
                       <Label htmlFor="numberOfBabies">{t('excursions.numberOfBabies')} *</Label>
-                      <Input
-                        id="numberOfBabies"
-                        type="number"
-                        min="0"
-                        max={maxBabies}
-                        value={formData.numberOfBabies}
-                        onChange={(e) => setFormData(prev => ({ ...prev, numberOfBabies: parseInt(e.target.value) || 0 }))}
-                        className="text-sm sm:text-md"
-                      />
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleBabiesChange(formData.numberOfBabies - 1)}
+                          disabled={formData.numberOfBabies <= 0}
+                          className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <Input
+                          id="numberOfBabies"
+                          type="number"
+                          min="0"
+                          max={maxBabies}
+                          value={formData.numberOfBabies}
+                          onChange={(e) => handleBabiesChange(parseInt(e.target.value) || 0)}
+                          className="text-sm sm:text-md text-center w-16"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleBabiesChange(formData.numberOfBabies + 1)}
+                          disabled={formData.numberOfBabies >= maxBabies}
+                          className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
                       <p className="text-sm text-muted-foreground mt-1">
                         Max 8 {t('excursionDetails.maxPersons')}
                       </p>

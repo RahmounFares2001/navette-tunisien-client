@@ -20,7 +20,7 @@ const Excursions = () => {
   const itemsPerPage = 6;
   const maxPages = 2;
 
-  const { data: excursionsData, isLoading, error } = useGetAllExcursionsQuery({ page: 1, limit: 100, search: '' });
+  const { data: excursionsData, isLoading, error } = useGetAllExcursionsQuery({ page: 1, limit: itemsPerPage * maxPages, search: '' });
   const availableExcursions = excursionsData?.data?.filter(exc => exc.isAvailable) || [];
   const filteredExcursions = availableExcursions.filter(exc =>
     exc.title.toLowerCase().includes(searchQuery.toLowerCase())
