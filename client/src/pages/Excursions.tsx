@@ -17,7 +17,7 @@ const Excursions = () => {
   const { currency, exchangeRates } = useContext(CurrencyContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  const itemsPerPage = 6;
+  const itemsPerPage = 18;
   const maxPages = 2;
 
   const { data: excursionsData, isLoading, error } = useGetAllExcursionsQuery({ page: 1, limit: itemsPerPage * maxPages, search: '' });
