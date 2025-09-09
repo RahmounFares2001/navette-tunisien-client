@@ -172,7 +172,10 @@ const Excursions = () => {
               className="flex justify-center items-center gap-4 mt-8"
             >
               <Button
-                onClick={handlePreviousPage}
+                onClick={()=> {
+                  handlePreviousPage();
+                  window.scrollTo(0, 0)
+              }}
                 disabled={currentPage === 1}
                 variant="outline"
                 className="flex items-center"
@@ -184,7 +187,10 @@ const Excursions = () => {
                 {t('excursions.page', { current: currentPage, total: totalPages })}
               </span>
               <Button
-                onClick={handleNextPage}
+                onClick={()=> {
+                    handleNextPage();
+                    window.scrollTo(0, 0)
+                }}
                 disabled={currentPage === totalPages}
                 variant="outline"
                 className="flex items-center"
