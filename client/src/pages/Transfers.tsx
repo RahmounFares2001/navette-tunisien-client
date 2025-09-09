@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Car, Users, Check, Calendar, Clock, MapPin, Mail, Phone, FileText, Briefcase, Languages, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Car, Users, Check, Calendar, Clock, MapPin, Mail, Phone, FileText, Briefcase, Languages, ArrowLeft, CheckCircle, Plus, Minus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -154,15 +154,13 @@ const Transfers = () => {
   const maxAdults = selectedVehicleData ? Math.max(1, availableSeats - (transferData.numberOfChildren || 0)) : 1;
   const maxChildren = selectedVehicleData ? Math.max(0, availableSeats - transferData.numberOfAdults) : 0;
 
-  const handleAdultsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 1;
-    const cappedValue = Math.min(value, maxAdults);
+  const handleAdultsChange = (value: number) => {
+    const cappedValue = Math.min(Math.max(1, value), maxAdults);
     setTransferData(prev => ({ ...prev, numberOfAdults: cappedValue }));
   };
 
-  const handleChildrenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 0;
-    const cappedValue = Math.min(value, maxChildren);
+  const handleChildrenChange = (value: number) => {
+    const cappedValue = Math.min(Math.max(0, value), maxChildren);
     setTransferData(prev => ({ ...prev, numberOfChildren: cappedValue }));
   };
 
@@ -248,7 +246,6 @@ const Transfers = () => {
       driverLanguage: isLanguageActive ? (transferData.driverLanguage || []) : [],
       comment: transferData.comment?.trim() || undefined,
       vehicleId: selectedVehicle,
-      // price: selectedVehicleData ? getPriceInTND(selectedVehicleData) : 0,
     };
 
     try {
@@ -737,15 +734,37 @@ const Transfers = () => {
                           <Users className="h-4 w-4 mr-2 text-orange-600" />
                           {t('transfers.adults', { defaultValue: 'Nombre d\'Adultes' })}
                         </Label>
-                        <Input
-                          id="numberOfAdults"
-                          type="number"
-                          min="1"
-                          max={maxAdults}
-                          value={transferData.numberOfAdults}
-                          onChange={handleAdultsChange}
-                          className="bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
-                        />
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleAdultsChange(transferData.numberOfAdults - 1)}
+                            disabled={transferData.numberOfAdults <= 1}
+                            className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <Input
+                            id="numberOfAdults"
+                            type="number"
+                            min="1"
+                            max={maxAdults}
+                            value={transferData.numberOfAdults}
+                            onChange={(e) => handleAdultsChange(parseInt(e.target.value) || 1)}
+                            className="bg-white border-gray-300 focus:ring-2 focus:ring-orange-500 text-center w-16"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleAdultsChange(transferData.numberOfAdults + 1)}
+                            disabled={transferData.numberOfAdults >= maxAdults}
+                            className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                       <div className='flex flex-col gap-2'>
                         <div className="text-sm text-gray-600 mb-2">
@@ -761,15 +780,37 @@ const Transfers = () => {
                           <Users className="h-4 w-4 mr-2 text-orange-600" />
                           {t('transfers.numberOfChildren', { defaultValue: 'Nombre d\'Enfants' })}
                         </Label>
-                        <Input
-                          id="numberOfChildren"
-                          type="number"
-                          min="0"
-                          max={maxChildren}
-                          value={transferData.numberOfChildren}
-                          onChange={handleChildrenChange}
-                          className="bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
-                        />
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleChildrenChange(transferData.numberOfChildren - 1)}
+                            disabled={transferData.numberOfChildren <= 0}
+                            className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <Input
+                            id="numberOfChildren"
+                            type="number"
+                            min="0"
+                            max={maxChildren}
+                            value={transferData.numberOfChildren}
+                            onChange={(e) => handleChildrenChange(parseInt(e.target.value) || 0)}
+                            className="bg-white border-gray-300 focus:ring-2 focus:ring-orange-500 text-center w-16"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleChildrenChange(transferData.numberOfChildren + 1)}
+                            disabled={transferData.numberOfChildren >= maxChildren}
+                            className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                       <div className='flex flex-col gap-2'>
                         <div className="text-sm text-gray-600 mb-2">
@@ -784,15 +825,37 @@ const Transfers = () => {
                           <Briefcase className="h-4 w-4 mr-2 text-orange-600" />
                           {t('transfers.numberOfSuitcases', { defaultValue: 'Nombre de Valises' })}
                         </Label>
-                        <Input
-                          id="numberOfSuitcases"
-                          type="number"
-                          min="0"
-                          max={maxSuitcases}
-                          value={transferData.numberOfSuitcases}
-                          onChange={handleSuitcasesChange}
-                          className="bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
-                        />
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleSuitcasesChange({ target: { value: (transferData.numberOfSuitcases - 1).toString() } } as React.ChangeEvent<HTMLInputElement>)}
+                            disabled={transferData.numberOfSuitcases <= 0}
+                            className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <Input
+                            id="numberOfSuitcases"
+                            type="number"
+                            min="0"
+                            max={maxSuitcases}
+                            value={transferData.numberOfSuitcases}
+                            onChange={handleSuitcasesChange}
+                            className="bg-white border-gray-300 focus:ring-2 focus:ring-orange-500 text-center w-16"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleSuitcasesChange({ target: { value: (transferData.numberOfSuitcases + 1).toString() } } as React.ChangeEvent<HTMLInputElement>)}
+                            disabled={transferData.numberOfSuitcases >= maxSuitcases}
+                            className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                       <div className="md:col-span-2">
                         <div className="text-sm text-gray-600 mb-2">
