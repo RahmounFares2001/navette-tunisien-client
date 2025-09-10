@@ -29,7 +29,8 @@ const Transfers = () => {
   const [step, setStep] = useState(1);
   const [selectedVehicle, setSelectedVehicle] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isLanguageActive, setIsLanguageActive] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageInput, setPageInput] = useState('');
   const [transferData, setTransferData] = useState<CreateTransferRequest>({
     tripType: 'aller simple',
     departureLocation: '',
@@ -50,9 +51,10 @@ const Transfers = () => {
     vehicleId: '',
   });
   const [filteredDestinations, setFilteredDestinations] = useState<string[]>([]);
+  const [isLanguageActive, setIsLanguageActive] = useState(false);
 
   const [createTransfer, { isLoading }] = useCreateTransferMutation();
-  const { data: vehiclesData, isLoading: vehiclesLoading, isError, refetch } = useGetAllVehiclesQuery({ limit: 100, search: '' });
+  const { data: vehiclesData, isLoading: vehiclesLoading } = useGetAllVehiclesQuery({ page: currentPage, limit: 10, search: '' });
 
   const locations = [...new Set(distances.map(d => d.from).concat(distances.map(d => d.to)))];
 
@@ -168,6 +170,23 @@ const Transfers = () => {
     setTransferData(prev => ({ ...prev, numberOfSuitcases: cappedValue }));
   };
 
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= Math.min(vehiclesData?.totalPages || 1, 2)) {
+      setCurrentPage(page);
+      setPageInput('');
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handlePageInputSubmit = () => {
+    const pageNum = parseInt(pageInput);
+    if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= Math.min(vehiclesData?.totalPages || 1, 2)) {
+      setCurrentPage(pageNum);
+      setPageInput('');
+      window.scrollTo(0, 0);
+    }
+  };
+
   const handleSubmit = async () => {
     const missingFields: string[] = [];
     if (!selectedVehicle) missingFields.push(t('transfers.vehicleSelection', { defaultValue: 'Véhicule' }));
@@ -250,6 +269,8 @@ const Transfers = () => {
   const selectedVehiclePrice = selectedVehicle && vehiclesData?.data?.find(v => v._id === selectedVehicle)
     ? getPrice(vehiclesData.data.find(v => v._id === selectedVehicle)!)
     : '0.00';
+
+  const totalPages = Math.min(vehiclesData?.totalPages || 1, 2);
 
   if (isSuccess) {
     return (
@@ -464,82 +485,122 @@ const Transfers = () => {
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
                       {vehiclesLoading ? (
-                        <div className="col-span-full text-center text-gray-600">
-                          {t('transfers.loadingVehicles', { defaultValue: 'Chargement des véhicules...' })}
-                        </div>
-                      ) : isError ? (
-                        <div className="col-span-full text-center text-red-500">
-                          <p>{t('transfers.errorLoadingVehicles', { defaultValue: 'Échec du chargement des véhicules.' })}</p>
-                          <Button
-                            onClick={() => refetch()}
-                            className="mt-4 bg-orange-600 hover:bg-orange-700 text-white"
-                          >
-                            {t('transfers.retry', { defaultValue: 'Réessayer' })}
-                          </Button>
-                        </div>
-                      ) : !vehiclesData?.data?.length ? (
-                        <div className="col-span-full text-center text-gray-600">
-                          {t('transfers.noVehiclesAvailable', { defaultValue: 'Aucun véhicule disponible.' })}
-                        </div>
+                        <div>{t('transfers.loadingVehicles', { defaultValue: 'Chargement des véhicules...' })}</div>
                       ) : (
-                        vehiclesData.data
-                          .filter((v: IVehicleResponse) => v.isAvailable)
-                          .map((vehicle: IVehicleResponse) => (
-                            <div
-                              key={vehicle._id}
-                              className={`relative cursor-pointer rounded-lg border-2 p-4 transition-all duration-300 ${
-                                selectedVehicle === vehicle._id
-                                  ? 'border-orange-600 bg-orange-50 shadow-lg'
-                                  : 'border-gray-200 hover:border-orange-400 hover:bg-orange-50/50'
-                              }`}
-                              onClick={() => {
-                                setSelectedVehicle(vehicle._id);
-                                setTransferData(prev => ({
-                                  ...prev,
-                                  vehicleId: vehicle._id,
-                                  numberOfAdults: 1,
-                                  numberOfChildren: 0,
-                                  numberOfSuitcases: 0
-                                }));
-                              }}
-                            >
-                              <img
-                                src={`${import.meta.env.VITE_API_IMG}${vehicle.imgUrl}`}
-                                alt={vehicle.name}
-                                className="w-full h-24 sm:h-32 object-cover rounded-md mb-3"
-                                onError={(e) => {
-                                  e.currentTarget.src = '/fallback-vehicle.jpg';
-                                }}
-                              />
-                              <h3 className="text-sm sm:text-lg font-semibold text-gray-900 mb-1">{vehicle.name}</h3>
-                              <div className="text-xs sm:text-sm text-gray-600 mb-1 flex items-center">
-                                <Users className="h-3 sm:h-4 w-3 sm:w-4 mr-1" />
-                                {vehicle.numberOfSeats} {t('transfers.seats', { defaultValue: 'sièges' })}
-                              </div>
-                              <div className="text-xs sm:text-sm text-gray-600 mb-2 flex items-center">
-                                <Briefcase className="h-3 sm:h-4 w-3 sm:w-4 mr-1" />
-                                {vehicle.numberOfSuitcases} {t('transfers.suitcases', { defaultValue: 'valises' })}
-                              </div>
-                              <div className="text-xs sm:text-sm font-bold text-gray-900">
-                                {t('transfers.price', { defaultValue: 'Prix' })}: {getPrice(vehicle)} {currency}
-                              </div>
-                              {selectedVehicle === vehicle._id && (
-                                <div className="absolute top-2 right-2 bg-orange-600 text-white rounded-full p-1">
-                                  <Check className="h-4 w-4" />
-                                </div>
-                              )}
+                        vehiclesData?.data?.filter((v: IVehicleResponse) => v.isAvailable).map((vehicle: IVehicleResponse) => (
+                          <div
+                            key={vehicle._id}
+                            className={`relative cursor-pointer rounded-lg border-2 p-4 transition-all duration-300 ${
+                              selectedVehicle === vehicle._id
+                                ? 'border-orange-600 bg-orange-50 shadow-lg'
+                                : 'border-gray-200 hover:border-orange-400 hover:bg-orange-50/50'
+                            }`}
+                            onClick={() => {
+                              setSelectedVehicle(vehicle._id);
+                              setTransferData(prev => ({
+                                ...prev,
+                                vehicleId: vehicle._id,
+                                numberOfAdults: 1,
+                                numberOfChildren: 0,
+                                numberOfSuitcases: 0
+                              }));
+                            }}
+                          >
+                            <img
+                              src={`${import.meta.env.VITE_API_IMG}${vehicle.imgUrl}`}
+                              alt={vehicle.name}
+                              className="w-full h-24 sm:h-32 object-cover rounded-md mb-3"
+                            />
+                            <h3 className="text-sm sm:text-lg font-semibold text-gray-900 mb-1">{vehicle.name}</h3>
+                            <div className="text-xs sm:text-sm text-gray-600 mb-1 flex items-center">
+                              <Users className="h-3 sm:h-4 w-3 sm:w-4 mr-1" />
+                              {vehicle.numberOfSeats} {t('transfers.seats', { defaultValue: 'sièges' })}
                             </div>
-                          ))
+                            <div className="text-xs sm:text-sm text-gray-600 mb-2 flex items-center">
+                              <Briefcase className="h-3 sm:h-4 w-3 sm:w-4 mr-1" />
+                              {vehicle.numberOfSuitcases} {t('transfers.suitcases', { defaultValue: 'valises' })}
+                            </div>
+                            <div className="text-xs sm:text-sm font-bold text-gray-900">
+                              {t('transfers.price', { defaultValue: 'Prix' })}: {getPrice(vehicle)} {currency}
+                            </div>
+                            {selectedVehicle === vehicle._id && (
+                              <div className="absolute top-2 right-2 bg-orange-600 text-white rounded-full p-1">
+                                <Check className="h-4 w-4" />
+                              </div>
+                            )}
+                          </div>
+                        ))
                       )}
                     </div>
-                    <div className="mt-6 flex justify-between items-center">
+                    <div className="mt-6 flex justify-center md:justify-between items-center">
                       <Button
                         onClick={() => {
                           handlePrevStep();
                           window.scrollTo(0, 0);
                         }}
                         variant="outline"
-                        className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                        className="border-gray-300 text-gray-900 hover:bg-gray-100 hidden md:block"
+                      >
+                        {t('transfers.previous', { defaultValue: 'Précédent' })}
+                      </Button>
+                      <div className="flex items-center md:space-x-2">
+                        <Button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className="bg-white text-gray-900 hover:bg-gray-100 border-gray-300 text-xs md:text-sm"
+                        >
+                          {t('transfers.previous', { defaultValue: 'Précédent' })}
+                        </Button>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                          <Button
+                            key={page}
+                            onClick={() => handlePageChange(page)}
+                            className={currentPage === page ? 'bg-orange-600 text-white' : 'bg-white text-gray-900 hover:bg-gray-100 border-gray-300'}
+                          >
+                            {page}
+                          </Button>
+                        ))}
+                        <Button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          className="text-xs md:text-sm bg-white text-gray-900 hover:bg-gray-100 border-gray-300"
+                        >
+                          {t('transfers.next', { defaultValue: 'Suivant' })}
+                        </Button>
+                        <div className="flex items-center space-x-2">
+                          <Input
+                            type="number"
+                            placeholder={t('transfers.page', { defaultValue: 'Page' })}
+                            value={pageInput}
+                            onChange={(e) => setPageInput(e.target.value)}
+                            className="w-20 text-xs bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
+                          />
+                          <Button
+                            onClick={handlePageInputSubmit}
+                            className="bg-orange-600 hover:bg-orange-700 text-white"
+                          >
+                            {t('transfers.go', { defaultValue: 'Go' })}
+                          </Button>
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() => {
+                          handleNextStep();
+                          window.scrollTo(0, 0);
+                        }}
+                        className="bg-orange-600 hover:bg-orange-700 text-white font-semibold hidden md:block"
+                      >
+                        {t('transfers.next', { defaultValue: 'Suivant' })}
+                      </Button>
+                    </div>
+                    <div className='flex justify-between pt-7'>
+                      <Button
+                        onClick={() => {
+                          handlePrevStep();
+                          window.scrollTo(0, 0);
+                        }}
+                        variant="outline"
+                        className="border-gray-300 text-gray-900 hover:bg-gray-100 md:hidden"
                       >
                         {t('transfers.previous', { defaultValue: 'Précédent' })}
                       </Button>
@@ -548,7 +609,7 @@ const Transfers = () => {
                           handleNextStep();
                           window.scrollTo(0, 0);
                         }}
-                        className="bg-orange-600 hover:bg-orange-700 text-white font-semibold"
+                        className="bg-orange-600 hover:bg-orange-700 text-white font-semibold md:hidden"
                       >
                         {t('transfers.next', { defaultValue: 'Suivant' })}
                       </Button>

@@ -3,6 +3,7 @@ import { Transfer, Vehicle } from '../../models/models.js';
 import { verifyAdmin } from '../../utils/verifyAdmin.js';
 import distances from '../../data/distances.json' assert { type: "json" };
 import { sendConfirmationEmail, sendRejectionEmail } from '../../utils/mailer/sendClientMail.js';
+import { sendAdminNotification } from '../../utils/mailer/sendAdminNotification.js';
 
 export const createTransfer = async (req, res) => {
   try {
@@ -128,13 +129,30 @@ export const createTransfer = async (req, res) => {
     // Explicitly set paymentPercentage to ensure it's included
     transfer.paymentPercentage = validPaymentPercentage;
 
-    let emailWarning = null;
-    // Send email if status is 'confirmed' or 'rejected'
+    await transfer.save();
+
+    // Send admin notification email
+    let adminEmailWarning = null;
+    const adminEmailResult = await sendAdminNotification({
+      type: 'transfer',
+      details: {
+        ...transferData,
+        vehicleName: vehicle.name,
+        createdAt: transfer.createdAt,
+      },
+    });
+    if (!adminEmailResult.success) {
+      adminEmailWarning = adminEmailResult.message;
+      console.error(adminEmailWarning);
+    }
+
+    let clientEmailWarning = null;
+    // Send client email if status is 'confirmed' or 'rejected'
     if (status && (status === 'confirmed' || status === 'rejected')) {
       if (status === 'confirmed') {
         if (!transferData.clientEmail || !transferData.clientName || !transferData.travelDate || !transferData.tripType || !transferData.departureLocation || !transferData.destination) {
-          emailWarning = 'Missing required fields for confirmation email';
-          console.error(emailWarning);
+          clientEmailWarning = 'Missing required fields for confirmation email';
+          console.error(clientEmailWarning);
         } else {
           const emailResult = await sendConfirmationEmail({
             email: transferData.clientEmail,
@@ -149,13 +167,13 @@ export const createTransfer = async (req, res) => {
             price: price 
           });
           if (!emailResult.success) {
-            emailWarning = emailResult.message;
+            clientEmailWarning = emailResult.message;
           }
         }
       } else if (status === 'rejected') {
         if (!transferData.clientEmail || !transferData.clientName || !transferData.travelDate) {
-          emailWarning = 'Missing required fields for rejection email';
-          console.error(emailWarning);
+          clientEmailWarning = 'Missing required fields for rejection email';
+          console.error(clientEmailWarning);
         } else {
           const emailResult = await sendRejectionEmail({
             email: transferData.clientEmail,
@@ -164,14 +182,12 @@ export const createTransfer = async (req, res) => {
             type: 'transfer',
           });
           if (!emailResult.success) {
-            emailWarning = emailResult.message;
+            clientEmailWarning = emailResult.message;
           }
         }
       }
     } 
 
-    await transfer.save();
-    
     // Verify document in DB
     const savedTransfer = await Transfer.findById(transfer._id).lean();
 
@@ -180,8 +196,10 @@ export const createTransfer = async (req, res) => {
       data: transfer,
       message: 'Transfert créé avec succès',
     };
-    if (emailWarning) {
-      response.warning = emailWarning;
+    if (clientEmailWarning || adminEmailWarning) {
+      response.warnings = [];
+      if (clientEmailWarning) response.warnings.push(clientEmailWarning);
+      if (adminEmailWarning) response.warnings.push(adminEmailWarning);
     }
     res.json(response);
   } catch (err) {

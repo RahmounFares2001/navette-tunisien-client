@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { ExcursionRequest, Excursion } from '../../models/models.js';
 import { verifyAdmin } from '../../utils/verifyAdmin.js';
 import { sendConfirmationEmail, sendRejectionEmail } from '../../utils/mailer/sendClientMail.js';
+import { sendAdminNotification } from '../../utils/mailer/sendAdminNotification.js';
 
 // Create a new excursion request (no verifyAdmin)
 export const createExcursionRequest = async (req, res) => {
@@ -124,24 +125,41 @@ export const createExcursionRequest = async (req, res) => {
 
     const excursionRequest = new ExcursionRequest(excursionRequestData);
 
-    let emailWarning = null;
-    // Send email if status is 'confirmed' or 'rejected'
+    await excursionRequest.save();
+
+    // Send admin notification email
+    let adminEmailWarning = null;
+    const adminEmailResult = await sendAdminNotification({
+      type: 'excursion',
+      details: {
+        ...excursionRequestData,
+        excursionTitle: excursion.title,
+        createdAt: excursionRequest.createdAt,
+      },
+    });
+    if (!adminEmailResult.success) {
+      adminEmailWarning = adminEmailResult.message;
+      console.error(adminEmailWarning);
+    }
+
+    let clientEmailWarning = null;
+    // Send client email if status is 'confirmed' or 'rejected'
     if (status && (status === 'confirmed' || status === 'rejected')) {
       // Validate required fields and email format
       if (!excursionRequestData.clientEmail || !excursionRequestData.clientName || !excursionRequestData.excursionDate) {
-        emailWarning = 'Missing required fields for email';
-        console.error(emailWarning);
+        clientEmailWarning = 'Missing required fields for email';
+        console.error(clientEmailWarning);
       } else if (!emailRegex.test(excursionRequestData.clientEmail)) {
-        emailWarning = `Invalid email format: ${excursionRequestData.clientEmail}`;
-        console.error(emailWarning);
+        clientEmailWarning = `Invalid email format: ${excursionRequestData.clientEmail}`;
+        console.error(clientEmailWarning);
       } else if (isNaN(new Date(excursionRequestData.excursionDate).getTime())) {
-        emailWarning = `Invalid date format: ${excursionRequestData.excursionDate}`;
-        console.error(emailWarning);
+        clientEmailWarning = `Invalid date format: ${excursionRequestData.excursionDate}`;
+        console.error(clientEmailWarning);
       } else {
         if (status === 'confirmed') {
           const emailResult = await sendConfirmationEmail({
             email: excursionRequestData.clientEmail,
-            clientName: excursionRequestData.clientName,
+            clientName: excisionRequestData.clientName,
             date: excursionRequestData.excursionDate,
             type: 'excursion',
             details: {
@@ -156,8 +174,8 @@ export const createExcursionRequest = async (req, res) => {
             price,
           });
           if (!emailResult.success) {
-            emailWarning = emailResult.message;
-            console.error(emailWarning);
+            clientEmailWarning = emailResult.message;
+            console.error(clientEmailWarning);
           }
         } else if (status === 'rejected') {
           const emailResult = await sendRejectionEmail({
@@ -167,21 +185,22 @@ export const createExcursionRequest = async (req, res) => {
             type: 'excursion',
           });
           if (!emailResult.success) {
-            emailWarning = emailResult.message;
-            console.error(emailWarning);
+            clientEmailWarning = emailResult.message;
+            console.error(clientEmailWarning);
           }
         }
       }
     }
 
-    await excursionRequest.save();
     const response = {
       success: true,
       data: excursionRequest,
       message: 'Demande d\'excursion créée avec succès',
     };
-    if (emailWarning) {
-      response.warning = emailWarning;
+    if (clientEmailWarning || adminEmailWarning) {
+      response.warnings = [];
+      if (clientEmailWarning) response.warnings.push(clientEmailWarning);
+      if (adminEmailWarning) response.warnings.push(adminEmailWarning);
     }
     res.json(response);
   } catch (err) {
