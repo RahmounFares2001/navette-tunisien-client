@@ -96,8 +96,10 @@
     "languageFee": "اختيار اللغات يضيف {{fee}} {{currency}} إلى السعر الإجمالي",
     "languageToggle": "تفعيل لغات السائق",
     "commentPlaceholder": "... معلومات إضافية",
-    "totalPrice": "السعر الكلي"
+    "totalPrice": "السعر الكلي",
 
+    "returnDate": "تاريخ العودة",
+    "returnTime": "وقت العودة"
   },
   "excursions": {
     "title": "رحلاتنا",

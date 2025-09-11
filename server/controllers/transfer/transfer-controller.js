@@ -18,6 +18,8 @@ export const createTransfer = async (req, res) => {
       destinationAddress,
       travelDate,
       departureTime,
+      returnDate,
+      returnTime,
       flightNumber,
       numberOfAdults,
       numberOfChildren,
@@ -42,6 +44,24 @@ export const createTransfer = async (req, res) => {
       !vehicleId
     ) {
       return res.status(400).json({ success: false, message: 'Des champs obligatoires doivent être remplis' });
+    }
+
+    // Validate returnDate and returnTime for aller retour
+    if (tripType === 'aller retour') {
+      if (!returnDate || !returnTime) {
+        return res.status(400).json({ success: false, message: 'Date de retour et heure de retour sont obligatoires pour un trajet aller-retour' });
+      }
+      if (isNaN(new Date(returnDate).getTime())) {
+        return res.status(400).json({ success: false, message: 'Format de date de retour invalide' });
+      }
+      const travelDateTime = new Date(`${travelDate}T${departureTime}`);
+      const returnDateTime = new Date(`${returnDate}T${returnTime}`);
+      if (returnDateTime <= travelDateTime) {
+        return res.status(400).json({
+          success: false,
+          message: 'La date et l\'heure de retour doivent être postérieures à la date et l\'heure de voyage'
+        });
+      }
     }
 
     // Validate email format
@@ -113,6 +133,8 @@ export const createTransfer = async (req, res) => {
       destinationAddress: destinationAddress || undefined,
       travelDate,
       departureTime,
+      returnDate: returnDate || undefined,
+      returnTime: returnTime || undefined,
       flightNumber: flightNumber || undefined,
       numberOfAdults,
       numberOfChildren: numberOfChildren ?? 0,
@@ -297,6 +319,8 @@ export const updateTransfer = async (req, res) => {
         destinationAddress,
         travelDate,
         departureTime,
+        returnDate,
+        returnTime,
         flightNumber,
         numberOfAdults,
         numberOfChildren,
@@ -330,6 +354,29 @@ export const updateTransfer = async (req, res) => {
       // Validate travelDate if provided
       if (travelDate && isNaN(new Date(travelDate).getTime())) {
         return res.status(400).json({ success: false, message: 'Format de date de voyage invalide' });
+      }
+
+      // Validate returnDate if provided and tripType is aller retour
+      if (tripType === 'aller retour' || (transfer.tripType === 'aller retour' && !tripType)) {
+        if (returnDate && isNaN(new Date(returnDate).getTime())) {
+          return res.status(400).json({ success: false, message: 'Format de date de retour invalide' });
+        }
+        if ((tripType === 'aller retour' && (!returnDate || !returnTime)) ||
+            (!tripType && transfer.tripType === 'aller retour' && (returnDate !== undefined && !returnTime))) {
+          return res.status(400).json({ success: false, message: 'Date de retour et heure de retour sont obligatoires pour un trajet aller-retour' });
+        }
+        if (returnDate && returnTime) {
+          const effectiveTravelDate = travelDate || transfer.travelDate;
+          const effectiveDepartureTime = departureTime || transfer.departureTime;
+          const travelDateTime = new Date(`${effectiveTravelDate}T${effectiveDepartureTime}`);
+          const returnDateTime = new Date(`${returnDate}T${returnTime}`);
+          if (returnDateTime <= travelDateTime) {
+            return res.status(400).json({
+              success: false,
+              message: 'La date et l\'heure de retour doivent être postérieures à la date et l\'heure de voyage'
+            });
+          }
+        }
       }
 
       let price = transfer.price;
@@ -393,6 +440,8 @@ export const updateTransfer = async (req, res) => {
         destinationAddress: destinationAddress !== undefined ? destinationAddress : transfer.destinationAddress,
         travelDate: travelDate || transfer.travelDate,
         departureTime: departureTime || transfer.departureTime,
+        returnDate: returnDate !== undefined ? returnDate : transfer.returnDate,
+        returnTime: returnTime !== undefined ? returnTime : transfer.returnTime,
         flightNumber: flightNumber !== undefined ? flightNumber : transfer.flightNumber,
         numberOfAdults: numberOfAdults || transfer.numberOfAdults,
         numberOfChildren: numberOfChildren !== undefined ? numberOfChildren : transfer.numberOfChildren,

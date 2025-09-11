@@ -41,6 +41,8 @@ const Transfers = () => {
     clientPhone: '',
     travelDate: formatDateForInput(),
     departureTime: '',
+    returnDate: '', 
+    returnTime: '',
     flightNumber: '',
     numberOfAdults: 1,
     numberOfChildren: 0,
@@ -179,6 +181,12 @@ const Transfers = () => {
     if (!transferData.destination.trim()) missingFields.push(t('transfers.destination', { defaultValue: 'Destination' }));
     if (!transferData.travelDate) missingFields.push(t('transfers.travelDate', { defaultValue: 'Date de Voyage' }));
     if (!transferData.departureTime) missingFields.push(t('transfers.travelTime', { defaultValue: 'Heure de Départ' }));
+    if (transferData.tripType === 'aller retour' && !transferData.returnDate) {
+      missingFields.push(t('transfers.returnDate', { defaultValue: 'Date de Retour' }));
+    }
+    if (transferData.tripType === 'aller retour' && !transferData.returnTime) {
+      missingFields.push(t('transfers.returnTime', { defaultValue: 'Heure de Retour' }));
+    }
 
     if (missingFields.length > 0) {
       toast({
@@ -190,6 +198,19 @@ const Transfers = () => {
         variant: 'destructive',
       });
       return;
+    }
+
+    if (transferData.tripType === 'aller retour' && transferData.returnDate && transferData.returnTime) {
+      const travelDateTime = new Date(`${transferData.travelDate}T${transferData.departureTime}`);
+      const returnDateTime = new Date(`${transferData.returnDate}T${transferData.returnTime}`);
+      if (returnDateTime <= travelDateTime) {
+        toast({
+          title: t('transfers.error', { defaultValue: 'Erreur' }),
+          description: t('transfers.errorReturnDateTime', { defaultValue: 'La date et l\'heure de retour doivent être postérieures à la date et l\'heure de voyage' }),
+          variant: 'destructive',
+        });
+        return;
+      }
     }
 
     if (selectedVehicleData && (transferData.numberOfAdults + (transferData.numberOfChildren || 0)) > availableSeats) {
@@ -220,6 +241,8 @@ const Transfers = () => {
       destinationAddress: transferData.destinationAddress?.trim() || '',
       travelDate: transferData.travelDate,
       departureTime: transferData.departureTime,
+      returnDate: transferData.tripType === 'aller retour' && transferData.returnDate ? transferData.returnDate : undefined,
+      returnTime: transferData.tripType === 'aller retour' ? transferData.returnTime : undefined,
       flightNumber: transferData.flightNumber?.trim() || undefined,
       numberOfAdults: transferData.numberOfAdults,
       numberOfChildren: transferData.numberOfChildren || 0,
@@ -646,6 +669,42 @@ const Transfers = () => {
                           />
                         </div>
                       </div>
+                      {transferData.tripType === 'aller retour' && (
+                        <>
+                          <div className='flex flex-col gap-2'>
+                            <Label htmlFor="returnDate" className="flex items-center text-gray-700 font-semibold">
+                              <Calendar className="h-4 w-4 mr-2 text-orange-600" />
+                              {t('transfers.returnDate', { defaultValue: 'Date de Retour' })}
+                            </Label>
+                            <div className="relative">
+                              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                              <Input
+                                id="returnDate"
+                                type="date"
+                                value={transferData.returnDate || ''} // Handle as string
+                                onChange={(e) => setTransferData(prev => ({ ...prev, returnDate: e.target.value }))}
+                                className="pl-10 bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
+                              />
+                            </div>
+                          </div>
+                          <div className='flex flex-col gap-2'>
+                            <Label htmlFor="returnTime" className="flex items-center text-gray-700 font-semibold">
+                              <Clock className="h-4 w-4 mr-2 text-orange-600" />
+                              {t('transfers.returnTime', { defaultValue: 'Heure de Retour' })} *
+                            </Label>
+                            <div className="relative">
+                              <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                              <Input
+                                id="returnTime"
+                                type="time"
+                                value={transferData.returnTime}
+                                onChange={(e) => setTransferData(prev => ({ ...prev, returnTime: e.target.value }))}
+                                className="pl-10 bg-white border-gray-300 focus:ring-2 focus:ring-orange-500"
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
                       <div className='flex flex-col gap-2'>
                         <Label htmlFor="flightNumber" className="flex items-center text-gray-700 font-semibold">
                           <FileText className="h-4 w-4 mr-2 text-orange-600" />

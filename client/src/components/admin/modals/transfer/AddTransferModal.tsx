@@ -28,6 +28,8 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
   const [destinationAddress, setDestinationAddress] = useState('');
   const [travelDate, setTravelDate] = useState('');
   const [departureTime, setDepartureTime] = useState('');
+  const [returnDate, setReturnDate] = useState('');
+  const [returnTime, setReturnTime] = useState('');
   const [flightNumber, setFlightNumber] = useState('');
   const [numberOfAdults, setNumberOfAdults] = useState(1);
   const [numberOfChildren, setNumberOfChildren] = useState(0);
@@ -88,6 +90,8 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
       destinationAddress: destinationAddress || undefined,
       travelDate,
       departureTime,
+      returnDate: tripType === 'aller retour' ? returnDate : undefined,
+      returnTime: tripType === 'aller retour' ? returnTime : undefined,
       flightNumber: flightNumber || undefined,
       numberOfAdults,
       numberOfChildren,
@@ -111,6 +115,8 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
         destinationAddress: response.data.destinationAddress,
         travelDate: response.data.travelDate,
         departureTime: response.data.departureTime,
+        returnDate: response.data.returnDate,
+        returnTime: response.data.returnTime,
         flightNumber: response.data.flightNumber,
         numberOfAdults: response.data.numberOfAdults,
         numberOfChildren: response.data.numberOfChildren,
@@ -132,6 +138,8 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
       setDestinationAddress('');
       setTravelDate('');
       setDepartureTime('');
+      setReturnDate('');
+      setReturnTime('');
       setFlightNumber('');
       setNumberOfAdults(1);
       setNumberOfChildren(0);
@@ -292,6 +300,38 @@ const AddTransferModal = ({ open, onOpenChange, onSave }: AddTransferModalProps)
                 />
               </div>
             </div>
+            {tripType === 'aller retour' && (
+              <>
+                <div>
+                  <Label htmlFor="returnDate">Date de Retour</Label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-admin-muted" />
+                    <Input
+                      id="returnDate"
+                      type="date"
+                      value={returnDate}
+                      onChange={(e) => setReturnDate(e.target.value)}
+                      required
+                      className="pl-10 bg-admin-card border-admin-border"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="returnTime">Heure de Retour</Label>
+                  <div className="relative">
+                    <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-admin-muted" />
+                    <Input
+                      id="returnTime"
+                      type="time"
+                      value={returnTime}
+                      onChange={(e) => setReturnTime(e.target.value)}
+                      required
+                      className="pl-10 bg-admin-card border-admin-border"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <div>
               <Label htmlFor="flightNumber">Numéro de Vol (optionnel)</Label>
               <Input

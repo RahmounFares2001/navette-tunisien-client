@@ -95,7 +95,10 @@
     "languageFee": "Sélectionner des langues ajoute {{fee}} {{currency}} au prix total",
     "languageToggle": "Activer Langues du Chauffeur",
     "commentPlaceholder": "Informations supplémentaires...",
-    "totalPrice": "Prix Total"
+    "totalPrice": "Prix Total",
+
+    "returnDate": "Date de Retour",
+    "returnTime": "Heure de Retour"
   },
   "excursions": {
     "title": "Nos Excursions",

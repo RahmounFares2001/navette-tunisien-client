@@ -95,7 +95,10 @@
     "languageFee": "Selecting languages adds {{fee}} {{currency}} to the total price",
     "languageToggle": "Enable Driver Languages",
     "commentPlaceholder": "Additional information...",
-    "totalPrice": "Total Price"
+    "totalPrice": "Total Price",
+
+    "returnDate": "Return Date",
+    "returnTime": "Return Time"
 
   },
   "excursions": {

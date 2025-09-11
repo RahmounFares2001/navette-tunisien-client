@@ -43,6 +43,8 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
   const [destinationAddress, setDestinationAddress] = useState('');
   const [travelDate, setTravelDate] = useState('');
   const [departureTime, setDepartureTime] = useState('');
+  const [returnDate, setReturnDate] = useState('');
+  const [returnTime, setReturnTime] = useState('');
   const [flightNumber, setFlightNumber] = useState('');
   const [numberOfAdults, setNumberOfAdults] = useState(1);
   const [numberOfChildren, setNumberOfChildren] = useState(0);
@@ -76,6 +78,8 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       setDestinationAddress(transfer.destinationAddress || '');
       setTravelDate(formatDateForInput(transfer.travelDate));
       setDepartureTime(formatTimeForInput(transfer.departureTime));
+      setReturnDate(formatDateForInput(transfer.returnDate));
+      setReturnTime(formatTimeForInput(transfer.returnTime));
       setFlightNumber(transfer.flightNumber || '');
       setNumberOfAdults(transfer.numberOfAdults || 1);
       setNumberOfChildren(transfer.numberOfChildren || 0);
@@ -86,7 +90,6 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       setStatus(transfer.status || 'pending');
       setPaymentPercentage(transfer.paymentPercentage === 0 || transfer.paymentPercentage === 100 ? transfer.paymentPercentage : 0);
       
-      // Initialize filteredDestinations with all locations, ensuring current destination is included
       const initialDestinations = [...new Set([...locations, currentDestination])].filter(dest => dest && dest !== transfer.departureLocation);
       setFilteredDestinations(initialDestinations);
     }
@@ -102,7 +105,6 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
         return distance >= 50 || dest === transfer.destination;
       });
       setFilteredDestinations(validDestinations);
-      // Ensure destination is preserved if it's valid
       if (transfer.destination && validDestinations.includes(transfer.destination)) {
         setDestination(transfer.destination);
       }
@@ -146,6 +148,8 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
       destinationAddress: destinationAddress || undefined,
       travelDate,
       departureTime,
+      returnDate: tripType === 'aller retour' ? returnDate : undefined,
+      returnTime: tripType === 'aller retour' ? returnTime : undefined,
       flightNumber: flightNumber || undefined,
       numberOfAdults,
       numberOfChildren,
@@ -169,6 +173,8 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
         destinationAddress: response.data.destinationAddress,
         travelDate: response.data.travelDate,
         departureTime: response.data.departureTime,
+        returnDate: response.data.returnDate,
+        returnTime: response.data.returnTime,
         flightNumber: response.data.flightNumber,
         numberOfAdults: response.data.numberOfAdults,
         numberOfChildren: response.data.numberOfChildren,
@@ -331,6 +337,38 @@ const UpdateTransferModal = ({ open, onOpenChange, transfer, onSave }: UpdateTra
                 />
               </div>
             </div>
+            {tripType === 'aller retour' && (
+              <>
+                <div>
+                  <Label htmlFor="returnDate">Date de Retour</Label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-admin-muted" />
+                    <Input
+                      id="returnDate"
+                      type="date"
+                      value={returnDate}
+                      onChange={(e) => setReturnDate(e.target.value)}
+                      required
+                      className="pl-10 bg-admin-card border-admin-border"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="returnTime">Heure de Retour</Label>
+                  <div className="relative">
+                    <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-admin-muted" />
+                    <Input
+                      id="returnTime"
+                      type="time"
+                      value={returnTime}
+                      onChange={(e) => setReturnTime(e.target.value)}
+                      required
+                      className="pl-10 bg-admin-card border-admin-border"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <div>
               <Label htmlFor="flightNumber">Numéro de Vol (optionnel)</Label>
               <Input

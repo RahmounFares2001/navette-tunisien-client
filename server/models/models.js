@@ -180,6 +180,14 @@ const transferSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  returnDate: {
+    type: Date,
+    required: function() { return this.tripType === 'aller retour'; },
+  },
+  returnTime: {
+    type: String,
+    required: function() { return this.tripType === 'aller retour'; },
+  },
   flightNumber: {
     type: String,
     trim: true,
