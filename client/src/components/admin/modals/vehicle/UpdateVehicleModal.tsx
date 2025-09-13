@@ -204,7 +204,7 @@ const UpdateVehicleModal = ({ open, onOpenChange, vehicle, onSave }: UpdateVehic
             {errors.numberOfSuitcases && <p className="text-red-500 text-sm">{errors.numberOfSuitcases}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="pricePerKm" className="text-admin-foreground">Prix par Kilomètre (€)</Label>
+            <Label htmlFor="pricePerKm" className="text-admin-foreground">Prix par Kilomètre (TND)</Label>
             <Input
               id="pricePerKm"
               type="number"
