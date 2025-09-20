@@ -17,7 +17,7 @@ const SeoConfig = ({
   image = '/cover.png', 
   url,
   type = 'website',
-  locale = 'fr_TN'
+  locale = 'fr_FR'
 }: SeoConfigProps) => {
   const siteUrl = 'https://navette-tunisie.com'; 
   const fullImageUrl = image.startsWith('http') ? image : `${siteUrl}${image}`;
@@ -35,27 +35,52 @@ const SeoConfig = ({
       <meta name="geo.country" content="Tunisia" />
       <meta name="geo.placename" content="Tunisie" />
       
-      {/* Open Graph */}
+      {/* Facebook App ID - Replace with your actual Facebook App ID if you have one */}
+      <meta property="fb:admins" content="100000000000000" />
+      
+      {/* Enhanced Open Graph Meta Tags for Facebook */}
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content="Navette Tunisie" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={fullImageUrl} />
-      <meta property="og:image:alt" content="Navette Tunisie - Transferts et Excursions en Tunisie" />
-      <meta property="og:image:width" content="1200" /> 
-      <meta property="og:image:height" content="630" /> 
-      <meta property="og:image:type" content="image/png" />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:locale" content={locale} />
+      <meta property="og:locale:alternate" content="ar_TN" />
       
-      {/* Twitter */}
+      {/* Multiple image declarations for better Facebook compatibility */}
+      <meta property="og:image" content={fullImageUrl} />
+      <meta property="og:image:secure_url" content={fullImageUrl} />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={`${title} - Service de transferts et excursions en Tunisie`} />
+      
+      {/* Additional image sizes as fallback */}
+      <meta property="og:image" content={`${siteUrl}/cover-large.png`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      
+      <meta property="og:image" content={`${siteUrl}/cover-medium.png`} />
+      <meta property="og:image:width" content="600" />
+      <meta property="og:image:height" content="315" />
+      
+      {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@NavetteTunisie" />
+      <meta name="twitter:creator" content="@NavetteTunisie" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImageUrl} />
-      <meta name="twitter:image:alt" content="Navette Tunisie - Transferts et Excursions en Tunisie" />
+      <meta name="twitter:image:alt" content={`${title} - Transferts et Excursions en Tunisie`} />
+      
+      {/* WhatsApp specific meta tags */}
+      <meta property="og:image:width" content="300" />
+      <meta property="og:image:height" content="300" />
       
       <link rel="canonical" href={fullUrl} />
+      
+      {/* Preload the main sharing image */}
+      <link rel="preload" as="image" href={fullImageUrl} />
       
       {/* Enhanced Schema.org for Car Rental Business */}
       <script type="application/ld+json">
@@ -66,6 +91,7 @@ const SeoConfig = ({
           "description": description,
           "url": siteUrl,
           "logo": fullImageUrl,
+          "image": fullImageUrl,
           "address": {
             "@type": "PostalAddress",
             "addressCountry": "TN",
