@@ -35,8 +35,8 @@ const SeoConfig = ({
       <meta name="geo.country" content="Tunisia" />
       <meta name="geo.placename" content="Tunisie" />
       
-      {/* Facebook App ID - Replace with your actual Facebook App ID if you have one */}
-      <meta property="fb:admins" content="100000000000000" />
+      {/* Facebook App ID - Optional, remove if you don't have one */}
+      {/* <meta property="fb:admins" content="100000000000000" /> */}
       
       {/* Enhanced Open Graph Meta Tags for Facebook */}
       <meta property="og:type" content={type} />
