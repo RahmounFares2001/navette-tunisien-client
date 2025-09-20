@@ -47,13 +47,16 @@ const SeoConfig = ({
       <meta property="og:locale" content={locale} />
       <meta property="og:locale:alternate" content="ar_TN" />
       
-      {/* Single image declaration using only your existing cover.png */}
-      <meta property="og:image" content={fullImageUrl} />
-      <meta property="og:image:secure_url" content={fullImageUrl} />
+      {/* SHARING IMAGE for Facebook/Messenger - Force cover.png only */}
+      <meta property="og:image" content={`${siteUrl}/cover.png?v=4`} />
+      <meta property="og:image:secure_url" content={`${siteUrl}/cover.png?v=4`} />
       <meta property="og:image:type" content="image/png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={`${title} - Service de transferts et excursions en Tunisie`} />
+      
+      {/* Force Facebook to ignore any other images and use only cover.png */}
+      <meta property="og:logo" content={`${siteUrl}/cover.png`} />
       
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -61,7 +64,7 @@ const SeoConfig = ({
       <meta name="twitter:creator" content="@NavetteTunisie" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={fullImageUrl} />
+      <meta name="twitter:image" content={`${siteUrl}/cover.png`} />
       <meta name="twitter:image:alt" content={`${title} - Transferts et Excursions en Tunisie`} />
       
       {/* WhatsApp compatibility */}
@@ -69,8 +72,8 @@ const SeoConfig = ({
       
       <link rel="canonical" href={fullUrl} />
       
-      {/* Preload the main sharing image */}
-      <link rel="preload" as="image" href={fullImageUrl} />
+      {/* Preload the sharing image - cover.png only */}
+      <link rel="preload" as="image" href={`${siteUrl}/cover.png`} />
       
       {/* Enhanced Schema.org for Car Rental Business */}
       <script type="application/ld+json">
@@ -80,8 +83,8 @@ const SeoConfig = ({
           "name": "Navette Tunisie",
           "description": description,
           "url": siteUrl,
-          "logo": fullImageUrl,
-          "image": fullImageUrl,
+          "logo": `${siteUrl}/navetteLogo.png`,
+          "image": `${siteUrl}/cover.png`,
           "address": {
             "@type": "PostalAddress",
             "addressCountry": "TN",
