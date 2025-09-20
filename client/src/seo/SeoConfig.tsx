@@ -47,22 +47,13 @@ const SeoConfig = ({
       <meta property="og:locale" content={locale} />
       <meta property="og:locale:alternate" content="ar_TN" />
       
-      {/* Multiple image declarations for better Facebook compatibility */}
+      {/* Single image declaration using only your existing cover.png */}
       <meta property="og:image" content={fullImageUrl} />
       <meta property="og:image:secure_url" content={fullImageUrl} />
       <meta property="og:image:type" content="image/png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={`${title} - Service de transferts et excursions en Tunisie`} />
-      
-      {/* Additional image sizes as fallback */}
-      <meta property="og:image" content={`${siteUrl}/cover-large.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      
-      <meta property="og:image" content={`${siteUrl}/cover-medium.png`} />
-      <meta property="og:image:width" content="600" />
-      <meta property="og:image:height" content="315" />
       
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -73,9 +64,8 @@ const SeoConfig = ({
       <meta name="twitter:image" content={fullImageUrl} />
       <meta name="twitter:image:alt" content={`${title} - Transferts et Excursions en Tunisie`} />
       
-      {/* WhatsApp specific meta tags */}
-      <meta property="og:image:width" content="300" />
-      <meta property="og:image:height" content="300" />
+      {/* WhatsApp compatibility */}
+      <meta name="format-detection" content="telephone=no" />
       
       <link rel="canonical" href={fullUrl} />
       
