@@ -14,7 +14,7 @@ const SeoConfig = ({
   title, 
   description, 
   keywords, 
-  image = '/logo.png',
+  image = '/cover.png', 
   url,
   type = 'website',
   locale = 'fr_TN'
@@ -42,6 +42,9 @@ const SeoConfig = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImageUrl} />
       <meta property="og:image:alt" content="Navette Tunisie - Transferts et Excursions en Tunisie" />
+      <meta property="og:image:width" content="1200" /> 
+      <meta property="og:image:height" content="630" /> 
+      <meta property="og:image:type" content="image/png" />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:locale" content={locale} />
       
@@ -90,7 +93,7 @@ const SeoConfig = ({
                 }
               },
               {
-                "@type": "Offer", 
+                "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Excursions Touristiques"
@@ -99,7 +102,7 @@ const SeoConfig = ({
               {
                 "@type": "Offer",
                 "itemOffered": {
-                  "@type": "Service", 
+                  "@type": "Service",
                   "name": "Transferts Privés"
                 }
               }
