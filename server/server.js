@@ -60,7 +60,10 @@ app.use(cookieParser());
 
 // Serve static files
 app.use("/public", express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "../client/dist")));
+// CHANGED: Prevent serving index.html automatically so SSR can handle it
+app.use(express.static(path.join(__dirname, "../client/dist"), {
+  index: false
+}));
 
 // API routes
 app.get("/api", (req, res) => {
@@ -99,4 +102,4 @@ connectDB().then(() => {
     } catch (error) {
       console.error("Error in daily reservation update:", error);
     }
-});})
+});});
