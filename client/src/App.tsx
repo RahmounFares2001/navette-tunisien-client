@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 
@@ -27,17 +27,26 @@ import { Providers } from "./globalRedux/Providers";
 import Login from "./pages/Login";
 import { ResetPassword } from "./pages/ResetPassword";
 import ProtectedAdminRoute from "./utils/ProtectedAdminRoute";
+import AdminBlogs from "./pages/admin/AdminBlogs";
+import Blogs from "./pages/Blogs";
+import BlogDetails from "./pages/BlogDetails";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <I18nextProvider i18n={i18n}>
-    <Providers>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+      <Providers>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
           <div className="min-h-screen flex flex-col">
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -80,6 +89,26 @@ const App = () => (
                   <Footer />
                 </>
               } />
+              <Route path="/blogs" element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <Blogs />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route 
+                path="/blogs/:id/:slug?"
+                element={
+                <>
+                  <Navigation />
+                  <main className="flex-1">
+                    <BlogDetails />
+                  </main>
+                  <Footer />
+                </>
+              } />
               <Route path="/about" element={
                 <>
                   <Navigation />
@@ -99,7 +128,7 @@ const App = () => (
                 </>
               } />
 
-              {/* Admin Routes with Children Pattern */}
+              {/* Admin Routes */}
               <Route path="/admin" element={
                 <ProtectedAdminRoute>
                   <AdminDashboard />
@@ -125,6 +154,11 @@ const App = () => (
                   <AdminVehicles />
                 </ProtectedAdminRoute>
               } />
+              <Route path="/admin/blogs" element={
+                <ProtectedAdminRoute>
+                  <AdminBlogs />
+                </ProtectedAdminRoute>
+              } />
 
               {/* 404 Route */}
               <Route path="*" element={
@@ -138,9 +172,8 @@ const App = () => (
               } />
             </Routes>
           </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </Providers>
+        </TooltipProvider>
+      </Providers>
     </I18nextProvider>
   </QueryClientProvider>
 );

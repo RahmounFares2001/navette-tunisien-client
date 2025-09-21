@@ -12,6 +12,9 @@ import {
   CreateVehicleRequest,
   UpdateVehicleRequest,
   CreateExcursion,
+  IBlogResponse,
+  CreateBlogRequest,
+  UpdateBlogRequest,
 } from '../../../types/types';
 
 export const apiSlice = createApi({
@@ -20,13 +23,13 @@ export const apiSlice = createApi({
     baseUrl: import.meta.env.VITE_API_BASE,
     credentials: 'include',
     prepareHeaders: (headers, { endpoint }) => {
-      if (endpoint !== 'createVehicle' && endpoint !== 'updateVehicle') {
+      if (endpoint !== 'createVehicle' && endpoint !== 'updateVehicle' && endpoint !== 'createBlog' && endpoint !== 'updateBlog') {
         headers.set('Content-Type', 'application/json');
       }
       return headers;
     },
   }),
-  tagTypes: ['Vehicle', 'Transfer', 'Excursion', 'ExcursionRequest'],
+  tagTypes: ['Vehicle', 'Transfer', 'Excursion', 'ExcursionRequest', 'Blog'],
   endpoints: (builder) => ({
     getAllVehicles: builder.query<{ success: boolean; data: IVehicleResponse[]; currentPage: number; totalPages: number; totalItems: number }, ListParams>({
       query: ({ page = 1, limit = 10 }) => `/api/vehicles?page=${page}&limit=${limit}`,
@@ -194,7 +197,45 @@ export const apiSlice = createApi({
     }),
     getDashboardData: builder.query<{ success: boolean; data: IDashboardData; message: string }, void>({
       query: () => '/api/dashboard',
-      providesTags: ['Vehicle', 'Transfer', 'Excursion', 'ExcursionRequest'],
+      providesTags: ['Vehicle', 'Transfer', 'Excursion', 'ExcursionRequest', 'Blog'],
+    }),
+    getAllBlogs: builder.query<{ success: boolean; data: IBlogResponse[]; currentPage: number; totalPages: number; totalItems: number }, ListParams>({
+      query: ({ page = 1, limit = 10, search }) => {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+        });
+        if (search) params.append("search", search);
+        return `/api/blogs?${params.toString()}`;
+      },
+      providesTags: ['Blog'],
+    }),
+    getBlog: builder.query<{ success: boolean; data: IBlogResponse }, string>({
+      query: (id) => `/api/blogs/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Blog', id }],
+    }),
+    createBlog: builder.mutation<{ success: boolean; data: IBlogResponse; message: string }, FormData>({
+      query: (data) => ({
+        url: '/api/blogs',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Blog'],
+    }),
+    updateBlog: builder.mutation<{ success: boolean; data: IBlogResponse; message: string }, { id: string; data: FormData }>({
+      query: ({ id, data }) => ({
+        url: `/api/blogs/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: 'Blog', id }, 'Blog'],
+    }),
+    deleteBlog: builder.mutation<{ success: boolean; message: string }, string>({
+      query: (id) => ({
+        url: `/api/blogs/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Blog'],
     }),
   }),
 });
@@ -221,4 +262,9 @@ export const {
   useUpdateExcursionRequestMutation,
   useDeleteExcursionRequestMutation,
   useGetDashboardDataQuery,
+  useGetAllBlogsQuery,
+  useGetBlogQuery,
+  useCreateBlogMutation,
+  useUpdateBlogMutation,
+  useDeleteBlogMutation,
 } = apiSlice;

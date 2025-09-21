@@ -6,7 +6,8 @@
     "about": "À Propos",
     "contact": "Contact",
     "admin": "Admin",
-    "language": "Langue"
+    "language": "Langue",
+    "blogs": "Blogs"
   },
   "hero": {
     "title": "Explorez La Tunisie Avec Navette",
@@ -263,5 +264,33 @@
     "hours": "Heures",
     "max": "Max",
     "tunisie": "Tunisie"
+  },
+  "blogs": {
+    "seoTitle": "Blog de Navette Tunisie - Articles et Conseils de Voyage",
+    "seoDescription": "Explorez notre blog pour des articles et histoires sur la Tunisie avec Navette Tunisie.",
+    "seoKeywords": "blog Tunisie, conseils voyage Tunisie, Navette Tunisie, articles tourisme Tunisie",
+    "title": "Notre Blog",
+    "searchPlaceholder": "Rechercher un article...",
+    "loading": "Chargement des articles...",
+    "error": "Erreur lors du chargement des articles",
+    "noAvailableBlogs": "Aucun article disponible pour le moment",
+    "readMore": "Lire la suite",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {current} sur {total}",
+    "contactUs": {
+      "title": "Partagez Votre Histoire",
+      "description": "Envie de partager une idée d'article ou une question ? Contactez-nous !",
+      "button": "Nous Contacter"
+    },
+    "desc": "Découvrez nos articles dédiés aux transferts, excursions et bons plans en Tunisie. Inspirez-vous pour organiser vos prochaines aventures et profitez de conseils utiles pour vos voyages."
+  },
+  "blogDetails": {
+    "seoDescription": "Lisez les détails de nos articles sur le tourisme et les expériences en Tunisie avec Navette Tunisie.",
+    "seoKeywords": "article Tunisie, blog voyage Tunisie, Navette Tunisie, tourisme Tunisie",
+    "loading": "Chargement de l'article...",
+    "error": "Erreur lors du chargement de l'article",
+    "backButton": "Retour aux articles",
+    "translating": "Traduction en cours..."
   }
 }

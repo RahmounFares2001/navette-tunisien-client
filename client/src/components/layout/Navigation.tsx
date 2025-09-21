@@ -30,6 +30,7 @@ const Navigation = () => {
     { path: '/excursions', key: 'excursions' },
     { path: '/about', key: 'about' },
     { path: '/contact', key: 'contact' },
+    { path: '/blogs', key: 'blogs' },
   ];
 
   const languages = [

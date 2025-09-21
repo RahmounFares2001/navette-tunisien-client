@@ -307,3 +307,26 @@ export interface UpdateVehicleRequest {
   imgUrl?: string;
   isAvailable: boolean;
 }
+
+
+// blog
+export interface IBlogResponse {
+  _id: string;
+  title: string;
+  description: string;
+  imgUrl: string;
+  createdAt: string;
+}
+
+export interface CreateBlogRequest {
+  title: string;
+  description: string;
+  image: File;
+}
+
+export interface UpdateBlogRequest {
+  id: string;
+  title?: string;
+  description?: string;
+  image?: File;
+}

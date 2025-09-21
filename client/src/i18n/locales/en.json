@@ -6,7 +6,8 @@
     "about": "About",
     "contact": "Contact",
     "admin": "Admin",
-    "language": "Language"
+    "language": "Language",
+    "blogs": "Blogs"
   },
   "hero": {
     "title": "Explore Tunisia with NavetteTunisie",
@@ -265,5 +266,34 @@
     "max": "Max",
     "tunisie": "Tunisia"
 
+  },
+  "blogs": {
+    "seoTitle": "Navette Tunisia Blog - Travel Articles and Tips",
+    "seoDescription": "Explore our blog for articles and stories about Tunisia with Navette Tunisia.",
+    "seoKeywords": "Tunisia blog, travel tips Tunisia, Navette Tunisia, tourism articles Tunisia",
+    "title": "Our Blog",
+    "searchPlaceholder": "Search for an article...",
+    "loading": "Loading articles...",
+    "error": "Error loading articles",
+    "noAvailableBlogs": "No articles available at the moment",
+    "readMore": "Read More",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}",
+    "contactUs": {
+      "title": "Share Your Story",
+      "description": "Want to share an article idea or a question? Contact us!",
+      "button": "Contact Us"
+    },
+    "desc": "Discover our articles dedicated to transfers, excursions, and travel tips in Tunisia. Get inspired to plan your next adventures and benefit from useful advice for your journeys."
+
+  },
+  "blogDetails": {
+    "seoDescription": "Read the details of our articles on tourism and experiences in Tunisia with Navette Tunisia.",
+    "seoKeywords": "Tunisia article, travel blog Tunisia, Navette Tunisia, tourism Tunisia",
+    "loading": "Loading article...",
+    "error": "Error loading article",
+    "backButton": "Back to Articles",
+    "translating": "Translating..."
   }
 }

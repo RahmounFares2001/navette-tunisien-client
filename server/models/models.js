@@ -235,7 +235,6 @@ const transferSchema = new mongoose.Schema({
   },
 });
 
-
 // Vehicle Schema
 const vehicleSchema = new mongoose.Schema({
   name: {
@@ -271,8 +270,32 @@ const vehicleSchema = new mongoose.Schema({
   },
 });
 
+// Blog Schema
+const blogSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  description: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  imgUrl: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+
 export const Admin = mongoose.model("Admin", AdminSchema);
 export const ExcursionRequest = mongoose.model('ExcursionRequest', excursionRequestSchema);
 export const Excursion = mongoose.model('Excursion', excursionSchema);
 export const Transfer = mongoose.model('Transfer', transferSchema);
 export const Vehicle = mongoose.model('Vehicle', vehicleSchema);
+export const Blog = mongoose.model('Blog', blogSchema);

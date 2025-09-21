@@ -8,6 +8,7 @@ import {
   MapPin, 
   Calendar, 
   Users,
+  BookText,
   LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { name: 'Demandes Excursions', href: '/admin/excursion-requests', icon: Calendar },
     { name: 'Excursions', href: '/admin/excursions', icon: MapPin },
     { name: 'Véhicules', href: '/admin/vehicles', icon: Users },
+    { name: 'Blogs', href: '/admin/blogs', icon: BookText },
   ];
 
   const isActive = (path: string) => location.pathname === path;
