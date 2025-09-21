@@ -19,4 +19,22 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        serverApp: path.resolve(__dirname, 'src/ssr/ServerApp.tsx'), // SSR entry
+      },
+      output: {
+        entryFileNames: (chunkInfo) => {
+          return chunkInfo.name === 'serverApp' ? 'ssr/ServerApp.js' : 'assets/[name]-[hash].js';
+        },
+      },
+    },
+  },
+  ssr: {
+    // Configure which packages should not be externalized for SSR
+    noExternal: ['react-helmet-async']
+  }
 }));
