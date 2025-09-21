@@ -60,7 +60,6 @@ app.use(cookieParser());
 
 // Serve static files
 app.use("/public", express.static(path.join(__dirname, "public")));
-// CHANGED: Prevent serving index.html automatically so SSR can handle it
 app.use(express.static(path.join(__dirname, "../client/dist"), {
   index: false
 }));
@@ -102,4 +101,5 @@ connectDB().then(() => {
     } catch (error) {
       console.error("Error in daily reservation update:", error);
     }
-});});
+  });
+});
