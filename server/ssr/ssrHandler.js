@@ -9,86 +9,50 @@ const __dirname = path.dirname(__filename);
 
 export const ssrHandler = async (req, res, next) => {
   try {
-    // Skip SSR for API routes and static assets
     if (
       req.path.startsWith("/api") ||
       req.path.startsWith("/public") ||
-      req.path.includes(".js") ||
-      req.path.includes(".css") ||
-      req.path.includes(".png") ||
-      req.path.includes(".jpg") ||
-      req.path.includes(".jpeg") ||
-      req.path.includes(".gif") ||
-      req.path.includes(".svg") ||
-      req.path.includes(".ico") ||
-      req.path.includes(".woff") ||
-      req.path.includes(".ttf") ||
-      req.path === "/favicon.ico"
+      req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|ttf|map)$/i)
     ) {
       return next();
     }
 
-    // Path to the pre-built client HTML
-    const htmlPath = path.join(__dirname, "../../client/dist/index.html");
-    if (!fs.existsSync(htmlPath)) {
-      console.error("HTML template not found at:", htmlPath);
-      return res.status(500).send("HTML template not found");
-    }
+    console.log(`SSR for: ${req.url}`);
 
-    // Read the HTML template
+    const htmlPath = path.join(__dirname, "../../client/dist/index.html");
     let html = fs.readFileSync(htmlPath, "utf8");
     let appMarkup = "";
 
-    // Try to perform SSR
+    // Try to render with ServerApp
     try {
       const serverAppPath = path.join(__dirname, "../../client/dist/ssr/ServerApp.js");
       
       if (fs.existsSync(serverAppPath)) {
-        // Dynamic import with proper error handling
-        const { default: ServerApp } = await import(serverAppPath);
+        const module = await import(serverAppPath);
+        const ServerApp = module.default || module.ServerApp;
         
         if (ServerApp) {
           appMarkup = renderToString(React.createElement(ServerApp, { url: req.url }));
-          console.log("SSR rendered successfully for:", req.url);
+          console.log("SSR success, length:", appMarkup.length);
         }
-      } else {
-        console.warn("ServerApp.js not found, falling back to client-side rendering");
       }
     } catch (ssrError) {
-      console.error("SSR rendering failed:", ssrError.message);
-      console.log("Falling back to client-side rendering for:", req.url);
+      console.error("SSR failed:", ssrError);
     }
 
-    // Inject the rendered app into the HTML template (or serve empty root for CSR)
-    if (appMarkup) {
-      html = html.replace('<div id="root"></div>', `<div id="root">${appMarkup}</div>`);
+    // Fallback content if SSR fails
+    if (!appMarkup) {
+      appMarkup = '<div><h1>Navette Tunisie</h1><p>Transport service</p></div>';
     }
 
-    // Add SSR indicator in development
-    if (process.env.NODE_ENV === 'development') {
-      html = html.replace('</head>', `
-        <script>
-          window.__SSR_ENABLED__ = ${!!appMarkup};
-          console.log('SSR Status:', window.__SSR_ENABLED__ ? 'Server-side rendered' : 'Client-side rendered');
-        </script>
-        </head>`);
-    }
-
+    html = html.replace('<div id="root"></div>', `<div id="root">${appMarkup}</div>`);
+    
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.send(html);
+
   } catch (error) {
-    console.error("SSR Handler Error:", error);
-    
-    // Final fallback - serve static HTML
-    try {
-      const htmlPath = path.join(__dirname, "../../client/dist/index.html");
-      const html = fs.readFileSync(htmlPath, "utf8");
-      res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.send(html);
-    } catch (fallbackError) {
-      console.error("Fallback error:", fallbackError);
-      res.status(500).send("Internal Server Error");
-    }
+    console.error("Handler error:", error);
+    next();
   }
 };
 
