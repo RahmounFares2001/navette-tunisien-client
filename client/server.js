@@ -33,50 +33,24 @@ async function createServer() {
       let render;
       
       if (isProduction) {
-        // PRODUCTION: Use built files
-        template = fs.readFileSync(
-          path.resolve(__dirname, 'dist/client/index.html'),
-          'utf-8'
-        )
-        
-        // Import the production SSR bundle
+        template = fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
         const serverEntry = await import('./dist/server/entry-server.js')
         render = serverEntry.render;
       } else {
-        // DEVELOPMENT: Use Vite dev server
-        template = fs.readFileSync(
-          path.resolve(__dirname, 'index.html'),
-          'utf-8'
-        )
+        template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
         template = await vite.transformIndexHtml(url, template)
-        
         const serverModule = await vite.ssrLoadModule('/src/entry-server.tsx')
         render = serverModule.render;
       }
-
-      // Render the app HTML
+  
       const appHtml = await render(url)
-
-      // Inject the app-rendered HTML into the template
-      const html = template.replace(`<div id="root"></div>`, `<div id="root">${appHtml}</div>`)
-
-      // Send the rendered HTML back
+  
+      // FIX: Replace the comment placeholder, not the div
+      const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+  
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
-      if (!isProduction && vite) {
-        vite.ssrFixStacktrace(e)
-      }
-      console.error('SSR Error:', e)
-      
-      // Fallback: serve basic HTML if SSR fails
-      try {
-        const fallbackHtml = isProduction 
-          ? fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
-          : fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
-        res.status(200).set({ 'Content-Type': 'text/html' }).end(fallbackHtml)
-      } catch (fallbackError) {
-        next(e)
-      }
+      // error handling
     }
   })
 
