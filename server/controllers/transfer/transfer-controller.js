@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Transfer, Vehicle } from '../../models/models.js';
 import { verifyAdmin } from '../../utils/verifyAdmin.js';
-import distances from '../../data/distances.json' assert { type: "json" };
+import distances from '../../data/distances.json' with { type: "json" };
 import { sendConfirmationEmail, sendRejectionEmail } from '../../utils/mailer/sendClientMail.js';
 import { sendAdminNotification } from '../../utils/mailer/sendAdminNotification.js';
 

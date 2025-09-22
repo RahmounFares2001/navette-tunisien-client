@@ -2,68 +2,89 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import express from 'express'
-import { createServer as createViteServer } from 'vite'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const isProduction = process.env.NODE_ENV === 'production'
 
 async function createServer() {
   const app = express()
 
-  // Create Vite server in middleware mode and configure the app type as
-  // 'custom', disabling Vite's own HTML serving logic so parent server
-  // can take control
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: 'custom'
-  })
+  // In production, serve static files from dist/client
+  if (isProduction) {
+    app.use(express.static(path.resolve(__dirname, 'dist/client')))
+  }
 
-  // Use vite's connect instance as middleware. If you use your own
-  // express router (express.Router()), you should use router.use
-  // When the server restarts (for example after the user modifies
-  // vite.config.js), `vite.middlewares` is still going to be the same
-  // reference (with a new internal stack of Vite and plugin-injected
-  // middlewares). The following is valid even after restarts.
-  app.use(vite.middlewares)
+  let vite;
+  if (!isProduction) {
+    // Development: Use Vite dev server
+    const { createServer } = await import('vite')
+    vite = await createServer({
+      server: { middlewareMode: true },
+      appType: 'custom'
+    })
+    app.use(vite.middlewares)
+  }
 
   app.use(/(.*)/, async (req, res, next) => {
     const url = req.originalUrl
   
     try {
-      // 1. Read index.html
-      let template = fs.readFileSync(
-        path.resolve(__dirname, 'index.html'),
-        'utf-8',
-      )
-  
-      // 2. Apply Vite HTML transforms. This injects the Vite HMR client,
-      //    and also applies HTML transforms from Vite plugins, e.g. global
-      //    preambles from @vitejs/plugin-react
-      template = await vite.transformIndexHtml(url, template)
-  
-      // 3. Load the server entry. ssrLoadModule automatically transforms
-      //    ESM source code to be usable in Node.js! There is no bundling
-      //    required, and provides efficient invalidation similar to HMR.
-      const { render } = await vite.ssrLoadModule('/src/entry-server.tsx')
-  
-      // 4. render the app HTML. This assumes entry-server.js's exported
-      //     `render` function calls appropriate framework SSR APIs,
-      //    e.g. ReactDOMServer.renderToString()
+      let template;
+      let render;
+      
+      if (isProduction) {
+        // PRODUCTION: Use built files
+        template = fs.readFileSync(
+          path.resolve(__dirname, 'dist/client/index.html'),
+          'utf-8'
+        )
+        
+        // Import the production SSR bundle
+        const serverEntry = await import('./dist/server/entry-server.js')
+        render = serverEntry.render;
+      } else {
+        // DEVELOPMENT: Use Vite dev server
+        template = fs.readFileSync(
+          path.resolve(__dirname, 'index.html'),
+          'utf-8'
+        )
+        template = await vite.transformIndexHtml(url, template)
+        
+        const serverModule = await vite.ssrLoadModule('/src/entry-server.tsx')
+        render = serverModule.render;
+      }
+
+      // Render the app HTML
       const appHtml = await render(url)
-  
-      // 5. Inject the app-rendered HTML into the template.
-      const html = template.replace(`<!--ssr-outlet-->`, () => appHtml)
-  
-      // 6. Send the rendered HTML back.
+
+      // Inject the app-rendered HTML into the template
+      const html = template.replace(`<div id="root"></div>`, `<div id="root">${appHtml}</div>`)
+
+      // Send the rendered HTML back
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
-      // If an error is caught, let Vite fix the stack trace so it maps back
-      // to your actual source code.
-      vite.ssrFixStacktrace(e)
-      next(e)
+      if (!isProduction && vite) {
+        vite.ssrFixStacktrace(e)
+      }
+      console.error('SSR Error:', e)
+      
+      // Fallback: serve basic HTML if SSR fails
+      try {
+        const fallbackHtml = isProduction 
+          ? fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
+          : fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(fallbackHtml)
+      } catch (fallbackError) {
+        next(e)
+      }
     }
   })
 
-  app.listen(5173)
+  const PORT = process.env.PORT || 5173
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`)
+    console.log(`📦 Mode: ${isProduction ? 'production' : 'development'}`)
+  })
 }
 
-createServer()
+createServer().catch(console.error)

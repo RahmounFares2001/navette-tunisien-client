@@ -8,10 +8,8 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
-    "build:dev": "vite build --mode development",
-    "lint": "eslint .",
     "preview": "vite preview",
-    "start": "NODE_ENV=production node server"
+    "start": "node server"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
