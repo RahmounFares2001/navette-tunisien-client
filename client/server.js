@@ -9,35 +9,20 @@ const isProduction = process.env.NODE_ENV === 'production'
 async function createServer() {
   const app = express()
 
-  // In production, serve static files from dist/client
-  if (isProduction) {
-    app.use(express.static(path.resolve(__dirname, 'dist/client')))
-  }
+  console.log('🚨 SERVER STARTING - DEBUG VERSION')
 
-  let vite;
-  if (!isProduction) {
-    // Development: Use Vite dev server
-    const { createServer } = await import('vite')
-    vite = await createServer({
-      server: { middlewareMode: true },
-      appType: 'custom'
-    })
-    app.use(vite.middlewares)
-  }
-
+  // IMPORTANT: Put the SSR handler BEFORE static files
   app.use(/(.*)/, async (req, res, next) => {
-    const url = req.originalUrl
-    console.log('🚨 === NEW REQUEST RECEIVED ===')
-    console.log('🚨 URL:', url)
-    console.log('🚨 PATH:', req.path)
-    console.log('🚨 HEADERS:', req.headers)
+    console.log('🚨 === REQUEST RECEIVED ===')
+    console.log('🚨 URL:', req.originalUrl)
+    console.log('🚨 METHOD:', req.method)
     
     try {
       let template;
       let render;
       
       if (isProduction) {
-        console.log('🚨 Reading template file...')
+        console.log('🚨 Reading template...')
         template = fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
         console.log('🚨 Template length:', template.length)
         
@@ -46,32 +31,30 @@ async function createServer() {
         render = serverEntry.render;
         console.log('🚨 SSR module loaded')
       }
-  
-      console.log('🚨 Calling render function with URL:', url)
-      const appHtml = await render(url)
-      console.log('🚨 Render completed, HTML length:', appHtml.length)
+
+      console.log('🚨 Calling render with URL:', req.originalUrl)
+      const appHtml = await render(req.originalUrl)
+      console.log('🚨 Render completed, length:', appHtml.length)
       
-      console.log('🚨 Replacing template placeholder...')
+      console.log('🚨 Replacing placeholder...')
       const html = template.replace(`<!--ssr-outlet-->`, appHtml)
-      console.log('🚨 Template replacement completed')
+      console.log('🚨 Replacement completed')
       
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-      console.log('🚨 Response sent successfully')
+      console.log('🚨 Response sent')
       
     } catch (e) {
-      console.error('❌ SSR Error:', e)
-      console.error('❌ Error stack:', e.stack)
-      
-      // Return error to browser for debugging
-      res.status(500).send(`
-        <h1>SSR Error Debug</h1>
-        <h2>Error:</h2>
-        <pre>${e.message}</pre>
-        <h2>Stack:</h2>
-        <pre>${e.stack}</pre>
-      `)
+      console.error('❌ ERROR:', e.message)
+      console.error('❌ STACK:', e.stack)
+      res.status(500).send(`<h1>SSR Error</h1><pre>${e.stack}</pre>`)
     }
   })
+
+  // Static files should come AFTER SSR handler
+  if (isProduction) {
+    app.use(express.static(path.resolve(__dirname, 'dist/client')))
+    console.log('🚨 Static files enabled (as fallback)')
+  }
 
   const PORT = process.env.PORT || 5173
   app.listen(PORT, () => {
