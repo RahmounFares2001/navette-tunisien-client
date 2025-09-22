@@ -27,7 +27,8 @@ async function createServer() {
 
   app.use(/(.*)/, async (req, res, next) => {
     const url = req.originalUrl
-    
+    console.log('🚨 REQUEST URL:', url)
+    console.log('🚨 REQUEST PATH:', req.path)
     try {
       let template;
       let render;
