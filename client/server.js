@@ -27,6 +27,7 @@ async function createServer() {
 
   app.use(/(.*)/, async (req, res, next) => {
     const url = req.originalUrl
+    console.log('Processing URL:', url)
   
     try {
       let template;
@@ -34,23 +35,34 @@ async function createServer() {
       
       if (isProduction) {
         template = fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
+        console.log('Template loaded, length:', template.length)
+        
+        // Import the production SSR bundle
         const serverEntry = await import('./dist/server/entry-server.js')
         render = serverEntry.render;
-      } else {
-        template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
-        template = await vite.transformIndexHtml(url, template)
-        const serverModule = await vite.ssrLoadModule('/src/entry-server.tsx')
-        render = serverModule.render;
+        console.log('SSR module loaded')
       }
   
       const appHtml = await render(url)
+      console.log('SSR render completed, HTML length:', appHtml.length)
   
-      // FIX: Replace the comment placeholder, not the div
+      // Replace the placeholder
       const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+      console.log('Template replaced successfully')
   
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
-      // error handling
+      console.error('SSR Error details:', e)
+      // Fallback with detailed error
+      try {
+        const fallbackHtml = isProduction 
+          ? fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
+          : fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
+        console.log('Serving fallback HTML')
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(fallbackHtml)
+      } catch (fallbackError) {
+        next(e)
+      }
     }
   })
 
