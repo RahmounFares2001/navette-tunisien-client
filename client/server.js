@@ -27,55 +27,33 @@ async function createServer() {
 
   app.use(/(.*)/, async (req, res, next) => {
     const url = req.originalUrl
-  
+    
     try {
       let template;
       let render;
       
       if (isProduction) {
-        // PRODUCTION: Use built files
-        template = fs.readFileSync(
-          path.resolve(__dirname, 'dist/client/index.html'),
-          'utf-8'
-        )
-        
-        // Import the production SSR bundle
+        template = fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
         const serverEntry = await import('./dist/server/entry-server.js')
         render = serverEntry.render;
-      } else {
-        // DEVELOPMENT: Use Vite dev server
-        template = fs.readFileSync(
-          path.resolve(__dirname, 'index.html'),
-          'utf-8'
-        )
-        template = await vite.transformIndexHtml(url, template)
-        const serverModule = await vite.ssrLoadModule('/src/entry-server.tsx')
-        render = serverModule.render;
       }
-
-      // Render the app HTML
+  
       const appHtml = await render(url)
-
-      // Replace the placeholder
       const html = template.replace(`<!--ssr-outlet-->`, appHtml)
-
-      // Send the rendered HTML back
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-    } catch (e) {
-      if (!isProduction && vite) {
-        vite.ssrFixStacktrace(e)
-      }
-      console.error('SSR Error:', e)
       
-      // Fallback: serve basic HTML if SSR fails
-      try {
-        const fallbackHtml = isProduction 
-          ? fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
-          : fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
-        res.status(200).set({ 'Content-Type': 'text/html' }).end(fallbackHtml)
-      } catch (fallbackError) {
-        next(e)
-      }
+    } catch (e) {
+      console.error('❌ SSR Error details:', e)
+      console.error('❌ Full error stack:', e.stack)
+      
+      // TEMPORARILY COMMENT OUT THE FALLBACK TO SEE THE ACTUAL ERROR
+      // next(e) // Let the error propagate instead of serving fallback
+      
+      // Or return the error to the browser for debugging:
+      res.status(500).send(`
+        <h1>SSR Error</h1>
+        <pre>${e.stack}</pre>
+      `)
     }
   })
 
