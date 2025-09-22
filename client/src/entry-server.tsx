@@ -1,4 +1,3 @@
-// src/entry-server.tsx
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
