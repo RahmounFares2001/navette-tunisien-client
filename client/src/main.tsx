@@ -1,16 +1,17 @@
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
 import { HelmetProvider } from 'react-helmet-async';
 import { CurrencyProvider } from './components/currency/CurrencyContext.tsx';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/index.ts';
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById('root')!).render(
   <HelmetProvider>
-    <CurrencyProvider>
-      <BrowserRouter>
+    <I18nextProvider i18n={i18n}>
+      <CurrencyProvider>
         <App />
-      </BrowserRouter>
-    </CurrencyProvider>
+      </CurrencyProvider>
+    </I18nextProvider>
   </HelmetProvider>
 );

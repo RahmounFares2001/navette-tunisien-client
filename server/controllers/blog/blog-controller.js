@@ -103,7 +103,6 @@ export const getAllBlogs = async (req, res) => {
 };
 
 export const getBlogById = async (req, res) => {
-  verifyAdmin(req, res, async () => {
     try {
       const { id } = req.params;
 
@@ -121,7 +120,6 @@ export const getBlogById = async (req, res) => {
       console.error("getBlogById error:", err);
       res.status(500).json({ success: false, message: "Erreur serveur", error: err.message });
     }
-  });
 };
 
 export const updateBlog = async (req, res) => {
