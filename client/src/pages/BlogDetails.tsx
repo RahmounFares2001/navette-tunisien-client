@@ -1,18 +1,29 @@
+// src/pages/BlogDetails.tsx
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useGetBlogQuery } from '@/globalRedux/features/api/apiSlice';
+import { useGetBlogQuery, apiSlice } from '@/globalRedux/features/api/apiSlice';
+import { RootState } from '@/globalRedux/store';
+import { IBlogResponse } from '@/types/types';
 import SeoConfig from '@/seo/SeoConfig';
 
 const BlogDetails = () => {
-  const { id } = useParams(); // Only need id, slug is ignored
+  const { id } = useParams<{ id: string }>(); // Only need id, slug is ignored
   const { t, i18n } = useTranslation();
-  const { data: blogData, isLoading, error } = useGetBlogQuery(id || '');
-  const blog = blogData?.data;
+
+  // Check Redux store for pre-fetched data
+  const initialBlogData = useSelector((state: RootState) =>
+    state[apiSlice.reducerPath]?.queries?.[`getBlog("${id}")`]?.data
+  ) as { success: boolean; data: IBlogResponse } | undefined;
+  const { data: blogData, isLoading, error } = useGetBlogQuery(id || '', {
+    skip: !!initialBlogData, // Skip query if data is pre-fetched
+  });
+  const blog = initialBlogData?.data || blogData?.data;
 
   const [translatedTitle, setTranslatedTitle] = useState('');
   const [translatedDescription, setTranslatedDescription] = useState('');
@@ -25,7 +36,7 @@ const BlogDetails = () => {
     const cacheKey = `blog_${blog._id}_${i18n.language}_v1`;
 
     // Fast Google Translate with minimal delays
-    const translateWithGoogle = async (text, targetLang) => {
+    const translateWithGoogle = async (text: string, targetLang: string) => {
       try {
         const maxChunkSize = 4500;
         const chunks = [];
@@ -51,8 +62,8 @@ const BlogDetails = () => {
           const response = await fetch(url, {
             method: 'GET',
             headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            },
           });
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const data = await response.json();
@@ -75,7 +86,7 @@ const BlogDetails = () => {
       }
     };
 
-    const translateText = async (text, targetLang) => {
+    const translateText = async (text: string, targetLang: string) => {
       if (text.length < 5) return text;
       try {
         const result = await translateWithGoogle(text, targetLang);
@@ -117,7 +128,7 @@ const BlogDetails = () => {
       try {
         const [translatedTitle, translatedDescription] = await Promise.all([
           translateText(blog.title, targetLang),
-          translateText(blog.description, targetLang)
+          translateText(blog.description, targetLang),
         ]);
 
         setTranslatedTitle(translatedTitle);
@@ -128,7 +139,7 @@ const BlogDetails = () => {
             const cacheData = {
               title: translatedTitle,
               description: translatedDescription,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             };
             localStorage.setItem(cacheKey, JSON.stringify(cacheData));
           } catch (e) {
@@ -146,7 +157,7 @@ const BlogDetails = () => {
     translateFields();
   }, [blog, i18n.language]);
 
-  if (isLoading) {
+  if (isLoading && !initialBlogData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-foreground">{t('blogDetails.loading')}</p>
@@ -166,8 +177,8 @@ const BlogDetails = () => {
     <>
       <SeoConfig
         title={`${blog.title} - Navette Tunisie`}
-        description='Lisez les détails de nos articles sur le tourisme et les expériences en Tunisie avec Navette Tunisie'
-        keywords='article Tunisie, blog voyage Tunisie, Navette Tunisie, tourisme Tunisie'
+        description="Lisez les détails de nos articles sur le tourisme et les expériences en Tunisie avec Navette Tunisie"
+        keywords="article Tunisie, blog voyage Tunisie, Navette Tunisie, tourisme Tunisie"
         url={`/blog/${id}`}
       />
       <div className="mb-20 py-16 bg-gray-50">
@@ -179,7 +190,10 @@ const BlogDetails = () => {
             className="mb-8"
           >
             <Link to="/blogs">
-              <Button variant="outline" className="flex items-center rounded-full px-4 hover:bg-gray-100 hover:text-gray-900">
+              <Button
+                variant="outline"
+                className="flex items-center rounded-full px-4 hover:bg-gray-100 hover:text-gray-900"
+              >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 {t('blogDetails.backButton')}
               </Button>

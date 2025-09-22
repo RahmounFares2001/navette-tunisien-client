@@ -18,14 +18,17 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
-      },
-      output: {
-        entryFileNames: 'assets/[name]-[hash].js',
-      },
-    },
+    outDir: 'dist/client',
+  },
+  ssr: {
+    noExternal: [
+      'react-router-dom', 
+      'react-router', 
+      '@remix-run/router',
+      'react-helmet-async',
+      'lodash',
+      '@reduxjs/toolkit',
+      'react-redux'
+    ],
   },
 }));
