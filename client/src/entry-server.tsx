@@ -46,22 +46,10 @@ export async function render(url: string) {
   const { helmet } = helmetContext as any;
 
   return `
-    <!DOCTYPE html>
-    <html ${helmet?.htmlAttributes?.toString() || ''}>
-      <head>
-        ${helmet?.title?.toString() || ''}
-        ${helmet?.meta?.toString() || ''}
-        ${helmet?.link?.toString() || ''}
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
-      <body>
         <div id="root">${appHtml}</div>
         <script>
           window.__PRELOADED_STATE__ = ${serializedState};
         </script>
         <script type="module" src="/src/entry-client.tsx"></script>
-      </body>
-    </html>
   `;
 }
