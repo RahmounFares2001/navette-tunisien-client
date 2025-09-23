@@ -56,9 +56,9 @@ const About = () => {
   return (
     <>
     <SeoConfig
-      title="À Propos de Navette Tunisie - Transferts et Excursions"
-      description="Découvrez Navette Tunisie, votre partenaire pour les transferts et excursions en Tunisie. Service fiable, confortable et professionnel."
-      keywords="Navette Tunisie, à propos, transferts Tunisie, excursions Tunisie, tourisme Tunisie"
+      title="À Propos de Navette Tunisie"
+      description="Apprenez-en plus sur Navette Tunisie, votre expert en transferts aéroport et excursions touristiques en Tunisie. Service fiable."
+      keywords="à propos Navette Tunisie, transport touristique Tunisie, navette aéroport Tunis"
       url="/about"
     />
     <div className="min-h-screen">

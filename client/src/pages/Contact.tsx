@@ -106,9 +106,9 @@ const Contact = () => {
   return (
     <>
     <SeoConfig
-      title="Contactez Navette Tunisie - Transferts et Excursions"
-      description="Contactez Navette Tunisie pour vos transferts et excursions. Service client 24/7 par téléphone, email ou formulaire de contact."
-      keywords="contact Navette Tunisie, transferts Tunisie, excursions Tunisie, service client Tunisie, navette aéroport Tunis"
+      title="Contactez Navette Tunisie"
+      description="Contactez Navette Tunisie pour réserver vos transferts aéroport ou excursions touristiques. Service client 24/7."
+      keywords="contact Navette Tunisie, réservation transfert aéroport, réservation excursion Tunisie"
       url="/contact"
     />
     <div className="min-h-screen py-20">

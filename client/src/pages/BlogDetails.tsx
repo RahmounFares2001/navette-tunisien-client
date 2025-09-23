@@ -176,10 +176,10 @@ const BlogDetails = () => {
   return (
     <>
       <SeoConfig
-        title={`${blog.title} - Navette Tunisie`}
-        description="Lisez les détails de nos articles sur le tourisme et les expériences en Tunisie avec Navette Tunisie"
-        keywords="article Tunisie, blog voyage Tunisie, Navette Tunisie, tourisme Tunisie"
-        url={`/blog/${id}`}
+        title="Article de Blog | Navette Tunisie"
+        description="Découvrez nos guides détaillés et conseils pour vos voyages et excursions en Tunisie avec Navette Tunisie."
+        keywords="blog voyage Tunisie, article tourisme Tunisie, guide voyage Tunisie"
+        url="/blogs/:id/:slug?"
       />
       <div className="mb-20 py-16 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

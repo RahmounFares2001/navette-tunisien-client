@@ -70,9 +70,9 @@ const Excursions = () => {
   return (
     <>
       <SeoConfig
-        title="Excursions Touristiques en Tunisie - Navette Tunisie"
-        description="Découvrez les meilleures excursions en Tunisie avec Navette Tunisie. Visites guidées, circuits culturels et aventures inoubliables."
-        keywords="excursions Tunisie, circuits touristiques Tunisie, Navette Tunisie, tourisme Tunisie, visite guidée Tunisie"
+        title="Excursions Touristiques en Tunisie | Navette Tunisie"
+        description="Découvrez les meilleures excursions touristiques en Tunisie : Sidi Bou Said, Carthage, désert du Sahara. Réservez avec Navette Tunisie, service 24/7."
+        keywords="excursions Tunisie, excursion Sidi Bou Said, excursion Carthage, circuit désert Sahara, tourisme Tunisie"
         url="/excursions"
       />
       <div className="min-h-screen py-20">

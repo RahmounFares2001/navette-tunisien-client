@@ -307,9 +307,9 @@ const Transfers = () => {
   return (
     <>
       <SeoConfig
-        title="Navettes Aéroport et Transferts Privés - Navette Tunisie"
-        description="Profitez de transferts aéroport et privés en Tunisie avec Navette Tunisie. Service rapide, fiable et confortable à des prix compétitifs."
-        keywords="navette aéroport Tunis, transferts privés Tunisie, Navette Tunisie, transport Tunisie, location véhicule Tunisie"
+        title="Transferts Aéroport Tunis-Carthage | Navette Tunisie"
+        description="Réservez votre transfert aéroport à Tunis-Carthage, Hammamet, Sousse ou Monastir avec Navette Tunisie. Service 24/7, véhicules confortables."
+        keywords="transfert aéroport Tunis, navette Tunis, transport aéroport Tunisie, transfert Hammamet, transfert Sousse, transfert Monastir"
         url="/transfers"
       />
       <div className="min-h-screen py-20 bg-gray-50">
