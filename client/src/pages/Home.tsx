@@ -59,13 +59,6 @@ const Home = () => {
 
   return (
     <>
-      <SeoConfig
-        title="Navette Tunisie - Transferts Aéroport & Excursions Touristiques"
-        description="Réservez vos transferts aéroport Tunis-Carthage et excursions touristiques en Tunisie avec Navette Tunisie. Service fiable 24/7, véhicules climatisés."
-        keywords="transferts Tunisie, navette aéroport Tunis, excursions Tunisie, tourisme Tunisie, chauffeur privé Tunisie"
-        url="/"
-      />
-
     <div className="min-h-screen">
       {/* Hero Section */}
       <section 
