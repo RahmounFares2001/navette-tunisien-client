@@ -15,7 +15,7 @@ const Blogs = () => {
   const itemsPerPage = 10;
   const maxPages = 5;
 
-  const { data: blogsData, isLoading, error } = useGetAllBlogsQuery({ page: 1, limit: itemsPerPage * maxPages, search: searchQuery });
+  const { data: blogsData, isLoading, error } = useGetAllBlogsQuery({ page: 1, limit: 100, search: searchQuery });
   const blogs = blogsData?.data || [];
   const filteredBlogs = blogs.filter(blog =>
     blog.title.toLowerCase().includes(searchQuery.toLowerCase())
