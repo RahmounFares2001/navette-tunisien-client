@@ -279,7 +279,7 @@
     "readMore": "Read More",
     "previous": "Previous",
     "next": "Next",
-    "page": "Page {current} of {total}",
+    "page": "Page {{current}} of {{total}}",
     "contactUs": {
       "title": "Share Your Story",
       "description": "Want to share an article idea or a question? Contact us!",

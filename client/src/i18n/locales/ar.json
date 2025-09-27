@@ -280,7 +280,7 @@
     "readMore": "اقرأ المزيد",
     "previous": "السابق",
     "next": "التالي",
-    "page": "الصفحة {current} من {total}",
+    "page": "الصفحة {{current}} من {{total}}",
     "contactUs": {
       "title": "شارك قصتك",
       "description": "هل لديك فكرة لمقال أو سؤال؟ تواصل معنا!",

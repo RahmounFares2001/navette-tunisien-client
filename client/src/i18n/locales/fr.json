@@ -277,7 +277,7 @@
     "readMore": "Lire la suite",
     "previous": "Précédent",
     "next": "Suivant",
-    "page": "Page {current} sur {total}",
+    "page": "Page {{current}} sur {{total}}",
     "contactUs": {
       "title": "Partagez Votre Histoire",
       "description": "Envie de partager une idée d'article ou une question ? Contactez-nous !",
