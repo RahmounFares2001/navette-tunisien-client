@@ -70,7 +70,7 @@ const Excursions = () => {
   return (
     <>
       <SeoConfig
-        title="Excursions Touristiques en Tunisie | Navette Tunisie"
+        title="Excursions Tunisie"
         description="Découvrez les meilleures excursions touristiques en Tunisie : Sidi Bou Said, Carthage, désert du Sahara. Réservez avec Navette Tunisie, service 24/7."
         keywords="excursions Tunisie, excursion Sidi Bou Said, excursion Carthage, circuit désert Sahara, tourisme Tunisie"
         url="/excursions"

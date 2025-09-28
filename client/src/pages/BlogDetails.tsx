@@ -13,7 +13,7 @@ import { IBlogResponse } from '@/types/types';
 import SeoConfig from '@/seo/SeoConfig';
 
 const BlogDetails = () => {
-  const { id } = useParams<{ id: string }>(); // Only need id, slug is ignored
+  const { id, slug } = useParams<{ id: string; slug: string }>(); // Only need id, slug is ignored
   const { t, i18n } = useTranslation();
 
   // Check Redux store for pre-fetched data
@@ -176,10 +176,11 @@ const BlogDetails = () => {
   return (
     <>
       <SeoConfig
-        title="Article de Blog | Navette Tunisie"
+        title="Navette Tunisie"
         description="Découvrez nos guides détaillés et conseils pour vos voyages et excursions en Tunisie avec Navette Tunisie."
-        keywords="blog voyage Tunisie, article tourisme Tunisie, guide voyage Tunisie"
-        url="/blogs/:id/:slug?"
+        keywords="voyage Tunisie, tourisme Tunisie, guide transfert aéroport, guide excursions Tunisie, transfer Tunisie, excursion Tunisie, Hammamet"
+        url={`/excursion/${id}/${slug}`}
+
       />
       <div className="mb-20 py-16 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

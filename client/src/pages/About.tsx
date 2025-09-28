@@ -56,10 +56,10 @@ const About = () => {
   return (
     <>
     <SeoConfig
-      title="À Propos de Navette Tunisie"
-      description="Apprenez-en plus sur Navette Tunisie, votre expert en transferts aéroport et excursions touristiques en Tunisie. Service fiable."
-      keywords="à propos Navette Tunisie, transport touristique Tunisie, navette aéroport Tunis"
-      url="/about"
+      title="Navette Tunisie"
+      description="Navette Tunisie : Transferts aéroport confortables et excursions guidées en Tunisie. Véhicules climatisés, chauffeurs professionnels, ponctualité garantie."
+      keywords="navette tunisie, excursion tunisie, transfer tunisie, transfert aéroport tunis, transport touristique, chauffeur privé, sidi bou said, carthage, hammamet, sousse, monastir"
+      url="/"
     />
     <div className="min-h-screen">
       {/* Hero Section */}

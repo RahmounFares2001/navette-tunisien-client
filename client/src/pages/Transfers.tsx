@@ -307,7 +307,7 @@ const Transfers = () => {
   return (
     <>
       <SeoConfig
-        title="Transferts Aéroport Tunis-Carthage | Navette Tunisie"
+        title="Transfert Aéroport Tunis"
         description="Réservez votre transfert aéroport à Tunis-Carthage, Hammamet, Sousse ou Monastir avec Navette Tunisie. Service 24/7, véhicules confortables."
         keywords="transfert aéroport Tunis, navette Tunis, transport aéroport Tunisie, transfert Hammamet, transfert Sousse, transfert Monastir"
         url="/transfers"

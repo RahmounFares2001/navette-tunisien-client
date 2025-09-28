@@ -401,10 +401,10 @@ const ExcursionDetails = () => {
   return (
     <>
     <SeoConfig
-      title="Détail Excursion | Navette Tunisie"
+      title="Excursion Tunisie"
       description="Explorez nos excursions touristiques en Tunisie avec Navette Tunisie. Réservez votre visite guidée avec transport confortable."
       keywords="excursion Tunisie, visite guidée Tunisie, tourisme Tunisie, circuit touristique Tunisie"
-      url="/excursion/:id"
+      url={`/excursion/${id}`}
     />
     <div className="min-h-screen py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -67,9 +67,9 @@ const Blogs = () => {
   return (
     <>
       <SeoConfig
-        title="Blog Navette Tunisie - Conseils de Voyage"
-        description="Lisez nos articles sur les voyages en Tunisie, conseils pour transferts aéroport et excursions touristiques avec Navette Tunisie."
-        keywords="blog voyage Tunisie, conseils tourisme Tunisie, guide transfert aéroport, guide excursions Tunisie"
+        title="Blog Navette Tunisie"
+        description="Lisez nos articles sur les voyages en Tunisie, conseils pour transferts aéroport, excursions touristiques, et découvertes à Hammamet avec Navette Tunisie. Planifiez votre aventure avec nos guides experts."
+        keywords="voyage Tunisie, tourisme Tunisie, guide transfert aéroport, guide excursions Tunisie, transfer Tunisie, excursion Tunisie, Hammamet"
         url="/blogs"
       />
       <div className="min-h-screen py-16 bg-gray-50">

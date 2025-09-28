@@ -18,7 +18,13 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'src/entry-client.tsx')
+      }
+    },
     outDir: 'dist/client',
+    ssrManifest: true,
   },
   ssr: {
     noExternal: [

@@ -43,13 +43,10 @@ export async function render(url: string) {
 
   const initialState = store.getState();
   const serializedState = JSON.stringify(initialState).replace(/</g, '\\u003c');
-  const { helmet } = helmetContext as any;
-
-  return `
-        <div id="root">${appHtml}</div>
-        <script>
-          window.__PRELOADED_STATE__ = ${serializedState};
-        </script>
-        <script type="module" src="/src/entry-client.tsx"></script>
-  `;
+  
+  // Return only the app HTML and state script, not full HTML document
+  return `${appHtml}
+    <script>
+      window.__PRELOADED_STATE__ = ${serializedState};
+    </script>`;
 }
