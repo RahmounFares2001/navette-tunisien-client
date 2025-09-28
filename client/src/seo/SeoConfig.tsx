@@ -36,7 +36,6 @@ const SeoConfig = ({
       <meta name="twitter:image" content={fullImageUrl} />
       <meta name="twitter:image:alt" content={`${title} - Navette Tunisie`} />
       <link rel="canonical" href={fullUrl} />
-      <link rel="preload" as="image" href={fullImageUrl} />
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
